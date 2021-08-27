@@ -1,0 +1,9 @@
+{
+    "data": [
+        { "codigo": "0000000200", "nombre": "PANADOL ANTIGRIPAL", "laboratorio": "GLXO OTC", "precio": 113.75, "stock": 100, "cantidad": 100, "cantidadDevuelta": 0, "tipoProducto": "MATERIAL MÉDICO", "lote": "XHSD", "ubicacion": "Fila 1", "observacion": "No cuenta con stock suficiente, favor de revisar" },
+        { "codigo": "0000000210", "nombre": "PANADOL EFERVECENTE", "laboratorio": "GLXO OTC", "precio": 28.75, "stock": 2, "cantidad": 12, "cantidadDevuelta": 0, "tipoProducto": "MATERIAL MÉDICO", "lote": "ASDA", "ubicacion": "Fila 2" },
+        { "codigo": "0002000200", "nombre": "PANADOL FORTE", "laboratorio": "GLXO OTC", "precio": 48.75, "stock": 154, "cantidad": 2, "cantidadDevuelta": 0, "tipoProducto": "FÁRMACO", "lote": "12DQAAA", "ubicacion": "Fila 3" },
+        { "codigo": "0000010200", "nombre": "PANADOL JBE", "laboratorio": "GLXO OTC", "precio": 65.68, "stock": 1, "cantidad": 3, "cantidadDevuelta": 0, "tipoProducto": "MATERIAL MÉDICO", "lote": "AS11211111", "ubicacion": "Fila 4" },
+        { "codigo": "0300000200", "nombre": "PANADOL NIÑOS", "laboratorio": "GLXO OTC", "precio": 16.56, "stock": 0, "cantidad": 12, "cantidadDevuelta": 0, "tipoProducto": "FÁRMACO", "lote": "AWQ212", "ubicacion": "Fila 1" }
+    ]
+}

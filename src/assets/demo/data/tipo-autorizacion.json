@@ -1,0 +1,11 @@
+{
+    "data": [
+        { "name": "NO APLICA", "code": "00" },
+        { "name": "SOLICITUD DE BENEFICIOS", "code": "01" },
+        { "name": "SOLICITUS DE CHEQUEO MEDICO", "code": "02" },
+        { "name": "CARGAR DE GARANTIA", "code": "03" },
+        { "name": "CÓDIGO DE AUTORIZACIÓN", "code": "04" },
+        { "name": "VOUCHER", "code": "05" },
+        { "name": "OTRO TIPO AUT.", "code": "06" }
+    ]
+}

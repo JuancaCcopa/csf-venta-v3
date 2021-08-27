@@ -1,0 +1,8 @@
+body .ui-state-disabled, body .ui-widget:disabled {
+    opacity: 100%;
+    filter: Alpha(Opacity=35);
+    background-image: none;
+    cursor: default !important;
+}
+
+

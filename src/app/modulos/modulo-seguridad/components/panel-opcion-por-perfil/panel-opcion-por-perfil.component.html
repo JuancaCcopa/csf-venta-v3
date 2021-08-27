@@ -1,0 +1,38 @@
+<p-panel header="Registro de Menu">
+    <div class="ui-g ui-fluid">
+
+        <div class="ui-g-12">
+            <div class="card no-margin">
+                <label class="label-custom" for="float-input-perfil">Perfil: </label>
+                <p-dropdown id="float-input-perfil" [options]="listItemPerfil" class="ui dropdown-item-text" (onChange)="onChangePerfil()" [(ngModel)]="perfilSelected" placeholder="Select Perfil" optionLabel="label" [showClear]="true"></p-dropdown>
+            </div>
+        </div>
+
+        <div class="ui-g-12 ui-lg-4">
+            <div class="card no-margin">
+                <p-tree [value]="items" selectionMode="single" (onNodeSelect)="nodeSelect($event.node)"></p-tree>
+            </div>
+        </div>
+
+        <div class="ui-g-12 ui-lg-8">
+            <div class="card no-margin">
+                <p-panel header="Lista de {{titulo}}">
+
+                    <p-pickList [disabled]="buttonAcces.btnAdicionarEliminar" [source]="listModelPorSeleccionar" [target]="listModelSeleccionado" sourceHeader="Lista" targetHeader="Seleccionado" [responsive]="true" filterBy="descripcionOpcion" dragdrop="true" showSourceControls='false'
+                        sourceFilterPlaceholder="Search by Opcion" targetFilterPlaceholder="Search by Equipo" [sourceStyle]="{'height':'300px'}" [targetStyle]="{'height':'300px'}" [showSourceControls]="false" [showTargetControls]="false" (onMoveToTarget)="onToMoveToTarget($event.items)"
+                        (onMoveToSource)="onToMoveToSource($event.items)" (onMoveAllToTarget)="onToMoveAllToTarget($event.items)" (onToMoveAllToSource)="onToMoveAllToSource($event.items)">
+                        <ng-template let-opcion pTemplate="item">
+                            <div class="ui-helper-clearfix">
+                                <div style="font-size:14px;float:left;margin:5px 5px 0 0">{{opcion.descripcionOpcion}}</div>
+                            </div>
+                        </ng-template>
+                    </p-pickList>
+
+                </p-panel>
+            </div>
+        </div>
+    </div>
+
+    <p-messages [(value)]="mensajePrimeNgService.msgs"></p-messages>
+
+</p-panel>

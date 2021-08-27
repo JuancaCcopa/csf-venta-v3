@@ -1,0 +1,347 @@
+<div class="card card-w-title" *ngIf="!isLoading">
+    <div class="box">
+        <div class="titulo">
+            <h1>Requerimiento NRO: {{ idRequerimiento }}| Actualizar</h1>
+        </div>
+        <div class="estado" [ngClass]="claseEstado(desRequerimientoEstado)">
+            {{ desRequerimientoEstado }}
+        </div>
+    </div>
+    <p-panel>
+        <div class="ui-grid ui-fluid">
+            <div class="ui-g-12">
+                <form [formGroup]="formularioSuperior">
+                    <div class="p-grid form-group">
+                        <div class="ui-g-12 ui-md-3">
+                            <label>Solicitante: </label>
+                            <!-- <input type="text" size="2" formControlName="idTrabajador" pInputText /> -->
+                            <input type="text" size="30" pInputText formControlName="trabajador" />
+                            <!-- <ng-container *ngIf="!isAprobadoDesaprobadoAnulado && !isProcesadoSAP">
+                                <button pButton type="button" label="Buscar" (click)="clickActivateBuscarUsuario()"></button>
+                            </ng-container> -->
+                        </div>
+                        <div class="ui-g-12 ui-md-3">
+                            <label>Centro Costo: </label>
+                            <!-- <input type="text" size="2" formControlName="codCentroCosto" pInputText /> -->
+                            <input type="text" size="30" formControlName="desCentroCosto" pInputText />
+                        </div>
+                        <div class="ui-g-12 ui-md-2">
+                            <label>Fecha Req: </label>
+                            <p-calendar class="calendar" dateFormat="dd/mm/yy" [locale]="lenguageService.es" [showIcon]="true" formControlName="fechaReq"></p-calendar>
+                        </div>
+                        <div class="ui-g-12 ui-md-2">
+                            <label>Fecha Necesaria: </label>
+                            <p-calendar class="calendar" dateFormat="dd/mm/yy" [locale]="lenguageService.es" [showIcon]="true" formControlName="fechaNecesaria"></p-calendar>
+                        </div>
+                        <div class="ui-g-12 ui-md-2">
+                            <label>Fecha Validez: </label>
+                            <p-calendar class="calendar" dateFormat="dd/mm/yy" [locale]="lenguageService.es" [showIcon]="true" formControlName="fechaValidez"></p-calendar>
+                        </div>
+                        <div class="ui-g-12 ui-md-6">
+                            <label>Observación: </label>
+                            <textarea pInputTextarea autoResize="autoResize" formControlName="observacion"></textarea>
+                        </div>
+                        <div class="ui-g-12 ui-md-2">
+                            <label>Motivo: </label>
+                            <p-dropdown [options]="comboMotivo" formControlName="motivo" placeholder="Seleccionar" (onChange)="cambioEnComboMotivo($event.value)" optionLabel="desMotivoRequerimiento"></p-dropdown>
+                        </div>
+                        <div class="ui-g-12 ui-md-2">
+                            <label>Nro SAP: </label>
+                            <input type="text" formControlName="proceSap" pInputText />
+                        </div>
+                        <!-- <div class="ui-g-12 ui-md-2">
+                            <label>Conform: </label>
+                            <p-dropdown [options]="arrayComboConformidad" formControlName="conformidad" placeholder="Seleccionar" optionLabel="desOption"></p-dropdown>
+                        </div> -->
+                    </div>
+                </form>
+            </div>
+        </div>
+        <ng-container *ngIf="!isAprobadoDesaprobadoAnulado && !isProcesadoSAP">
+            <p-toolbar>
+                <form [formGroup]="formularioFindArticulo">
+                    <div class="ui-g ui-fluid">
+                        <div class="ui-g-12 ui-md-3">
+                            <input type="text" pInputText formControlName="desUbicacion" placeholder="Ubicación" />
+                        </div>
+                        <div class="ui-g-12 ui-md-1">
+                            <button [disabled]="dataGrilla.length > 0" pButton type="button" icon="{{globalConstants.icoBuscar}}" label="Ubicaciones" (click)="activarModalUbicacion()" class="btn btn-block"></button>
+                        </div>
+                        <div class="ui-g-12 ui-md-3">
+                            <input type="text" pInputText formControlName="groupName" placeholder="Grupo Articulo" />
+                        </div>
+                        <div class="ui-g-12 ui-md-1">
+                            <button pButton type="button" icon="{{globalConstants.icoBuscar}}" (click)="activarModalTipoProducto()" label="Grupo" class="btn btn-block"></button>
+                        </div>
+                        <div class="ui-g-12 ui-md-2">
+                            <button pButton type="button" label="Agregar artículo" icon="pi pi-plus" (click)="clickActivateBuscarArticulo()"></button>
+                        </div>
+                    </div>
+                </form>
+            </p-toolbar>
+        </ng-container>
+
+        <div class="box table">
+            <ng-container>
+                <p-table [hidden]="isOcultarTablaEditar" [value]="dataGrilla" [columns]="cols" [resizableColumns]="true" (onEditComplete)="itemQueSeCambio($event)" [responsive]="true" [autoLayout]="true" styleClass="p-datatable-responsive-demo" #tablaGrilla>
+                    <ng-template pTemplate="header" let-columns>
+                        <tr>
+                            <th *ngFor="let col of columns">
+                                {{ col.header }}
+                            </th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-rowData let-index="rowIndex">
+                        <tr>
+                            <td>
+                                <p-splitButton icon="pi pi-cog" (onDropdownClick)="itemElegido(index)" [model]="opciones" appendTo="body">
+                                </p-splitButton>
+                            </td>
+                            <td>
+                                <span class="p-column-title">Num Linea</span> {{ index + 1 }}
+                            </td>
+                            <!-- <td [pEditableColumn]="rowData" [pEditableColumnField]="'nroOrdenTrabajo'" [pEditableColumnRowIndex]="index">
+
+                                <span class="p-column-title">Nro Orden Trabajo:</span>
+                                <p-cellEditor>
+                                    <ng-template pTemplate="input">
+                                        <input pInputText type="text" [(ngModel)]="rowData.nroOrdenTrabajo" />
+                                    </ng-template>
+                                    <ng-template pTemplate="output">
+                                        {{ rowData.nroOrdenTrabajo }}
+                                    </ng-template>
+                                </p-cellEditor>
+                            </td> -->
+                            <td>
+                                <span class="p-column-title">Cod Articulo:</span> {{ rowData.codArticulo }}
+                            </td>
+                            <td>
+                                <span class="p-column-title">Des Articulo:</span> {{ rowData.desArticulo }}
+                            </td>
+                            <td>
+                                <span class="p-column-title">Cod Unidad Medida:</span> {{ rowData.codUnidadMedida }}
+                            </td>
+                            <!-- <td>
+                                <span class="p-column-title">Cod Almacen:</span> {{ rowData.codAlmacen }}
+                            </td> -->
+                            <td [pEditableColumn]="rowData" [pEditableColumnField]="'cantidadNecesaria'" [pEditableColumnRowIndex]="index">
+                                <span class="p-column-title">Cantidad necesaria:</span>
+                                <p-cellEditor>
+                                    <ng-template pTemplate="input">
+                                        <input pInputText type="number" [(ngModel)]="rowData.cantidadNecesaria" />
+                                    </ng-template>
+                                    <ng-template pTemplate="output">
+                                        {{ rowData.cantidadNecesaria }}
+                                    </ng-template>
+                                </p-cellEditor>
+                            </td>
+                            <td>
+                                <span class="p-column-title">Cod centro costo:</span>{{ rowData.codCentroCosto }}
+                                <!-- <p-cellEditor>
+                                    <ng-template pTemplate="input">
+                                        <button pButton type="button" label="Agregar Centro Costo" icon="pi pi-plus" (click)="activarModalCentroCosto(rowData.indice)"></button>
+                                    </ng-template>
+                                    <ng-template pTemplate="output">
+                                        {{ rowData.codCentroCosto }}
+                                    </ng-template>
+                                </p-cellEditor> -->
+                            </td>
+                            <td [pEditableColumn]="rowData" [pEditableColumnField]="'codSocioNegocio'" [pEditableColumnRowIndex]="index">
+                                <span class="p-column-title">Cod Socio Negocio:</span>
+                                <p-cellEditor>
+                                    <ng-template pTemplate="input">
+                                        <button pButton type="button" label="Agregar Socio Negocio" icon="pi pi-plus" (click)="activarModalSocioNegocio(rowData.indice)"></button>
+                                    </ng-template>
+                                    <ng-template pTemplate="output">
+                                        {{ rowData.codSocioNegocio }}
+                                    </ng-template>
+                                </p-cellEditor>
+                            </td>
+                            <td [pEditableColumn]="rowData" [pEditableColumnField]="'fecNecesaria'" [pEditableColumnRowIndex]="index">
+                                <span class="p-column-title">Fecha Necesaria:</span>
+                                <p-cellEditor>
+                                    <ng-template pTemplate="input">
+                                        <p-calendar class="calendar" [locale]="lenguageService.es" [showIcon]="true" [(ngModel)]="rowData.fecNecesaria" appendTo="body"></p-calendar>
+                                    </ng-template>
+                                    <ng-template pTemplate="output">
+                                        {{ rowData.fecNecesaria | date: 'dd/MM/yy' }}
+                                    </ng-template>
+                                </p-cellEditor>
+                            </td>
+                            <td [pEditableColumn]="rowData" [pEditableColumnField]="'comentario'" [pEditableColumnRowIndex]="index">
+                                <span class="p-column-title">Comentario:</span>
+                                <p-cellEditor>
+                                    <ng-template pTemplate="input">
+                                        <input pInputText type="text" [(ngModel)]="rowData.comentario" />
+                                    </ng-template>
+                                    <ng-template pTemplate="output">
+                                        {{ rowData.comentario }}
+                                    </ng-template>
+                                </p-cellEditor>
+                            </td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+            </ng-container>
+            <ng-container *ngIf="isAprobadoDesaprobadoAnulado || isProcesadoSAP">
+                <p-table [value]="dataGrilla" [responsive]="true" [resizableColumns]="true" styleClass="p-datatable-responsive-demo" [columns]="cols" #tablaGrilla [autoLayout]="true">
+                    <ng-template pTemplate="header" let-columns>
+                        <tr>
+                            <th *ngFor="let col of columns">
+                                {{ col.header }}
+                            </th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-rowData let-index="rowIndex">
+                        <tr>
+                            <td></td>
+                            <td>
+                                <span class="p-column-title">Num Linea</span> {{ index + 1 }}
+                            </td>
+                            <!-- <td>
+                                <span class="p-column-title">Nro Orden Trabajo:</span> {{ rowData.nroOrdenTrabajo }}
+                            </td> -->
+                            <td>
+                                <span class="p-column-title">Cod Articulo:</span> {{ rowData.codArticulo }}
+                            </td>
+                            <td>
+                                <span class="p-column-title">Des Articulo:</span> {{ rowData.desArticulo }}
+                            </td>
+                            <td>
+                                <span class="p-column-title">Cod Unidad Medida:</span> {{ rowData.codUnidadMedida }}
+                            </td>
+                            <!-- <td>
+                                <span class="p-column-title">Cod Almacen:</span> {{ rowData.codAlmacen }}
+                            </td> -->
+                            <td>
+                                <span class="p-column-title">Cantidad necesaria:</span> {{ rowData.cantidadNecesaria }}
+                            </td>
+                            <td>
+                                <span class="p-column-title">Cod centro costo:</span> {{ rowData.codCentroCosto }}
+                            </td>
+                            <td>
+                                <span class="p-column-title">Cod Socio Negocio:</span> {{ rowData.codSocioNegocio }}
+                            </td>
+                            <td>
+                                <span class="p-column-title">Fecha Necesaria:</span> {{ rowData.fecNecesaria | date: 'dd/MM/yy' }}
+                            </td>
+                            <td>
+                                <span class="p-column-title">Comentario:</span> {{ rowData.comentario }}
+                            </td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+            </ng-container>
+        </div>
+        <ng-container *ngIf="!isAprobadoDesaprobadoAnulado && !isProcesadoSAP">
+            <div class="anexo">
+                <h2>Anexo</h2>
+                <p-fileUpload name="myfile[]" chooseLabel="Añadir" uploadLabel="Subir" cancelLabel="Cancelar" multiple="true" fileLimit="fileLimit" customUpload="false" [disabled]="isMaxfilelimit" [auto]="true" (uploadHandler)="myUploader($event)" (onRemove)="removeItemFile($event)"
+                    invalidFileLimitMessageDetail="El limite son {0} archivo(s)." invalidFileLimitMessageSummary="Archivos excedidos">
+                    <ng-template pTemplate="toolbar">
+                        <div class="archivos-disponibles">
+                            Puede subir {{ fileLimit }} {{ fileLimit > 1 || fileLimit === 0 ? 'archivos' : 'archivo' }}
+                        </div>
+                    </ng-template>
+                    <ng-template pTemplate="content">
+                        <ul class="lista-anexo" *ngIf="rowLineaRequerimientoAnexo.length">
+                            <li *ngFor="let file of rowLineaRequerimientoAnexo; let i = index">
+                                <a (click)="onAnexoEjecutar(file.idRequerimientoAnexo, file.nombreArchivo)">{{ file.nombreArchivo }}</a>
+                                <div class="quitar" (click)="quitarListaItemAnexo(i)">x</div>
+                            </li>
+                        </ul>
+                    </ng-template>
+                </p-fileUpload>
+            </div>
+            <div class="barra-progreso">
+                <ng-container *ngIf="isEnvioArchivo && progress === 0">
+                    <p-progressBar mode="indeterminate" [style]="{ height: '6px', margin: '10px 0 0 0' }"></p-progressBar>
+                    <h3 style="text-align: center;">Enviando solicitud...</h3>
+                </ng-container>
+                <p-progressBar *ngIf="progress > 0" [value]="progress" [style]="{ margin: '10px 0 15px 0' }">
+                </p-progressBar>
+            </div>
+        </ng-container>
+        <ng-container *ngIf="isAprobadoDesaprobadoAnulado || isProcesadoSAP">
+            <ul class="lista-anexo" *ngIf="rowLineaRequerimientoAnexo.length">
+                <li *ngFor="let file of rowLineaRequerimientoAnexo; let i = index">
+                    <a (click)="onAnexoEjecutar(file.idRequerimientoAnexo, file.nombreArchivo)">{{ file.nombreArchivo }}</a>
+                </li>
+            </ul>
+        </ng-container>
+
+        <p-footer>
+            <p-messages [(value)]="mensajePrimeNgService.msgs"></p-messages>
+            <div class="ui-grid ui-fluid">
+                <ng-container *ngIf="!isAprobadoDesaprobadoAnulado">
+                    <div class="ui-g-12 ui-md-6">
+                        <button pButton type="button" class="ui-button-success" label="Grabar" icon="pi pi-save" (click)="clickGuardarGrilla(tablaGrilla._value)"></button>
+                    </div>
+                </ng-container>
+                <div class="ui-g-12 ui-md-6">
+                    <button pButton type="button" class="ui-button-secondary" label="Cancelar" icon="pi pi-times" (click)="onClickRegresar()"></button>
+                </div>
+            </div>
+        </p-footer>
+    </p-panel>
+</div>
+
+<p-dialog header="Busqueda trabajador" [modal]="true" [(visible)]="modalBusqueda" [style]="{ width: '50vw' }" [baseZIndex]="10000">
+    <div class="formulario-modal">
+        <div class="item-formulario">
+            <label>Buscar:</label>
+            <input type="text" pInputText />
+            <button pButton type="button" label="Buscar"></button>
+        </div>
+    </div>
+
+    <p-footer>
+        <button type="button" pButton icon="pi pi-check" (click)="modalBusqueda = false" label="Agregar"></button>
+    </p-footer>
+</p-dialog>
+
+<p-dialog header="Busqueda Item" [modal]="true" [(visible)]="modalRegistroRequerimiento" [style]="{ width: '50vw' }" [baseZIndex]="10000">
+    <div class="formulario-modal">
+        <div class="item-formulario">
+            <label>Buscar:</label>
+            <input type="text" pInputText />
+            <button pButton type="button" label="Buscar"></button>
+        </div>
+    </div>
+
+    <p-footer>
+        <button type="button" pButton icon="pi pi-check" (click)="modalRegistroRequerimiento = false" label="Agregar"></button>
+    </p-footer>
+</p-dialog>
+
+<app-modal-busqueda-usuario *ngIf="isActivateBusquedaUsuario" [isDisplayBusquedaUsuario]="isActivateBusquedaUsuario" (usuarioSeleccionado)="usuarioBuscado($event)" (cancel)="clickActivateBuscarUsuario()"></app-modal-busqueda-usuario>
+
+<app-modal-busqueda-articulo-por-usuario *ngIf="isActivateBusquedaArticulo" [isDisplayBusquedaArticulo]="isActivateBusquedaArticulo" (articuloSeleccionado)="articuloBuscado($event)" (cancel)="clickActivateBuscarArticulo()" [idUbicacion]="itemUbicacionSeleccionado.idUbicacion"
+    [idUsuario]="idUsuario" [tipoArticulo]="itemTipoProductoSeleccionado.codTipoProducto">
+</app-modal-busqueda-articulo-por-usuario>
+
+<app-modal-busqueda-centro-costo [isDisplayBusquedaCentroCosto]="isActivateBusquedaCentroCosto" (CentroCostoSeleccionado)="centroCostoSeleccionado($event)" (cancel)="activarModalCentroCosto()">
+</app-modal-busqueda-centro-costo>
+
+<app-modal-busqueda-socio-negocio [isDisplayBusqueda]="isActivateBusquedaSocioNegocio" (eventoRegistroSeleccionado)="socioNegocioSeleccionado($event)" (cancel)="activarModalSocioNegocio()">
+</app-modal-busqueda-socio-negocio>
+
+
+<app-modal-busqueda-articulo-por-grupop [idUbicacion]="itemUbicacionSeleccionado.idUbicacion" [isDisplayBusqueda]="isActivateBusquedaTipoProducto" (itemSeleccionado)="tipoProductoSeleccionado($event)" (cancel)="activarModalTipoProducto()">
+</app-modal-busqueda-articulo-por-grupop>
+
+<app-modal-busqueda-ubicacion [idUsuario]="idUsuario" [isDisplayBusquedaUbicacion]="isActivateBusquedaUbicacion" (UbicacionSeleccionado)="ubicacionSeleccionado($event)" (cancel)="activarModalUbicacion()">
+</app-modal-busqueda-ubicacion>
+
+<app-loading *ngIf="isLoading"> </app-loading>
+
+<p-dialog header="Descarga" [(visible)]="displayDescarga" [closable]="false" [modal]="true" [style]="{width: '50vw'}" [baseZIndex]="10000" [draggable]="false" [resizable]="false">
+
+    Realizando la descarga del archivo del registro seleccionado...!!!
+    <div class="ui-g ui-fluid">
+        <div class="ui-g-12">
+            <p-progressBar mode="indeterminate" [style]="{'height': '6px'}"></p-progressBar>
+        </div>
+    </div>
+
+</p-dialog>

@@ -1,0 +1,9 @@
+{
+    "data": [
+        { "codigo": 1, "descripcion": "Farmacia Emergencia", "automatico": true, "receta": false, "pedido": "true", "manual": false, "almacen": "Emergencia" },
+        { "codigo": 2, "descripcion": "Farmacia Cirugía menor", "automatico": "true", "receta": false, "pedido": "true", "manual": false, "almacen": "Cirugía menor" },
+        { "codigo": 3, "descripcion": "Farmacia Hospitalaria ", "automatico": false, "receta": false, "pedido": "true", "manual": false, "almacen": "Hospitalaria" },
+        { "codigo": 4, "descripcion": "Farmacia Citostática ", "automatico": false, "receta": false, "pedido": "true", "manual": false, "almacen": "Citostática" },
+        { "codigo": 5, "descripcion": "Farmacia Ambulatoria ", "automatico": false, "receta": "true", "pedido": false, "manual": "true", "almacen": "Ambulatoria" }
+    ]
+}

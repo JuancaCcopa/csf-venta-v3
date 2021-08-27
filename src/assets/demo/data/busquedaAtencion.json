@@ -1,0 +1,37 @@
+{
+    "data": [{
+            "atencion": "H0179089",
+            "paciente": "0100000039306DD757D6CE9B71D699AB843291A9B5B2734A3B1285E23214",
+            "fecha": "30/01/2021",
+            "codigo": "00192832",
+            "nombre": "MAGALLANES ALCA KELLY JOANNA",
+            "codigoPersonal": "1162",
+            "nombrePersonal": "GARCIA ARANA MANUELA ALICIA",
+            "direccion": "AVENIDA HORACIO URTEAGA",
+            "telefono": "",
+            "empresa": "CLINICA SAN FELIPE S.A",
+
+            "codigoMedico": "09202020",
+            "nombreMedico": "SUMMERS GARCIA PERSY",
+            "direccionMedico": "AVENIDA HORACIO URTEAGA",
+            "rucMedico": "10292019201"
+        },
+        {
+            "atencion": "H0179091",
+            "paciente": "0100000039306DD757D6CE9B71D699AB843291A9B5B2734A3B1285E23214",
+            "fecha": "30/02/2021",
+            "codigo": "00191232",
+            "nombre": "MAGAN SALINAS CARLOS ALBERTO",
+            "codigoPersonal": "3128",
+            "nombrePersonal": "GARCIA ARGUEDAS GRAZIA ANTONIETA",
+            "direccion": "AVENIDA URTEAGA",
+            "telefono": "902930292",
+            "empresa": "CLINICA SAN FELIPE S.A",
+
+            "codigoMedico": "29202020",
+            "nombreMedico": "MELGAREJO ZEBALLOS WEYMAR LEANDRO",
+            "direccionMedico": "AVENIDA HORACIO URTEAGA",
+            "rucMedico": "23292019201"
+        }
+    ]
+}

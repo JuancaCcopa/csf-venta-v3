@@ -1,0 +1,26 @@
+<div class="ui-fluid">
+    <form [formGroup]="formularioNuevo">
+        <div class="ui-g-12 ui-md-2">
+            <label class="label-custom">Receta: </label>
+            <input type="text" formControlName="idreceta" pInputText>
+        </div>
+        <div class="ui-g-12 ui-md-2">
+            <label class="label-custom">Usuario: </label>
+            <input type="text" formControlName="usuario" pInputText>
+        </div>
+        <div class="ui-g-12 ui-md-12">
+            <label class="label-custom">Comentario: </label>
+            <textarea rows="3" cols="30" pInputTextarea formControlName="comentario"></textarea>
+        </div>
+    </form>
+
+    <footer>
+        <div class="ui-g-12 ui-md-6">
+            <button pButton type="button" label="{{globalConstants.cGrabar}}" icon="{{globalConstants.icoGrabar}}" (click)="goAceptar()"></button>
+        </div>
+
+        <div class="ui-g-12 ui-md-6">
+            <button pButton type="button" label="{{globalConstants.cCancelar}}" icon="{{globalConstants.icoCancelar}}" (click)="goCancelar()"></button>
+        </div>
+    </footer>
+</div>

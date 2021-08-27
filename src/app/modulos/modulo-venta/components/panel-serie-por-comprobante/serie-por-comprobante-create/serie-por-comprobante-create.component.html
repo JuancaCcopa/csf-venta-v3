@@ -1,0 +1,51 @@
+<p-panel header="Registro de {{titulo}}">
+    <div class="ui-grid ui-fluid">
+        <div class="ui-g-12">
+            <form [formGroup]="maestroForm">
+                <div class="p-grid form-group">
+                    <div class="ui-g-12">
+                        <label class="label-custom" for="float-input-nombre">Tipo Serie: </label>
+                    </div>
+                    <div class="ui-g-12 ui-md-3">
+                        <p-dropdown class="ui dropdown-item-text" [options]="listTablaTipoSerie" formControlName="tiposerie" placeholder="Seleccionar Tipo Serie" optionLabel="label" [showClear]="true" [style]="{'width':'100%'}"></p-dropdown>
+                    </div>
+                </div>
+                <div class="p-grid form-group">
+                    <div class="ui-g-12">
+                        <label class="label-custom">Serie: </label>
+                    </div>
+                    <div class="ui-g-12 ui-md-2">
+                        <input type="number" size="3" pInputText formControlName="serie">
+                        <div *ngIf="maestroForm.controls['serie'].errors && maestroForm.controls['serie'].dirty">
+                            <p-message severity="error" text="Serie es requerido" *ngIf="maestroForm.controls['serie'].errors['required']"></p-message>
+                            <p-message severity="error" text="Serie debe tener un maximo de 3 y un minimo de 3 caractares." *ngIf="maestroForm.controls['serie'].errors['maxlength'] || maestroForm.controls['serie'].errors['minlength']"></p-message>
+                        </div>
+                    </div>
+                </div>
+                <div class="p-grid form-group">
+                    <div class="ui-g-12">
+                        <label class="label-custom" for="float-input-nombre">Correlativo: </label>
+                    </div>
+                    <div class="ui-g-12 ui-md-2">
+                        <input type="number" size="7" pInputText formControlName="correlativo">
+                        <div *ngIf="maestroForm.controls['correlativo'].errors && maestroForm.controls['correlativo'].dirty">
+                            <p-message severity="error" text="Correlativo es requerido" *ngIf="maestroForm.controls['correlativo'].errors['required']"></p-message>
+                            <p-message severity="error" text="Correlativo debe tener un maximo de 7 y un minimo de 7 caractares." *ngIf="maestroForm.controls['correlativo'].errors['maxlength'] || maestroForm.controls['correlativo'].errors['minlength']"></p-message>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <p-footer>
+        <p-messages [(value)]="mensajePrimeNgService.msgs"></p-messages>
+        <div class="ui-grid ui-fluid">
+            <div class="ui-g-12 ui-md-6">
+                <button pButton type="submit" [disabled]="!maestroForm.valid" label="{{globalConstants.cGrabar}}" icon="{{globalConstants.icoGrabar}}" (click)="onClickSave()"></button>
+            </div>
+            <div class="ui-g-12 ui-md-6">
+                <button pButton type="button" label="{{globalConstants.cRegresar}}" icon="{{globalConstants.icoRegresar}}" (click)="back()"></button>
+            </div>
+        </div>
+    </p-footer>
+</p-panel>

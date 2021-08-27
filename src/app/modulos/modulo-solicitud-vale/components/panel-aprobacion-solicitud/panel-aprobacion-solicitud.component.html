@@ -1,0 +1,143 @@
+<div class="card card-w-title">
+    <h1><strong>{{titulo}}</strong></h1>
+    <!-- Filtros -->
+    <p-panel header="Opción de busqueda de {{titulo}}" [toggleable]="true" [style]="{'margin-bottom':'20px'}">
+        <form [formGroup]="formularioBusqueda">
+            <div class="ui-g ui-fluid">
+                <div class="ui-g-12 ui-md-3">
+                    <label>Fecha Inicio: </label>
+                    <p-calendar class="calendar" dateFormat="dd/mm/yy" appendTo="body" appendTo="body" [locale]="lenguageService.es" formControlName="fechaInicio"></p-calendar>
+                </div>
+                <div class="ui-g-12 ui-md-3">
+                    <label>Fecha Fin: </label>
+                    <p-calendar class="calendar" dateFormat="dd/mm/yy" appendTo="body" appendTo="body" [locale]="lenguageService.es" formControlName="fechaFin"></p-calendar>
+                </div>
+                <div class="ui-g-12 ui-md-3">
+                    <label>Estado: </label>
+                    <p-dropdown [options]="comboSolicitudValeEstado" appendTo="body" placeholder="Seleccionar estado" formControlName="solicitudEstado" optionLabel="desSolicitudValeEstado" (onChange)="cambioEnComboSolicitudVale($event.value)" filter="true" [showClear]="true"></p-dropdown>
+                </div>
+                <div class="ui-g-12 ui-md-3">
+                    <label>.</label>
+                    <button pButton type="button" label="{{globalConstants.cBuscar}}" icon="{{globalConstants.icoBuscar}}" (click)="clickBusqueda()" class="btn btn-block"></button>
+                </div>
+            </div>
+        </form>
+    </p-panel>
+    <p-messages [(value)]="mensajePrimeNgService.msgs"></p-messages>
+    <p-panel header="Lista de {{titulo}}">
+        <p-table [value]="rowDatadValeSalida" [columns]="cabeceraTabla" [rowHover]="true" [paginator]="true" [rows]="10" [responsive]="true" [resizableColumns]="true" styleClass="p-datatable-responsive-demo" *ngIf="!isAprobacionMasiva">
+            <!-- [autoLayout]="true" -->
+            <ng-template pTemplate="header" let-columns>
+                <tr>
+                    <th>Opciones</th>
+                    <th *ngFor="let col of columns">
+                        {{ col.header }}
+                    </th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-rowData let-columns="columns">
+                <tr #opt class="row-hover" [ngClass]="
+            rowData.idSolicitudVale === idResaltarEnTabla
+              ? 'resaltarFila'
+              : null
+          ">
+                    <td>
+                        <p-splitButton icon="pi pi-cog" (onDropdownClick)="itemElegido(rowData)" [model]="opciones" appendTo="body">
+                        </p-splitButton>
+                    </td>
+                    <td *ngFor="let col of columns" [ngSwitch]="col.field">
+                        <span *ngSwitchCase="'fecSolicitudVale'" class="p-column-title">
+              {{ col.header }}</span
+            >
+            <span *ngSwitchCase="'fecSolicitudVale'">
+              {{ rowData[col.field] | date: 'dd/MM/yy' }}
+            </span>
+
+                        <span *ngSwitchCase="'desSolicitudValeEstado'" class="labelEstado_solicitud" [ngClass]="estadoSolicitud(rowData[col.field])">
+              {{ rowData[col.field] }}
+            </span>
+                        <span class="p-column-title" *ngSwitchCase="'desSolicitudValeEstado'">
+              {{ col.field }}
+            </span>
+
+                        <span *ngSwitchDefault class="p-column-title">{{
+              col.header
+            }}</span>
+
+                        <span *ngSwitchDefault>
+              {{ rowData[col.field] }}
+            </span>
+                    </td>
+                </tr>
+            </ng-template>
+        </p-table>
+
+        <p-table [value]="rowDatadValeSalida" [columns]="cabeceraTabla" [autoLayout]="true" [rowHover]="true" [paginator]="true" [rows]="10" [responsive]="true" [resizableColumns]="true" styleClass="p-datatable-responsive-demo" *ngIf="isAprobacionMasiva" [(selection)]="rowSeleccionParaAprobarMasivo">
+            <ng-template pTemplate="header" let-columns>
+                <tr>
+                    <th>Opciones</th>
+                    <th style="width: 3em;">
+                        <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                    </th>
+                    <th *ngFor="let col of columns">
+                        {{ col.header }}
+                    </th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-rowData let-columns="columns">
+                <tr #opt class="row-hover" [ngClass]="
+            rowData.idSolicitudVale === idResaltarEnTabla
+              ? 'resaltarFila'
+              : null
+          ">
+                    <td>
+                        <p-splitButton icon="pi pi-cog" (onDropdownClick)="itemElegido(rowData)" [model]="opciones" appendTo="body">
+                        </p-splitButton>
+                    </td>
+                    <td>
+                        <p-tableCheckbox [value]="rowData"></p-tableCheckbox>
+                    </td>
+                    <td *ngFor="let col of columns" [ngSwitch]="col.field">
+                        <span *ngSwitchCase="'fecSolicitudVale'" class="p-column-title">
+              {{ col.header }}</span
+            >
+            <span *ngSwitchCase="'fecSolicitudVale'">
+              {{ rowData[col.field] | date: 'dd/MM/yy' }}
+            </span>
+
+                        <span *ngSwitchCase="'desSolicitudValeEstado'" class="labelEstado_solicitud" [ngClass]="estadoSolicitud(rowData[col.field])">
+              {{ rowData[col.field] }}
+            </span>
+                        <span class="p-column-title" *ngSwitchCase="'desSolicitudValeEstado'">
+              {{ col.field }}
+            </span>
+
+                        <span *ngSwitchDefault class="p-column-title">{{
+              col.header
+            }}</span>
+
+                        <span *ngSwitchDefault>
+              {{ rowData[col.field] }}
+            </span>
+                    </td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </p-panel>
+</div>
+
+<div class="botones" *ngIf="isAprobacionMasiva">
+    <button pButton type="button" label="Aprobar" (click)="clickAprobarMasivo()"></button>
+    <button pButton type="button" label="Desaprobar" (click)="clickDesaprobarMasivo()"></button>
+</div>
+
+<app-aprobacion-solicitud-vale [idSolicitudVale]="idSolicitudVale" [isDisplayAprobacion]="isDisplayAprobacion" (actualizarTabla)="clickBusqueda()" (cerrar)="cerrarModalDetalle($event)">
+</app-aprobacion-solicitud-vale>
+
+<app-modal-aprobacion-masiva *ngIf="isAprobarMasivo" [isModalAprobacionMasiva]="isAprobarMasivo" [idSolicitudVale]="0" [titulo]="tituloAprobacionMasivo" [idArraySolicitudes]="arrayIdSolicitudesMasivas" (guardarAprobacionMasiva)="guardarAprobacionMasiva($event)"
+    (cerrarModalEvent)="cerrarModalMasivo($event)">
+</app-modal-aprobacion-masiva>
+
+<app-modal-aprobacion-masiva *ngIf="isDesaprobarMasivo" [isModalDesaprobacionMasiva]="isDesaprobarMasivo" [idSolicitudVale]="0" [titulo]="tituloAprobacionMasivo" [idArraySolicitudes]="arrayIdSolicitudesMasivas" (guardarAprobacionMasiva)="guardarAprobacionMasiva($event)"
+    (cerrarModalEvent)="cerrarModalMasivo($event)">
+</app-modal-aprobacion-masiva>

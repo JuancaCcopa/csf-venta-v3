@@ -1,0 +1,82 @@
+<div class="login-body">
+    <div class="body-container">
+        <div class="ui-g">
+            <div class="ui-g-12 ui-lg-6 left-side">
+                <h1>Bienvenido</h1>
+                <img src="assets/layout/images/csf.png" alt="apollo-layout" />
+            </div>
+            <div class="ui-g-12 ui-lg-6 right-side">
+                <div class="login-wrapper">
+                    <div class="login-container">
+                        <span class="title">
+                            Iniciar sesión</span>
+                        <div class="ui-g ui-fluid">
+                            <form [formGroup]="formularioLogin">
+                                <!-- <div class="ui-g-12">
+                                    <div class="ui-inputgroup">
+                                        <span class="ui-inputgroup-addon"><i class="fa fas fa-desktop" style="line-height: 1.25;"></i></span>
+                                        <p-dropdown class="ui-dropdown" [options]="listSeriePorMaquina" placeholder="Seleccionar Estación" optionLabel="label" [showClear]="true" filter="true" formControlName="estacion" selectId="value">
+                                            <ng-template let-item pTemplate="item">
+                                                <div class="ui-helper-clearfix" style="position: relative;height: 25px;">
+                                                    <i class="fa fas fa-desktop" style="width:24px;position:absolute;top:4px;left:5px"></i>
+                                                    <div style="font-size:14px;float:right;margin-top:4px">{{item.label}}</div>
+                                                </div>
+                                            </ng-template>
+                                        </p-dropdown>
+                                    </div>
+                                </div> -->
+                                <div class="ui-g-12">
+                                    <div class="ui-inputgroup">
+                                        <span class="ui-inputgroup-addon"><i class="fa fa-user" style="line-height: 1.25;"></i></span>
+                                        <input id="id-usuario" type="text" class="ui-inputtext ui-widget" placeholder="Usuario" formControlName="login" autocomplete="off">
+
+                                    </div>
+                                    <div *ngIf="formularioLogin.controls['login'].errors && formularioLogin.controls['login'].dirty">
+                                        <p-message severity="error" text="Usuario es requerido" *ngIf="formularioLogin.controls['login'].errors['required']"></p-message>
+                                        <p-message severity="error" text="Usuario debe tener un minimo de 4 caractares." *ngIf="formularioLogin.controls['login'].errors['minlength']"></p-message>
+                                    </div>
+                                </div>
+                                <div class="ui-g-12">
+                                    <div class="ui-inputgroup">
+                                        <span class="ui-inputgroup-addon"><i class="fa fas fa-key" style="line-height: 1.25;"></i></span>
+                                        <input type="password" class="ui-inputtext ui-widget" placeholder="Contraseña" formControlName="password" autocomplete="off" feedback="false" />
+                                    </div>
+                                    <div *ngIf="formularioLogin.controls['password'].errors && formularioLogin.controls['password'].dirty">
+                                        <p-message severity="error" text="Contraseña es requerido" *ngIf="formularioLogin.controls['password'].errors['required']"></p-message>
+                                        <p-message severity="error" text="Contraseña debe tener un minimo de 6 caractares." *ngIf="formularioLogin.controls['password'].errors['minlength']"></p-message>
+                                    </div>
+                                </div>
+                            </form>
+                            <div class="ui-g-12">
+                                <p-messages [(value)]="mensajePrimeNgService.msgs"></p-messages>
+                            </div>
+                            <!-- <div class="ui-g-12 ui-lg-6 password-container">
+                                <span class="example" (click)="onRecuperarContrasena()">¿Olvidaste tu contraseña?  </span>
+                            </div> -->
+                            <div class="ui-g-12 ui-lg-6">
+                                <button type="submit" [disabled]="!formularioLogin.valid" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only green-btn" (click)="onClickLogin()" pButton>
+                                  <span class="ui-button-text ui-c">
+                                    <img src="assets/layout/images/check.svg" alt="login" style="height: 13px;width: 16px;float: left;margin-top: 3px">
+                                    Iniciar Sesión
+                                  </span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<p-dialog header="Autenticación" [(visible)]="displayAutenticacion" [closable]="false" [modal]="true" [style]="{width: '50vw'}" [baseZIndex]="10000" [draggable]="false" [resizable]="false">
+
+    Validando credenciales...!!!
+    <div class="ui-g ui-fluid">
+        <div class="ui-g-12">
+            <p-progressBar mode="indeterminate" [style]="{'height': '6px'}"></p-progressBar>
+        </div>
+    </div>
+
+</p-dialog>

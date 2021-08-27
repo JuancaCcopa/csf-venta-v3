@@ -1,0 +1,25 @@
+:host ::ng-deep .ui-button {
+    margin: .5em .5em .5em 0;
+    width: 140px;
+}
+
+@media screen and (max-width: 40em) {
+     :host ::ng-deep .ui-dialog {
+        width: 75vw !important;
+    }
+}
+
+.example {
+    text-decoration: none;
+    color: #6ebc3b;
+}
+
+.example:hover {
+    color: #6ebc3b;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.ui-dropdown {
+    height: auto;
+}

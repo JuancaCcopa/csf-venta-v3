@@ -1,0 +1,37 @@
+<p-panel header="Registro de {{titulo}}">
+    <div class="ui-grid ui-fluid">
+        <div class="ui-g-12">
+            <form [formGroup]="maestroForm">
+                <div class="p-grid form-group">
+                    <div class="ui-g-12">
+                        <label class="label-custom" for="float-input-nombre">Nombre: </label>
+                    </div>
+                    <div class="ui-g-12 ui-md-6">
+                        <textarea id="float-input-nombre" formControlName="nombre" pInputTextarea autoResize="autoResize" placeholder="Ingresar nombre"> </textarea>
+                        <div *ngIf="maestroForm.controls['nombre'].errors && maestroForm.controls['nombre'].dirty">
+                            <p-message severity="error" text="Nombre es requerido" *ngIf="maestroForm.controls['nombre'].errors['required']"></p-message>
+                            <p-message severity="error" text="Nombre debe tener un maximo de 60 y un minimo de 4 caractares." *ngIf="maestroForm.controls['nombre'].errors['maxlength'] || maestroForm.controls['nombre'].errors['minlength']"></p-message>
+                        </div>
+                    </div>
+                    <div class="ui-g-12">
+                        <label class="label-custom" for="float-input-porcentaje">Porcentaje Descuento: </label>
+                    </div>
+                    <div class="ui-g-12 ui-md-3">
+                        <input id="float-input-porcentaje" type="number" pInputText formControlName="porcentajeDescuento" placeholder="Ingresar Porcentaje">
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <p-footer>
+        <p-messages [(value)]="mensajePrimeNgService.msgs"></p-messages>
+        <div class="ui-grid ui-fluid">
+            <div class="ui-g-12 ui-md-6">
+                <button pButton type="submit" [disabled]="!maestroForm.valid" label="{{globalConstants.cGrabar}}" icon="{{globalConstants.icoGrabar}}" (click)="onClickSave()"></button>
+            </div>
+            <div class="ui-g-12 ui-md-6">
+                <button pButton type="button" label="{{globalConstants.cRegresar}}" icon="{{globalConstants.icoRegresar}}" (click)="back()"></button>
+            </div>
+        </div>
+    </p-footer>
+</p-panel>

@@ -1,0 +1,53 @@
+<div class="card card-w-title">
+    <h1><strong>Seguimiento de Pedidos Automaticos</strong></h1>
+    <p-panel header="Opción de busqueda de Pedido" [toggleable]="true" [style]="{'margin-bottom':'20px'}">
+        <div class="ui-g ui-fluid">
+            <div class="ui-g-12 ui-md-2">
+                <label class="label-custom" for="float-input-fecha-ini">Fec. Inicio: </label>
+                <p-calendar id="float-input-fecha-ini" placeholder="Seleccionar Fecha Inicio" [showButtonBar]="true" [locale]="lenguageService.es" dateFormat="dd/mm/yy" [showIcon]="true"></p-calendar>
+            </div>
+            <div class="ui-g-12 ui-md-2">
+                <label class="label-custom" for="float-input-fecha-fin">Fec. Fin: </label>
+                <p-calendar id="float-input-fecha-fin" placeholder="Seleccionar Fecha Fin" [showButtonBar]="true" [locale]="lenguageService.es" dateFormat="dd/mm/yy" [showIcon]="true"></p-calendar>
+            </div>
+            <div class="ui-g-12 ui-md-2">
+                <label class="label-custom" for="float-input-nro">Por Pedido: </label>
+                <input id="float-input-nro" type="text" pInputText placeholder="Ingresar Pedido">
+            </div>
+            <div class="ui-g-12 ui-md-2">
+                <label class="label-custom" for="float-input-nro">Centro de Costo: </label>
+                <input id="float-input-nro" type="text" pInputText placeholder="Seleccionar Centro de Costo">
+            </div>
+            <div class="ui-g-12 ui-md-2">
+                <label class="label-custom" for="float-input-nro">Almacen: </label>
+                <input id="float-input-nro" type="text" pInputText placeholder="Seleccionar Almacen">
+            </div>
+            <div class="ui-g-12 ui-md-2">
+                <label class="label-custom" for="float-input-nro">. </label>
+                <button pButton type="button" label="{{globalConstants.cBuscar}}" icon="{{globalConstants.icoBuscar}}" class="btn btn-block"></button>
+            </div>
+        </div>
+    </p-panel>
+
+    <p-table [value]="listModelo" [columns]="columnas" [paginator]="true" [rows]="globalConstants.sizePage" dataKey="codPedido" selectionMode="single" autoLayout="true" [responsive]="true">
+        <ng-template pTemplate="header" let-columns>
+            <tr>
+                <!-- <th colspan="1">Acciones</th> -->
+                <th *ngFor="let col of columns">
+                    {{col.header}}
+                </th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-rowData let-columns="columns">
+            <tr [pSelectableRow]="rowData">
+                <!-- <td class="custom-td-splitButton">
+                    <p-splitButton class="ui-splitbutton-button" label="Detalle" icon="fa fa-list-ol " appendTo="body"></p-splitButton>
+                </td> -->
+                <td *ngFor="let col of columns">
+                    {{rowData[col.field]}}
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+
+</div>

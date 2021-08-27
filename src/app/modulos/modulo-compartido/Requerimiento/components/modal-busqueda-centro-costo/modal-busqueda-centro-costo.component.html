@@ -1,0 +1,34 @@
+<p-dialog header="Buscar Centro Costo" [(visible)]="isDisplayBusquedaCentroCosto" [modal]="true" [transitionOptions]="timeAnimationModal">
+    <div class="content-formulario">
+        <p-table [value]="rowCentroCosto" [columns]="cols" [paginator]="true" [rows]="10" [autoLayout]="true" #tableBusqueda [(selection)]="seleccionCentroDeCosto" selectionMode="single" [loading]="loading" [responsive]="true" [resizableColumns]="true" styleClass="p-datatable-responsive-demo">
+            <ng-template pTemplate="caption">
+                <i class="{{globalConstants.icoBuscar}}" style="margin: 4px 4px 0 0;"></i>
+                <input type="text" pInputText size="50" placeholder="Filtro global" (input)="tableBusqueda.filterGlobal($event.target.value, 'contains')" style="width: auto;" />
+            </ng-template>
+            <ng-template pTemplate="header" let-columns>
+                <tr>
+                    <th *ngFor="let col of columns">
+                        {{ col.header }}
+                    </th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-rowData let-columns="columns">
+                <tr [pSelectableRow]="rowData">
+                    <td *ngFor="let col of columns">
+                        <span class="p-column-title">{{col.header}}</span> {{ rowData[col.field] }}
+                    </td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </div>
+    <p-footer>
+        <div class="ui-grid ui-fluid">
+            <div class="ui-g-12 ui-md-6">
+                <button pButton type="button" [disabled]="!seleccionCentroDeCosto" label="{{globalConstants.cAceptar}}" icon="{{globalConstants.icoAceptar}}" (click)="clickAceptar()"></button>
+            </div>
+            <div class="ui-g-12 ui-md-6">
+                <button pButton type="button" label="{{globalConstants.cCancelar}}" icon="{{globalConstants.icoCancelar}}" (click)="clickCancelar()"></button>
+            </div>
+        </div>
+    </p-footer>
+</p-dialog>

@@ -1,0 +1,53 @@
+<p-panel header="{{titulo}}">
+    <div class="ui-grid ui-fluid">
+        <div class="ui-g-12">
+            <form [formGroup]="maestroForm">
+                <div class="p-grid form-group">
+                    <div class="ui-g-12 ui-md-4">
+                        <label class="label-custom" for="float-input-password">Contraseña Actual: </label>
+                        <div class="ui-inputgroup">
+                            <span class="ui-inputgroup-addon"><i class="fa fa-lock"></i></span>
+                            <input id="float-input-password" type="password" pPassword formControlName="password" required>
+                        </div>
+                        <div *ngIf="maestroForm.controls['password'].errors && maestroForm.controls['password'].dirty">
+                            <p-message severity="error" text="Constraseña es requerido" *ngIf="maestroForm.controls['password'].errors['required']"></p-message>
+                            <p-message severity="error" text="Tener un min. de 6 y max. de 15 caractares" *ngIf="maestroForm.controls['password'].errors['minlength'] || maestroForm.controls['password'].errors['maxlength'] "></p-message>
+                        </div>
+                    </div>
+
+                    <div class="ui-g-12 ui-md-4">
+                        <label class="label-custom" for="float-input-password-new">Nueva Contraseña: </label>
+                        <div class="ui-inputgroup">
+                            <span class="ui-inputgroup-addon"><i class="fa fa-lock"></i></span>
+                            <input id="float-input-password-new" type="password" pPassword formControlName="passwordNueva" required>
+                        </div>
+                        <div *ngIf="maestroForm.controls['passwordNueva'].errors && maestroForm.controls['passwordNueva'].dirty">
+                            <p-message severity="error" text="Constraseña es requerido" *ngIf="maestroForm.controls['passwordNueva'].errors['required']"></p-message>
+                            <p-message severity="error" text="Tener un min. de 6 y max. de 15 caractares" *ngIf="maestroForm.controls['passwordNueva'].errors['minlength'] || maestroForm.controls['passwordNueva'].errors['maxlength'] "></p-message>
+                        </div>
+                    </div>
+
+                    <div class="ui-g-12 ui-md-4">
+                        <label class="label-custom" for="float-input-password-new-repetir">Repita Nueva Contraseña: </label>
+                        <div class="ui-inputgroup">
+                            <span class="ui-inputgroup-addon"><i class="fa fa-lock"></i></span>
+                            <input id="float-input-password-new-repetir" type="password" pPassword formControlName="passwordNuevaRepita" required>
+                        </div>
+                        <div *ngIf="maestroForm.controls['passwordNuevaRepita'].errors && maestroForm.controls['passwordNuevaRepita'].dirty">
+                            <p-message severity="error" text="Constraseña es requerido" *ngIf="maestroForm.controls['passwordNuevaRepita'].errors['required']"></p-message>
+                            <p-message severity="error" text="Tener un min. de 6 y max. de 15 caractares" *ngIf="maestroForm.controls['passwordNuevaRepita'].errors['minlength'] || maestroForm.controls['passwordNuevaRepita'].errors['maxlength'] "></p-message>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <p-footer>
+        <p-messages [(value)]="mensajePrimeNgService.msgs"></p-messages>
+        <div class="ui-grid ui-fluid">
+            <div class="ui-g-12">
+                <button pButton type="submit" [disabled]="!maestroForm.valid" label="{{globalConstants.cGrabar}}" icon="{{globalConstants.icoGrabar}}" (click)="onClickSave()"></button>
+            </div>
+        </div>
+    </p-footer>
+</p-panel>

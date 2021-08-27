@@ -1,0 +1,14 @@
+.headerimg {
+    width: 40px;
+    height: 40px;
+    vertical-align: middle;
+    display: inline-block;
+    padding: 3px, 2px;
+    border-radius: 50%;
+}
+
+@media screen and (max-width: 40em) {
+     :host ::ng-deep .ui-dialog {
+        width: 90vw !important;
+    }
+}

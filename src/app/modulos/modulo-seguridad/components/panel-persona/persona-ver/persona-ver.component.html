@@ -1,0 +1,86 @@
+<div class="card card-w-title">
+    <div class="ui-grid ui-fluid">
+        <form [formGroup]="modeloForm">
+            <div class="ui-g form-group">
+                <div class="ui-g-12">
+                    <div class="ui-g-12 ui-md-3">
+                        <img [src]="sellersPermitString" style="width: 100%; display: block;">
+                    </div>
+
+                    <div class="ui-g-12 ui-md-9">
+                        <div class="ui-g-12 ui-md-6">
+                            <label class="label-custom" for="float-input-apepat">Apellido Paterno: </label>
+                            <div class="ui-inputgroup">
+                                <span class="ui-inputgroup-addon"><i class="fa fa-user"></i></span>
+                                <input id="float-input-apepat" type="text" placeholder="Apellido Paterno" size="50" formControlName="apellidoPaterno" required pInputText>
+                            </div>
+                        </div>
+                        <div class="ui-g-12 ui-md-6">
+                            <label class="label-custom" for="float-input-apemat">Apellido Materno: </label>
+                            <div class="ui-inputgroup">
+                                <span class="ui-inputgroup-addon"><i class="fa fa-user"></i></span>
+                                <input id="float-input-apemat" type="text" placeholder="Apellido Materno" size="50" formControlName="apellidoMaterno" required pInputText>
+                            </div>
+                        </div>
+                        <div class="ui-g-12 ui-md-12">
+                            <label class="label-custom" for="float-input-nombre">Nombres: </label>
+                            <div class="ui-inputgroup">
+                                <span class="ui-inputgroup-addon"><i class="fa fa-user"></i></span>
+                                <input id="float-input-nombre" type="text" placeholder="Nombres" size="50" formControlName="nombre" required pInputText>
+                            </div>
+                        </div>
+
+                        <div class="ui-g-12 ui-md-4">
+                            <label class="label-custom" for="float-input-documento">Nro Documento: </label>
+                            <div class="ui-inputgroup">
+                                <span class="ui-inputgroup-addon"><i class="fa fa-file"></i></span>
+                                <input id="float-input-documento" type="number" placeholder="Nro Documento" maxlength="20" formControlName="numeroDocumento" required pInputText>
+                            </div>
+                        </div>
+                        <div class="ui-g-12 ui-md-4">
+                            <label class="label-custom" for="float-input-telefono">Nro Telefono: </label>
+                            <div class="ui-inputgroup">
+                                <span class="ui-inputgroup-addon"><i class="fa fa-mobile"></i></span>
+                                <input id="float-input-telefono" type="number" placeholder="Nro Telefono" maxlength="20" formControlName="numeroTelefono" pInputText>
+                            </div>
+                        </div>
+                        <div class="ui-g-12 ui-md-4">
+                            <label class="label-custom" for="float-input-des-cc">Centro Costo: </label>
+                            <div class="ui-inputgroup">
+                                <span class="ui-inputgroup-addon"><i class="fa fa-user"></i></span>
+                                <input id="float-input-des-cc" type="text" placeholder="Centro Costo" formControlName="desCentroCosto" required pInputText>
+                            </div>
+                        </div>
+
+                        <div class="ui-g-12">
+                            <p-fieldset legend="Credenciales Usuario">
+                                <div class="ui-g-12 ui-md-3">
+                                    <label class="label-custom" for="float-input-usuario">Usuario: </label>
+                                    <div class="ui-inputgroup">
+                                        <span class="ui-inputgroup-addon"><i class="fa fa-user"></i></span>
+                                        <input id="float-input-usuario" type="text" placeholder="Usuario" formControlName="usuario" required pInputText>
+                                    </div>
+                                </div>
+                                <div class="ui-g-12 ui-md-6">
+                                    <label class="label-custom" for="float-input-email">Email: </label>
+                                    <div class="ui-inputgroup">
+                                        <span class="ui-inputgroup-addon"><i class="fa fa-envelope"></i></span>
+                                        <input id="float-input-email" type="email" placeholder="Email" pInputText formControlName="email" required>
+                                    </div>
+                                    <div *ngIf="modeloForm.controls['email'].errors && modeloForm.controls['email'].dirty">
+                                        <p-message severity="error" text="Email es requerido" *ngIf="modeloForm.controls['email'].errors['required']"></p-message>
+                                    </div>
+                                </div>
+                                <div class="ui-g-12 ui-md-3">
+                                    <label class="label-custom" for="float-input-perfil">Perfil: </label>
+                                    <input id="float-input-perfil" type="text" placeholder="Email" pInputText formControlName="perfil" required>
+                                </div>
+                            </p-fieldset>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

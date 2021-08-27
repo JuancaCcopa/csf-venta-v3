@@ -1,0 +1,20 @@
+.frame {
+    text-align: center;
+    margin: 10em 0;
+}
+
+img {
+    vertical-align: middle;
+}
+
+@media screen and (max-width: 40em) {
+     :host ::ng-deep .frame {
+        text-align: center;
+        margin: 10em 0;
+    }
+    img {
+        height: 100%;
+        width: 100%;
+        vertical-align: middle;
+    }
+}

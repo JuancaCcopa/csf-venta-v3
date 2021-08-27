@@ -1,0 +1,21 @@
+{
+    "data": [{
+            "codplan": "00000002",
+            "nombre": "DESCUENTO PARTICULAR",
+            "porcentajeDescuento": 15,
+            "estado": "G"
+        },
+        {
+            "codplan": "00000003",
+            "nombre": "DESCUENTO DE PERSONAL",
+            "porcentajeDescuento": 15,
+            "estado": "G"
+        },
+        {
+            "codplan": "00000004",
+            "nombre": "DESCUENTO DE DOCTORES",
+            "porcentajeDescuento": 15,
+            "estado": "G"
+        }
+    ]
+}

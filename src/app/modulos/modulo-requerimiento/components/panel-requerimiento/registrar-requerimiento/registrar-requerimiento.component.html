@@ -1,0 +1,250 @@
+<div class="card card-w-title">
+    <div class="box">
+        <div class="titulo">
+            <h1>Requerimiento | Nuevo</h1>
+        </div>
+    </div>
+    <p-panel>
+        <div class="ui-grid ui-fluid">
+            <div class="ui-g-12">
+                <form [formGroup]="formularioSuperior">
+                    <div class="p-grid form-group">
+                        <div class="ui-g-12 ui-md-3">
+                            <label>Solicitante: </label>
+                            <input type="text" size="28" pInputText formControlName="trabajador" required />
+                        </div>
+                        <div class="ui-g-12 ui-md-3">
+                            <label>Centro Costo: </label>
+                            <input type="text" size="28" formControlName="desCentroCosto" pInputText />
+                        </div>
+                        <div class="ui-g-12 ui-md-2">
+                            <label>Fecha Req: </label>
+                            <p-calendar class="calendar" dateFormat="dd/mm/yy" [locale]="lenguageService.es" [showIcon]="true" formControlName="fechaReq" required></p-calendar>
+                        </div>
+                        <div class="ui-g-12 ui-md-2">
+                            <label>Fecha Necesaria: </label>
+                            <p-calendar class="calendar" dateFormat="dd/mm/yy" [locale]="lenguageService.es" [showIcon]="true" formControlName="fechaNecesaria" required></p-calendar>
+                        </div>
+                        <div class="ui-g-12 ui-md-2">
+                            <label>Fecha Validez: </label>
+                            <p-calendar class="calendar" dateFormat="dd/mm/yy" [locale]="lenguageService.es" [showIcon]="true" formControlName="fechaValidez" required></p-calendar>
+                        </div>
+                        <div class="ui-g-12 ui-md-6">
+                            <label>Observación: </label>
+                            <textarea pInputTextarea autoResize="autoResize" formControlName="observacion"></textarea>
+                        </div>
+                        <div class="ui-g-12 ui-md-2">
+                            <label>Motivo: </label>
+                            <p-dropdown placeholder="Seleccionar" formControlName="motivo" [options]="comboMotivo" (onChange)="cambioEnComboMotivo($event.value)" optionLabel="desMotivoRequerimiento" required></p-dropdown>
+                        </div>
+                        <div class="ui-g-12 ui-md-2">
+                            <label>Nro SAP: </label>
+                            <input type="text" pInputText disabled />
+                        </div>
+                        <!-- <div class="ui-g-12 ui-md-2">
+                            <label>Conform: </label>
+                            <input type="text" pInputText disabled />
+                        </div> -->
+                    </div>
+                </form>
+            </div>
+        </div>
+        <p-toolbar>
+            <button pButton type="button" label="Agregar Servicio" icon="pi pi-plus" (click)="clickActivateBuscarServicio()"></button>
+        </p-toolbar>
+
+        <div class="box table">
+            <p-table [value]="dataGrilla" [responsive]="true" [resizableColumns]="true" styleClass="p-datatable-responsive-demo" #tablaGrilla [autoLayout]="true">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th>Opciones</th>
+                        <th>Num Linea</th>
+                        <!-- <th>Nro Orden trabajo</th> -->
+                        <th>Cod Servicio</th>
+                        <th>Des Servicio</th>
+                        <!-- <th>Cod Unidad Medida</th> -->
+                        <!-- <th>Cod Almacen</th> -->
+                        <!-- <th>Cantidad necesaria</th> -->
+                        <th>Cod Centro Costo</th>
+                        <th>Cod Socio de Negocio</th>
+                        <th>Fecha Necesaria</th>
+                        <th>Comentario</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-rowData let-index="rowIndex">
+                    <tr>
+                        <td class="action-td">
+                            <p-splitButton icon="pi pi-cog" (onDropdownClick)="itemElegido(index)" [model]="opciones" appendTo="body">
+                            </p-splitButton>
+                        </td>
+                        <td class="action-td">
+                            <span class="p-column-title">Num Linea</span> {{ index + 1 }}
+                        </td>
+                        <!-- <td pEditableColumn>
+                            <span class="p-column-title">Nro Orden Trabajo:</span>
+                            <p-cellEditor>
+                                <ng-template pTemplate="input">
+                                    <input pInputText type="text" [(ngModel)]="rowData.nroOrdenTrabajo" />
+                                </ng-template>
+                                <ng-template pTemplate="output">
+                                    {{ rowData.nroOrdenTrabajo }}
+                                </ng-template>
+                            </p-cellEditor>
+                        </td> -->
+                        <td class="action-td">
+                            <span class="p-column-title">Cod Articulo:</span> {{ rowData.codArticulo }}
+                        </td>
+
+                        <td class="ui-fluid" pEditableColumn>
+
+                            <span class="p-column-title">Des Articulo:</span>
+                            <p-cellEditor>
+                                <ng-template pTemplate="input">
+                                    <input pInputText type="text" [(ngModel)]="rowData.desArticulo" />
+                                </ng-template>
+                                <ng-template pTemplate="output">
+                                    {{ rowData.desArticulo }}
+                                </ng-template>
+                            </p-cellEditor>
+                        </td>
+
+                        <!-- <td class="action-td">
+                            <span class="p-column-title">Cod Unidad Medida:</span> {{ rowData.codUnidadMedida }}
+                        </td> -->
+                        <!-- <td>
+                            <span class="p-column-title">Cod Almacen:</span> {{ rowData.codAlmacen }}
+                        </td> -->
+                        <!-- <td class="action-td-8" pEditableColumn>
+                            <span class="p-column-title">Cantidad necesaria:</span>
+                            <p-cellEditor>
+                                <ng-template pTemplate="input">
+                                    <input pInputText type="number" [(ngModel)]="rowData.cantidadNecesaria" />
+                                </ng-template>
+                                <ng-template pTemplate="output">
+                                    {{ rowData.cantidadNecesaria }}
+                                </ng-template>
+                            </p-cellEditor>
+                        </td> -->
+                        <td class="action-td">
+                            <span class="p-column-title">Cod Centro Costo:</span> {{ rowData.codCentroCosto }}
+                            <!-- <p-cellEditor>
+                                <ng-template pTemplate="input">
+                                    <button pButton type="button" label="Agregar Centro Costo" icon="pi pi-plus" (click)="activarModalCentroCosto(index)"></button>
+                                </ng-template>
+                                <ng-template pTemplate="output">
+                                    {{ rowData.codCentroCosto }}
+                                </ng-template>
+                            </p-cellEditor> -->
+                        </td>
+                        <td class="ui-fluid" pEditableColumn>
+                            <span class="p-column-title">Socio de Negocio:</span>
+                            <p-cellEditor>
+                                <ng-template pTemplate="input">
+                                    <button pButton type="button" label="Agregar Socio de Negocio" icon="pi pi-plus" (click)="activarModalSocioNegocio(index)"></button>
+                                </ng-template>
+                                <ng-template pTemplate="output">
+                                    {{ rowData.codSocioNegocio }}
+                                </ng-template>
+                            </p-cellEditor>
+                        </td>
+                        <td class="action-td-10" pEditableColumn>
+                            <span class="p-column-title">Fecha Necesaria:</span>
+                            <p-cellEditor>
+                                <ng-template pTemplate="input">
+                                    <p-calendar class="calendar" [locale]="lenguageService.es" [showIcon]="true" [(ngModel)]="rowData.fecNecesaria" appendTo="body"></p-calendar>
+                                </ng-template>
+                                <ng-template pTemplate="output">
+                                    {{ rowData.fecNecesaria | date: 'dd/MM/yy' }}
+                                </ng-template>
+                            </p-cellEditor>
+                        </td>
+                        <td class="ui-fluid" pEditableColumn>
+                            <span class="p-column-title">Comentario:</span>
+                            <p-cellEditor>
+                                <ng-template pTemplate="input">
+                                    <input pInputText type="text" [(ngModel)]="rowData.comentario" />
+                                </ng-template>
+                                <ng-template pTemplate="output">
+                                    {{ rowData.comentario }}
+                                </ng-template>
+                            </p-cellEditor>
+                        </td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+
+        <div class="anexo">
+            <h2>Anexo</h2>
+            <p-fileUpload name="myfile[]" chooseLabel="Añadir" uploadLabel="Subir" cancelLabel="Cancelar" multiple="true" fileLimit="3" customUpload="true" [auto]="true" (uploadHandler)="myUploader($event)" invalidFileLimitMessageSummary="Archivos excedidos">
+                <!-- <ng-template pTemplate="content">
+              <ul *ngIf="uploadedFiles.length">
+                <li *ngFor="let file of uploadedFiles">
+                  {{ file.name }} - {{ file.size }} bytes
+                </li>
+              </ul>
+            </ng-template> -->
+            </p-fileUpload>
+        </div>
+        <div class="barra-progreso">
+            <ng-container *ngIf="isEnvioArchivo && progress === 0">
+                <p-progressBar mode="indeterminate" [style]="{ height: '6px', margin: '10px 0 0 0' }"></p-progressBar>
+                <h3 style="text-align: center">Enviando solicitud...</h3>
+            </ng-container>
+            <p-progressBar *ngIf="progress > 0" [value]="progress" [style]="{ margin: '10px 0 15px 0' }">
+            </p-progressBar>
+        </div>
+        <p-footer>
+            <p-messages [(value)]="mensajePrimeNgService.msgs"></p-messages>
+            <div class="ui-grid ui-fluid">
+                <div class="ui-g-12 ui-md-6">
+                    <button pButton type="button" class="ui-button-success" label="Grabar" icon="pi pi-save" [disabled]="!formularioSuperior.valid || dataGrilla.length < 1" (click)="clickGuardarGrilla(tablaGrilla._value)"></button>
+                </div>
+                <div class="ui-g-12 ui-md-6">
+                    <button pButton type="button" class="ui-button-secondary" label="Cancelar" icon="pi pi-times" (click)="onClickRegresar()"></button>
+                </div>
+            </div>
+        </p-footer>
+    </p-panel>
+</div>
+
+<p-dialog header="Busqueda trabajador" [modal]="true" [(visible)]="modalBusqueda" [style]="{ width: '50vw' }" [baseZIndex]="10000">
+    <div class="formulario-modal">
+        <div class="item-formulario">
+            <label>Buscar:</label>
+            <input type="text" pInputText />
+            <button pButton type="button" label="Buscar"></button>
+        </div>
+    </div>
+
+    <p-footer>
+        <button type="button" pButton icon="pi pi-check" (click)="modalBusqueda = false" label="Agregar"></button>
+    </p-footer>
+</p-dialog>
+
+<p-dialog header="Busqueda Item" [modal]="true" [(visible)]="modalRegistroRequerimiento" [style]="{ width: '50vw' }" [baseZIndex]="10000" [transitionOptions]="'300ms'">
+    <div class="formulario-modal">
+        <div class="item-formulario">
+            <label>Buscar:</label>
+            <input type="text" pInputText />
+            <button pButton type="button" label="Buscar"></button>
+        </div>
+    </div>
+    <p-footer>
+        <button type="button" pButton icon="pi pi-check" (click)="modalRegistroRequerimiento = false" label="Agregar"></button>
+    </p-footer>
+</p-dialog>
+
+<app-modal-busqueda-usuario *ngIf="isActivateBusquedaUsuario" [isDisplayBusquedaUsuario]="isActivateBusquedaUsuario" (usuarioSeleccionado)="onUsuarioEncontrado($event)" (cancel)="clickActivateBuscarUsuario()"></app-modal-busqueda-usuario>
+
+<!-- <app-modal-busqueda-articulo *ngIf="isActivateBusquedaArticulo" [isInventariable]="true" [isDisplayBusquedaArticulo]="isActivateBusquedaArticulo" (articuloSeleccionado)="articuloBuscado($event)" (cancel)="clickActivateBuscarArticulo()">
+</app-modal-busqueda-articulo> -->
+
+<app-modal-busqueda-servicio *ngIf="isActivateBusquedaServicio" [isDisplayBusqueda]="isActivateBusquedaServicio" (itemSeleccionado)="servicioBuscado($event)" (cancel)="clickActivateBuscarServicio()">
+</app-modal-busqueda-servicio>
+
+<app-modal-busqueda-centro-costo [isDisplayBusquedaCentroCosto]="isActivateBusquedaCentroCosto" (CentroCostoSeleccionado)="centroCostoSeleccionado($event)" (cancel)="activarModalCentroCosto()">
+</app-modal-busqueda-centro-costo>
+
+<app-modal-busqueda-socio-negocio [isDisplayBusqueda]="isActivateBusquedaSocioNegocio" (eventoRegistroSeleccionado)="socioNegocioSeleccionado($event)" (cancel)="activarModalSocioNegocio()">
+</app-modal-busqueda-socio-negocio>

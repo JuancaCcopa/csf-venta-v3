@@ -1,0 +1,149 @@
+<div class="card card-w-title">
+    <h1><strong>{{titulo}}</strong></h1>
+
+    <!-- Filtros -->
+    <p-panel header="Opción de busqueda de {{titulo}}" [toggleable]="true" [style]="{'margin-bottom':'20px'}">
+        <form [formGroup]="formularioBusqueda">
+            <div class="ui-g ui-fluid">
+                <div class="ui-g-12 ui-md-2">
+                    <label class="label-custom" for="float-input-nombre">Descripción: </label>
+                    <input id="float-input-nombre" type="text" pInputText placeholder="Descripción" formControlName="nombre">
+                </div>
+                <div class="ui-g-12 ui-md-6"></div>
+                <div class="ui-g-12 ui-md-2">
+                    <button pButton type="button" label="{{globalConstants.cBuscar}}" icon="{{globalConstants.icoBuscar}}" class="sba-button btn btn-block" (click)="goListar()"></button>
+                </div>
+                <div class="ui-g-12 ui-md-2">
+                    <button pButton type="button" label="{{globalConstants.cNuevo}}" icon="{{globalConstants.icoNuevo}}" class="sba-button btn btn-block" (click)="goToCreate()"></button>
+                </div>
+            </div>
+        </form>
+
+    </p-panel>
+
+    <!-- Grilla de Datos     -->
+    <p-panel header="Lista de {{titulo}}">
+
+        <p-table [value]="listModelo" [columns]="columnas" [paginator]="true" [rows]="globalConstants.sizePage" dataKey="idconfiguracion" editMode="row" autoLayout="true" [responsive]="true">
+            <ng-template pTemplate="header" let-columns>
+                <tr>
+                    <th *ngFor="let col of columns">
+                        {{col.header}}
+                    </th>
+                    <th colspan="2">Acciones</th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-rowData let-editing="editing" let-ri="rowIndex">
+                <tr [pEditableRow]="rowData">
+                    <td class="custom-td-1">
+                        <span class="ui-column-title">Codigo</span> {{rowData.idconfiguracion}}
+                    </td>
+                    <td class="ui-fluid">
+                        <span class="ui-column-title">Descripción</span>
+                        <p-cellEditor>
+                            <ng-template pTemplate="input">
+                                <span class="p-float-label">
+                                    <input type="text" pInputText [(ngModel)]="rowData.nombre" pInputTextsize="50"> 
+                                </span>
+                            </ng-template>
+                            <ng-template pTemplate="output">
+                                {{rowData.nombre}}
+                            </ng-template>
+                        </p-cellEditor>
+                    </td>
+
+                    <td class="custom-td-checkbox">
+                        <span class="ui-column-title">Venta Automática</span>
+                        <p-cellEditor>
+                            <ng-template pTemplate="input">
+                                <span class="p-float-label">
+                                    <p-checkbox [(ngModel)]="rowData.flgautomatico" binary="true"></p-checkbox>
+                                </span>
+                            </ng-template>
+                            <ng-template pTemplate="output">
+                                <p-checkbox disabled [(ngModel)]="rowData.flgautomatico" binary="true"></p-checkbox>
+                            </ng-template>
+                        </p-cellEditor>
+                    </td>
+
+                    <td class="custom-td-checkbox">
+                        <span class="ui-column-title">Venta Receta</span>
+                        <p-cellEditor>
+                            <ng-template pTemplate="input">
+                                <span class="p-float-label">
+                                    <p-checkbox [(ngModel)]="rowData.flgreceta" binary="true"></p-checkbox>
+                                </span>
+                            </ng-template>
+                            <ng-template pTemplate="output">
+                                <p-checkbox disabled [(ngModel)]="rowData.flgreceta" binary="true"></p-checkbox>
+                            </ng-template>
+                        </p-cellEditor>
+                    </td>
+
+                    <td class="custom-td-checkbox">
+                        <span class="ui-column-title">Venta Pedido</span>
+                        <p-cellEditor>
+                            <ng-template pTemplate="input">
+                                <span class="p-float-label">
+                                    <p-checkbox [(ngModel)]="rowData.flgpedido" binary="true"></p-checkbox>
+                                </span>
+                            </ng-template>
+                            <ng-template pTemplate="output">
+                                <p-checkbox disabled [(ngModel)]="rowData.flgpedido" binary="true"></p-checkbox>
+                            </ng-template>
+                        </p-cellEditor>
+                    </td>
+
+                    <td class="custom-td-checkbox">
+                        <span class="ui-column-title">Venta Manual</span>
+                        <p-cellEditor>
+                            <ng-template pTemplate="input">
+                                <span class="p-float-label">
+                                    <p-checkbox [(ngModel)]="rowData.flgmanual" binary="true"></p-checkbox>
+                                </span>
+                            </ng-template>
+                            <ng-template pTemplate="output">
+                                <p-checkbox disabled [(ngModel)]="rowData.flgmanual" binary="true"></p-checkbox>
+                            </ng-template>
+                        </p-cellEditor>
+                    </td>
+                    <td class="custom-td-checkbox">
+                        <span class="ui-column-title">Impresión Automática</span>
+                        <p-cellEditor>
+                            <ng-template pTemplate="input">
+                                <span class="p-float-label">
+                                    <p-checkbox [(ngModel)]="rowData.flgimpresionautomatico" binary="true"></p-checkbox>
+                                </span>
+                            </ng-template>
+                            <ng-template pTemplate="output">
+                                <p-checkbox disabled [(ngModel)]="rowData.flgimpresionautomatico" binary="true"></p-checkbox>
+                            </ng-template>
+                        </p-cellEditor>
+                    </td>
+                    <td class="ui-fluid">
+                        <span class="ui-column-title">Almacen</span> {{rowData.desalmacen}}
+                    </td>
+                    <td class="custom-td-2">
+                        <button *ngIf="!editing" pButton type="button" pInitEditableRow icon="{{globalConstants.icoEditar}}" (click)="onRowEditInit(rowData)"></button>
+                        <button *ngIf="editing" pButton type="button" pSaveEditableRow icon="{{globalConstants.icoGrabar}}" class="ui-button-success" (click)="onRowEditSave(rowData)"></button>
+                        <button *ngIf="editing" pButton type="button" pCancelEditableRow icon="{{globalConstants.icoCancelar}}" class="ui-button-danger" style="margin-left: .5em" (click)="onRowEditCancel(rowData, ri)"></button>
+                    </td>
+                    <td class="custom-td-1">
+                        <button pButton icon="{{globalConstants.icoEliminar}}" class="ui-button-danger" (click)="goToRowSelectDelete(rowData)"></button>
+                    </td>
+                </tr>
+            </ng-template>
+        </p-table>
+        <p-footer>
+            <div class="ui-grid ui-fluid">
+                <div class="ui-g-12 ui-md-2">
+                    <button pButton type="button" label="{{globalConstants.cNuevo}}" icon="{{globalConstants.icoNuevo}}" (click)="goToCreate()"></button>
+                </div>
+            </div>
+        </p-footer>
+    </p-panel>
+</div>
+
+<p-messages [(value)]="mensajePrimeNgService.msgs"></p-messages>
+
+<p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000"></p-confirmDialog>

@@ -1,0 +1,21 @@
+{
+    "data": [{
+            "tipoPago": "Efectivo",
+            "entidad": "",
+            "nroOperacion": "",
+            "soles": 13.77,
+            "dolar": 0.00,
+            "total": 13.77,
+            "terminal": ""
+        },
+        {
+            "tipoPago": "Visa",
+            "entidad": "MASTERCARD",
+            "nroOperacion": "12313222",
+            "soles": 19.77,
+            "dolar": 0.00,
+            "total": 19.77,
+            "terminal": ""
+        }
+    ]
+}

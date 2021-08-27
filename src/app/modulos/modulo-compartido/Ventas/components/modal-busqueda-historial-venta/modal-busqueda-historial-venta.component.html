@@ -1,0 +1,72 @@
+<p-panel header="Opción de busqueda de Pedido" [toggleable]="true" [style]="{'margin-bottom':'20px'}">
+    <div class="ui-g ui-fluid">
+
+        <div class="ui-g-12 ui-md-3">
+            <form [formGroup]="formularioBusqueda">
+                <label class="label-custom">Cuantos Meses Atrás: </label>
+                <input type="text" pInputText placeholder="Ingresar Meses" formControlName="cuantosmesesantes">
+            </form>
+        </div>
+
+        <div class="ui-g-12 ui-md-7">
+
+        </div>
+
+        <div class="ui-g-12 ui-md-2">
+            <button pButton type="button" label="{{globalConstants.cBuscar}}" icon="{{globalConstants.icoBuscar}}" class="sba-button btn btn-block" (click)="goListarHistorialVentaPaciente()"></button>
+        </div>
+
+        <div class="ui-g-12" *ngIf="!isDetalleVentas">
+            <p-table [value]="listModelo" [columns]="columnas" [loading]="loading" [paginator]="true" [rows]="globalConstants.sizePage" autoLayout="true" [responsive]="true">
+                <ng-template pTemplate="header" let-columns>
+                    <tr>
+                        <th *ngFor="let col of columns">
+                            {{col.header}}
+                        </th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-rowData let-columns="columns">
+                    <tr>
+                        <td *ngFor="let col of columns" [ngSwitch]="col.field">
+                            <span class="p-column-title">{{col.header}}</span>
+                            <span *ngSwitchCase="'fechaemision'">{{ rowData[col.field]  | date: 'dd/MM/yyyy HH:mm'}}</span>
+                            <span *ngSwitchDefault>{{ rowData[col.field] }}</span>
+                        </td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+
+        <div class="ui-g-12" *ngIf="isDetalleVentas">
+            <p-table [value]="listModeloProducto" [columns]="columnas" [loading]="loading" [paginator]="true" [rows]="globalConstants.sizePage" autoLayout="true" [responsive]="true">
+                <ng-template pTemplate="header" let-columns>
+                    <tr>
+                        <th *ngFor="let col of columns">
+                            {{col.header}}
+                        </th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-rowData let-columns="columns">
+                    <tr>
+                        <td *ngFor="let col of columns" [ngSwitch]="col.field">
+                            <span class="p-column-title">{{col.header}}</span>
+                            <span *ngSwitchDefault>{{ rowData[col.field] }}</span>
+                        </td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+    </div>
+</p-panel>
+
+<div class="ui-g-12 ui-md-2">
+    <button pButton type="button" label="{{isEtiquetaBoton}}" icon="{{globalConstants.icoListar}}" (click)="goCambiarVistar()"></button>
+</div>
+
+<div class="ui-g-12 ui-md-8">
+
+</div>
+
+<div class="ui-g-12 ui-md-2">
+    <button pButton type="button" label="{{globalConstants.cCancelar}}" icon="{{globalConstants.icoCancelar}}" (click)="clickCancelar()"></button>
+</div>

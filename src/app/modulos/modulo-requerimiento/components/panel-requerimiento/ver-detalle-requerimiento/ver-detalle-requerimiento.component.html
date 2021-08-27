@@ -1,0 +1,91 @@
+<p-panel *ngIf="detalleDelItemSeleccionado" header="Datos Principal" [toggleable]="true" [style]="{'margin-bottom':'20px'}">
+    <div class="ui-g ui-fluid">
+        <!-- <div class="ui-g-12 ui-md-3">
+            <span><strong>Id Solicitante:</strong></span>{{ detalleDelItemSeleccionado.idUsuario }}
+        </div> -->
+        <div class="ui-g-12 ui-md-3">
+            <span><strong>Solicitante:</strong></span>{{ detalleDelItemSeleccionado.usuario }}
+        </div>
+        <div class="ui-g-12 ui-md-3">
+            <span><strong>COD C.C:</strong></span>{{ detalleDelItemSeleccionado.codCentroCosto }}
+        </div>
+        <div class="ui-g-12 ui-md-3">
+            <span><strong>C.C:</strong></span> {{ detalleDelItemSeleccionado.desCentroCosto }}
+        </div>
+        <div class="ui-g-12 ui-md-3">
+            <span><strong>Fecha Requerimiento:</strong></span> {{ detalleDelItemSeleccionado.fecRequerimiento | date: 'dd/MM/yy' }}
+        </div>
+        <div class="ui-g-12 ui-md-3">
+            <span><strong>Fecha Necesaria:</strong></span> {{ detalleDelItemSeleccionado.fecNecesaria | date: 'dd/MM/yy' }}
+        </div>
+        <div class="ui-g-12 ui-md-3">
+            <span><strong>Fecha Validez:</strong></span> {{ detalleDelItemSeleccionado.fecValidez | date: 'dd/MM/yy' }}
+        </div>
+        <div class="ui-g-12 ui-md-3">
+            <span><strong>Nro SAP:</strong></span>{{ detalleDelItemSeleccionado.conformidadSAP }}
+        </div>
+    </div>
+</p-panel>
+<p-panel *ngIf="detalleDelItemSeleccionado" header="Lista de Servicios" [toggleable]="true" [style]="{'margin-bottom':'20px'}">
+    <p-table [value]="detalleDelItemSeleccionado.lineasRequerimientoItem" [responsive]="true" [resizableColumns]="true" styleClass="p-datatable-responsive-demo" [columns]="cols" [autoLayout]="true">
+
+        <ng-template pTemplate="header" let-columns>
+            <tr>
+                <th *ngFor="let col of columns">{{ col.header }}</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-rowData let-columns="columns">
+            <tr>
+                <td *ngFor="let col of columns" [ngSwitch]="col.field">
+                    <span *ngSwitchCase="'fecNecesaria'" class="p-column-title"> {{ rowData[col.field] | date: 'dd/MM/yy' }}</span>
+                    <span *ngSwitchCase="'fecNecesaria'">{{ rowData[col.field] | date: 'dd/MM/yy' }}</span>
+                    <span *ngSwitchDefault class="p-column-title">{{rowData[col.field]}}</span>
+                    <span *ngSwitchDefault>{{ rowData[col.field] }}</span>
+                </td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="emptymessage" let-columns>
+            <tr>
+                <td [attr.colspan]="columns.length">
+                    Sin información.
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+</p-panel>
+<div class="box-descarga" *ngIf="rowLineaAnexo.length > 0">
+    <h3 style="margin-bottom: 5px;">Anexo</h3>
+    <div class="item" *ngFor="let item of rowLineaAnexo; let i = index">
+        <a (click)="onAnexoEjecutar(item.idRequerimientoAnexo, item.nombreArchivo)">{{ item.nombreArchivo }}</a>
+    </div>
+</div>
+<p-panel *ngIf="detalleDelItemSeleccionado" header="Lista de Aprobadores" [toggleable]="true" [style]="{'margin-bottom':'20px'}">
+    <p-table [columns]="cabeceraTablaListAprobacionViible" [value]="dataListaAprobacion" [responsive]="true" [resizableColumns]="true" styleClass="p-datatable-responsive-demo">
+        <ng-template pTemplate="header" let-columns>
+            <tr>
+                <th *ngFor="let col of columns">
+                    {{ col.header }}
+                </th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-item let-columns="columns">
+            <tr>
+                <td *ngFor="let col of columns" [ngSwitch]="col.field">
+                    <span class="label" *ngSwitchCase="'desRequerimientoEstado'" [ngClass]="claseDesEstado(item[col.field])">{{ item[col.field] }}</span>
+                    <span *ngSwitchDefault>{{ item[col.field] }}</span>
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+</p-panel>
+
+<p-dialog header="Descarga" [(visible)]="displayDescarga" [closable]="false" [modal]="true" [style]="{width: '50vw'}" [baseZIndex]="10000" [draggable]="false" [resizable]="false">
+
+    Realizando la descarga del archivo del registro seleccionado...!!!
+    <div class="ui-g ui-fluid">
+        <div class="ui-g-12">
+            <p-progressBar mode="indeterminate" [style]="{'height': '6px'}"></p-progressBar>
+        </div>
+    </div>
+
+</p-dialog>

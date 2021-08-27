@@ -1,0 +1,14 @@
+{
+    "data": [
+        { "name": "FARMACIA CSF-001", "code": "00000002" },
+        { "name": "FARMACIA CSF-002", "code": "00000001" },
+        { "name": "FARMACIA HOSPITALARIA-001", "code": "00000003" },
+        { "name": "FARMACIA AMBULATORIA-001", "code": "00000004" },
+        { "name": "FARMACIA EMERGENCIA", "code": "00000005" },
+        { "name": "FARMACIA UCI", "code": "00000006" },
+        { "name": "FARMACIA SALA OPERACION-001", "code": "00000007" },
+        { "name": "FARMACIA AMBULATORIA-002", "code": "00000008" },
+        { "name": "FARMACIA HOSPITALARIA-002", "code": "00000009" },
+        { "name": "FARMACIA SALA OPERACION-002", "code": "00000010" }
+    ]
+}

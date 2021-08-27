@@ -1,0 +1,172 @@
+.content-requerimiento {
+    display: grid;
+    row-gap: 20px;
+    width: 95vw;
+    justify-content: center;
+    margin: 0px 20px 20px 20px;
+    box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.2);
+    .titulo-page {
+        width: 100%;
+        max-width: 1000px;
+        margin: 0 auto;
+    }
+    .formulario-busqueda {
+        display: grid;
+        justify-content: center;
+        grid-template-columns: 1fr;
+        gap: 20px;
+        border: 1px solid #eeeeee;
+        padding: 20px;
+        margin: 0px 20px 20px 20px;
+        box-shadow: 0px 0px 3px 0px rgba(50, 50, 50, 0.082);
+        @media screen and (min-width: 600px) {
+            grid-template-columns: repeat(auto-fit, 500px);
+            padding-left: 20px;
+        }
+        .left,
+        .right {
+            display: grid;
+            row-gap: 15px;
+            justify-content: center;
+            .item-formulario {
+                display: grid;
+                align-items: center;
+                gap: 20px;
+            }
+        }
+        .left {
+            .item-formulario {
+                // grid-template-columns: minmax(max-content, 80px) repeat(auto-fit, 170px);
+                grid-template-columns: 1fr;
+                @media screen and (min-width: 600px) {
+                    grid-template-columns: minmax(100px, 80px) repeat( 3, max-content);
+                }
+            }
+        }
+        .right {
+            .item-formulario {
+                grid-template-columns: 1fr;
+                @media screen and (min-width: 600px) {
+                    grid-template-columns: minmax(max-content, 100px) repeat( 3, max-content);
+                }
+            }
+        }
+    }
+    .botones {
+        display: grid;
+        grid-template-columns: max-content max-content;
+        column-gap: 20px;
+        // justify-content: end;
+    }
+}
+
+.formulario-modal {
+    .item-formulario {
+        display: flex;
+        flex-wrap: wrap;
+        width: max-content;
+        margin: 0 auto;
+        align-items: center;
+        label,
+        input,
+        button {
+            margin: 0 10px;
+        }
+    }
+}
+
+.archivos-disponibles {
+    margin-top: 10px;
+}
+
+.lista-anexo {
+    display: grid;
+    gap: 5px;
+    li {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, 250px);
+        gap: 20px 49px;
+        padding: 8px 10px;
+        &:nth-child(even) {
+            background-color: rgba(lightblue, 0.3);
+        }
+        .quitar {
+            // background: red;
+            // max-width: 32px;
+            // padding: 3px 12px;
+            // color: white;
+            // border-radius: 4px;
+            cursor: pointer;
+            vertical-align: middle;
+            max-width: 32px;
+            color: #ffffff;
+            background-color: #6ebc3b;
+            border: 1px solid transparent;
+            border-radius: 2px;
+            text-align: center;
+            position: relative;
+            text-decoration: none !important;
+            margin-right: 0.1em;
+            font-size: 14px;
+            // -moz-transition: background-color 0.3s, box-shadow 0.3s;
+            // -o-transition: background-color 0.3s, box-shadow 0.3s;
+            // -webkit-transition: background-color 0.3s, box-shadow 0.3s;
+            // transition: background-color 0.3s, box-shadow 0.3s;
+        }
+    }
+}
+
+.estado {
+    position: absolute;
+    right: 100px;
+    top: 20px;
+    display: block;
+    text-align: center;
+    color: white;
+    font-weight: bold;
+    padding: 5px 12px;
+    border-radius: 8px;
+}
+
+.aprobado {
+    background: green;
+}
+
+.anulado {
+    background: red;
+}
+
+.desaprobado {
+    color: black;
+    background: rgb(206, 206, 206);
+}
+
+.pendiente {
+    color: black;
+    background-color: #fdf73a;
+}
+
+.procesadoSap {
+    // color: black;
+    background-color: #ef862a;
+}
+
+.listoAprobar {
+    color: black;
+    background-color: #fdcf3ab8;
+}
+
+.action-td {
+    text-align: center;
+    width: 4em;
+}
+
+.action-td-8 {
+    text-align: center;
+    width: 8em;
+}
+
+.action-td-10 {
+    text-align: center;
+    width: 10em;
+}

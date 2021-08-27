@@ -1,0 +1,61 @@
+<p-panel *ngIf="Consolidado" header="Datos Principal" [toggleable]="true" [style]="{'margin-bottom':'20px'}">
+    <div class="ui-g ui-fluid">
+        <div class="ui-g-12 ui-md-3">
+            <span><strong>Id Consolidado: </strong></span>{{ this.Consolidado.idConsolidado }}
+        </div>
+        <div class="ui-g-12 ui-md-3">
+            <span><strong>Fecha: </strong></span>{{ Consolidado.fecConsolidado | date: 'dd/MM/yyyy hh:mm' }}
+        </div>
+        <div class="ui-g-12 ui-md-3">
+            <span><strong>Almacen: </strong></span>{{ Consolidado.desAlmacen }}
+        </div>
+        <div class="ui-g-12 ui-md-3">
+            <span><strong>Usuario Creado: </strong></span> {{ Consolidado.nombreCompleto }}
+        </div>
+    </div>
+    <div class="ui-g ui-fluid">
+        <div class="ui-g-12 ui-md-2">
+            <span><strong>Observación:</strong></span> {{ Consolidado.observacion }}
+        </div>
+    </div>
+    <!-- <div class="ui-g ui-fluid">
+        <div class="ui-g-12 ui-md-8">
+            <div style="word-break: break-all;">{{ Consolidado.observacion }}</div>
+        </div>
+    </div> -->
+</p-panel>
+
+<!-- //<p-panel *ngIf="ValeSalida" header="Lista de Vale de Salida Item" [toggleable]="true" [style]="{'margin-bottom':'20px'}"></p-panel> -->
+<p-panel header="Lista de Vale de Salida Item" [toggleable]="true" [style]="{'margin-bottom':'20px'}" *ngIf="Consolidado">
+
+    <p-table [value]="Consolidado.consolidadoItem" [responsive]="true" [resizableColumns]="true" styleClass="p-datatable-responsive-demo" [columns]="cols" [autoLayout]="true">
+        <ng-template pTemplate="header" let-columns>
+            <tr>
+                <th *ngFor="let col of columns">{{ col.header }}</th>
+            </tr>
+        </ng-template>
+        <!-- body -->
+        <ng-template pTemplate="body" let-modelo let-ri="rowIndex">
+            <tr>
+                <td class="action-td">
+                    <span class="ui-column-title"></span> {{modelo.codArticulo}}
+                </td>
+                <td>
+                    <span class="ui-column-title"></span> {{modelo.desArticulo}}
+                </td>
+                <td>
+                    <span class="ui-column-title"></span> {{modelo.codSocioNegocioCompra}}
+                </td>
+                <td>
+                    <span class="ui-column-title"></span> {{modelo.cantidad}}
+                </td>
+                <td>
+                    <span class="ui-column-title"></span> {{modelo.cantidadCompra}}
+                </td>
+                <td>
+                    <span class="ui-column-title"></span> {{modelo.docEntry}}
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+</p-panel>

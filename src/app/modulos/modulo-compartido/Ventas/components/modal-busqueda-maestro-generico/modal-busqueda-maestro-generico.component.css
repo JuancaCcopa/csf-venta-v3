@@ -1,0 +1,9 @@
+@media screen and (max-width: 40em) {
+     :host ::ng-deep .ui-dialog {
+        width: 75vw !important;
+    }
+}
+
+.ui-inputtext {
+    text-transform: uppercase !important;
+}

@@ -1,0 +1,31 @@
+<p-dialog [(visible)]="isModalAprobar" [modal]="true" [header]="titulo" *ngIf="isModalAprobar" [transitionOptions]="timeAnimationModal">
+    <div class="content-formulario" style="display: grid; padding: 10px;">
+        <div class="row-form" style="margin-bottom: 10px;">
+            Nro Requerimineto: {{ this.idSolicitudVale }}
+        </div>
+        Observación:
+        <textarea [rows]="2" [cols]="20" style="margin-top: 10px;" pInputTextarea [(ngModel)]="desAprobacion" autoResize="autoResize"></textarea>
+        <div class="combo-aprobador" style="margin-top: 10px;">
+            <p-dropdown [filter]="true" optionLabel="desAprobador" placeholder="Seleccionar aprobador" (onChange)="cambioComboAprobadorFinal($event.value)" [options]="dataListaAprobadorFinal" [(ngModel)]="aprobadorSeleccionado" appendTo="body"></p-dropdown>
+        </div>
+    </div>
+    <p-footer>
+        <button type="button" pButton icon="pi pi-check" label="Guardar" (click)="clickGuardarAprobacion()"></button>
+    </p-footer>
+</p-dialog>
+
+<p-dialog [(visible)]="isModalDesaprobar" [modal]="true" [header]="titulo" *ngIf="isModalDesaprobar" [transitionOptions]="timeAnimationModal">
+    <div class="content-formulario" style="display: grid; padding: 10px;">
+        <div class="row-form" style="margin-bottom: 10px;">
+            Nro Requerimineto: {{ this.idSolicitudVale }}
+        </div>
+        Observación:
+        <textarea [rows]="2" [cols]="20" style="margin-top: 10px;" pInputTextarea [(ngModel)]="desAprobacion" autoResize="autoResize"></textarea>
+        <div class="combo-aprobador" style="margin-top: 10px;">
+            <p-dropdown [filter]="true" optionLabel="desAprobador" placeholder="Seleccionar aprobador" (onChange)="cambioComboAprobadorFinal($event.value)" [options]="dataListaAprobadorFinal" [(ngModel)]="aprobadorSeleccionado" appendTo="body"></p-dropdown>
+        </div>
+    </div>
+    <p-footer>
+        <button type="button" pButton icon="pi pi-check" label="Guardar" (click)="clickGuardarAprobacion()"></button>
+    </p-footer>
+</p-dialog>

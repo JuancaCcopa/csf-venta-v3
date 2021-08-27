@@ -1,0 +1,170 @@
+<form [formGroup]="formularioCabecera">
+    <p-card>
+        <div class="ui-g ui-fluid">
+            <div class="ui-g-12 ui-md-2">
+                <app-label-estado [isEstado]="modeloItem.nombreestado"></app-label-estado>
+            </div>
+            <div class="ui-g-12 ui-md-4" *ngIf="!isVisibleAnular">
+            </div>
+            <div class="ui-g-12 ui-md-2" *ngIf="isVisibleAnular">
+            </div>
+            <div class="ui-g-12 ui-md-2" *ngIf="isVisibleAnular">
+                <button pButton type="button" label="Anular" icon="{{globalConstants.icoCancelar}}" (click)="getAnular()" class="btn btn-block"></button>
+            </div>
+            <div class="ui-g-12 ui-md-2">
+                <button pButton type="button" label="Imprimir Comprobante" icon="{{globalConstants.icoImprimir}}" class="btn btn-block"></button>
+            </div>
+            <div class="ui-g-12 ui-md-2">
+                <button pButton type="button" label="PDF Electrónico" icon="{{globalConstants.icoPDF}}" class="btn btn-block"></button>
+            </div>
+            <div class="ui-g-12 ui-md-2">
+                <button pButton type="button" label="{{globalConstants.cCerrar}}" icon="{{globalConstants.icoSalir}}" class="ui-button-danger btn btn-block" (click)="goCerrar()"></button>
+            </div>
+        </div>
+
+        <div class="ui-g ui-fluid">
+            <div class="ui-g-12 ui-md-1">
+                <label class="label-custom" for="float-input-nro-venta">Nro. Venta: </label>
+                <input id="float-input-nro-venta" type="text" pInputText placeholder="Nro. Venta" formControlName="codventa">
+            </div>
+            <div class="ui-g-12 ui-md-1">
+                <label class="label-custom" for="float-input-tipo-movimiento">Tipo Movimiento: </label>
+                <input id="float-input-tipo-movimiento" type="text" pInputText placeholder="Tipo Movimiento" formControlName="tipomovimiento">
+            </div>
+            <div class="ui-g-12 ui-md-2">
+                <label class="label-custom" for="float-input-comprobante">Comprobante: </label>
+                <input id="float-input-comprobante" type="text" pInputText formControlName="codcomprobante">
+            </div>
+            <div class="ui-g-12 ui-md-2">
+                <label class="label-custom" for="float-input-presotor">Presotor: </label>
+                <input id="float-input-presotor" type="text" pInputText formControlName="codpresotor">
+            </div>
+            <div class="ui-g-12 ui-md-3">
+                <label class="label-custom" for="float-input-almacen">Almacen: </label>
+                <input id="float-input-almacen" type="text" pInputText placeholder="Almacen" formControlName="nombrealmacen">
+            </div>
+            <div class="ui-g-12 ui-md-2">
+                <label class="label-custom" for="float-input-fecha">Fecha Venta: </label>
+                <p-calendar id="float-input-fecha" formControlName="fecha" placeholder="Seleccionar Fecha" [showButtonBar]="true" [locale]="lenguageService.es" dateFormat="dd/mm/yy" showTime="true" hourFormat="24" [showIcon]="true" formControlName="fechagenera"></p-calendar>
+            </div>
+            <div class="ui-g-12 ui-md-1 sba-checkbox-devolucion">
+                <p-checkbox label="Devolución" formControlName="tienedevolucion" binary="true"></p-checkbox>
+            </div>
+        </div>
+
+        <div class="ui-g ui-fluid">
+            <div class="ui-g-12">
+                <app-venta-datos [modeloItem]="modeloItem" [isDevolucion]="false"></app-venta-datos>
+            </div>
+
+            <div class="ui-g-12 ui-md-1">
+                <div class="sba-label-observacion">
+                    <label class="label-custom"><strong>Observación :</strong></label>
+                </div>
+
+            </div>
+            <div class="ui-g-12 ui-md-11">
+                <input id="float-input-producto" type="text" pInputText placeholder="Observación" formControlName="observacion">
+            </div>
+
+            <div class="ui-g-12">
+                <p-table [value]="modeloItem.listaVentaDetalle" [columns]="columnas" [paginator]="true" [rows]="globalConstants.sizePage" dataKey="idRegistroEquipo" editMode="row" autoLayout="true" [responsive]="true">
+                    <ng-template pTemplate="header" let-columns>
+                        <tr>
+                            <th *ngFor="let col of columns">
+                                {{col.header}}
+                            </th>
+
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-rowData let-columns="columns" let-index="rowIndex">
+                        <tr>
+                            <td *ngFor="let col of columns" [ngClass]="col.field === 'codproducto' 
+                                                                        ? 'custom-td-producto': col.field === 'lote' 
+                                                                        ? 'custom-td-lote':col.field !== 'nombreproducto' 
+                                                                        ? 'custom-td-number-1':null" [ngSwitch]="col.field">
+                                <span class="p-column-title">{{col.header}}</span>
+
+                                <span *ngSwitchCase="'codproducto'"><i class="fa fa-arrow-right" (click)="goChangeVisibleProducto(rowData, index)"></i>{{ rowData[col.field] }}</span>
+                                <span *ngSwitchCase="'lote'"><i *ngIf="rowData.manBtchNum || rowData.binactivat" class="fa fa-list" (click)="goChangeVisibleLote(rowData, index)"></i></span>
+
+                                <span *ngSwitchDefault>{{ rowData[col.field] }}</span>
+                            </td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+            </div>
+
+            <div class="ui-g-12 ui-md-1">
+                <label class="label-custom" for="float-input-m-dscto-plan">M. Dscto Plan: </label>
+                <input id="float-input-m-dscto-plan" type="number" pInputText placeholder="Dscto. Plan" formControlName="montodctoplan">
+            </div>
+            <div class="ui-g-12 ui-md-7">
+
+            </div>
+            <div class="ui-g-12 ui-md-1">
+                <div class="sba-label-total">
+                    <label> <strong>Sub Total:</strong></label>
+                </div>
+                <div class="sba-label-total">
+                    <label class="label-custom"><strong>IGV.:</strong></label>
+                </div>
+                <div class="sba-label-total">
+                    <label class="label-custom"><strong>Total:</strong> </label>
+                </div>
+            </div>
+            <div class="ui-g-12 ui-md-1">
+                <input type="number" pInputText formControlName="montototal" placeholder="Sub Total">
+                <input type="number" pInputText formControlName="montoigv" placeholder="IGV">
+                <input type="number" pInputText formControlName="montoneto" placeholder="Total">
+            </div>
+            <div class="ui-g-12 ui-md-1">
+                <input type="number" pInputText formControlName="montopaciente" placeholder="Monto Paciente">
+                <div class="sba-checkbox-soles">
+                    <p-checkbox label="Soles" formControlName="moneda" binary="true"></p-checkbox>
+                </div>
+                <div class="sba-checkbox-gratuito">
+                    <p-checkbox label="Gratuito" formControlName="flggratuito" binary="true"></p-checkbox>
+                </div>
+            </div>
+            <div class="ui-g-12 ui-md-1">
+                <input type="number" pInputText formControlName="montoaseguradora" placeholder="Monto Asegurado">
+            </div>
+        </div>
+    </p-card>
+</form>
+
+<p-dialog *ngIf="isAutenticar" header="Ingresar Credenciales" [(visible)]="isAutenticar" [modal]="true" [closable]="false" [autoZIndex] [draggable]="false" [resizable]="false">
+    <app-modal-autenticacion [isAnular]="true" (eventoAceptar)="goAceptarAnular($event)" (eventoCancelar)="goCancelarAnular()"></app-modal-autenticacion>
+</p-dialog>
+
+<p-dialog *ngIf="isVisualizarProducto" header="{{isSeleccionItemVentaDetalle.codproducto}} - {{isSeleccionItemVentaDetalle.nombreproducto}}" [(visible)]="isVisualizarProducto" [modal]="true" [autoZIndex] [closable]="false">
+    <app-modal-consulta-producto [isCodigoProducto]="isSeleccionItemVentaDetalle.codproducto" [isVisualizarProducto]="isVisualizarProducto" (eventoSalir)="goSalirProducto()"></app-modal-consulta-producto>
+</p-dialog>
+
+<p-dialog *ngIf="isVisualizarLote" header="{{isSeleccionItemVentaDetalle.codproducto}} - {{isSeleccionItemVentaDetalle.nombreproducto}}" [(visible)]="isVisualizarLote" [modal]="true" [autoZIndex] [closable]="false">
+    <app-modal-consulta-lote [isActivoVenta]="false" [isActivoDevolucion]="false" [isActivoVerVenta]="true" [isActivoProducto]="false" [isListVentaDetalleLote]="isSeleccionItemVentaDetalle.listVentasDetalleLotes" (eventoSalir)="goSalirLote()"></app-modal-consulta-lote>
+</p-dialog>
+
+<p-dialog header="Validaciones" [(visible)]="isDisplayValidacion" [closable]="false" [modal]="true" [style]="{width: '50vw'}" [autoZIndex] [draggable]="false" [resizable]="false">
+
+    Validando Información...!!!
+    <div class="ui-g ui-fluid">
+        <div class="ui-g-12">
+            <p-progressBar mode="indeterminate" [style]="{'height': '6px'}"></p-progressBar>
+        </div>
+    </div>
+
+</p-dialog>
+
+
+<p-dialog header="Anular Venta" [(visible)]="isDisplayAnularVenta" [closable]="false" [modal]="true" [style]="{width: '50vw'}" [baseZIndex]="10000" [draggable]="false" [resizable]="false">
+
+    Anulando Venta...!!!
+    <div class="ui-g ui-fluid">
+        <div class="ui-g-12">
+            <p-progressBar mode="indeterminate" [style]="{'height': '6px'}"></p-progressBar>
+        </div>
+    </div>
+
+</p-dialog>

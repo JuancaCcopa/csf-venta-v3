@@ -1,0 +1,68 @@
+<p-dialog header="Buscar Articulos por Stock [{{almacenSelect.label}}]" [(visible)]="isDisplayBusquedaArticulo" [modal]="true" [transitionOptions]="timeAnimationModal">
+     <!-- Filtros -->
+     <p-panel>
+        <form [formGroup]="formularioBusquedaAr">
+            <div class="ui-g ui-fluid">
+                <div class="ui-g-12 ui-md-4">
+                    <label class="label-custom" for="float-input-fecha-ini">Tipo Articulo:</label>
+                    <p-dropdown placeholder="Seleccionar" formControlName="cbtipoArticulo" [options]="rowTipoArticulo" filter="true" optionLabel="label" [ngModel]="seleccionTipoArticulo"  required></p-dropdown>
+                </div>
+                <div class="ui-g-12 ui-md-4">
+                    <label class="label-custom" for="nomarticulo">Articulo</label>
+                    <input type="text" formControlName="nomArticulo" pInputText />
+                </div>
+                <div class="ui-g-12 ui-md-4">
+                    <button style="top: 1.2em;" pButton type="button" label="{{globalConstants.cBuscar}}" icon="{{globalConstants.icoBuscar}}" (click)="onToBuscar()" class="btn btn-block"></button>
+                </div>
+            </div>
+            
+        </form>
+    </p-panel>
+    <br>
+    <p-panel header="Listado de Articulos">
+    <p-table [value]="rowListaArticulo" [columns]="cols" [paginator]="true" [rows]="10" [autoLayout]="true" [loading]="loadingArticulo"  [(selection)]="seleccionArticulo" selectionMode="multiple" [responsive]="true" [resizableColumns]="true"
+        styleClass="p-datatable-responsive-demo">
+        <ng-template pTemplate="header" let-columns>
+            <tr>
+                <th>Opciones</th>
+                <th style="width: 2.25em">
+                    <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                </th>
+                <th *ngFor="let col of columns">
+                    {{ col.header }}
+                </th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="emptymessage" let-columns>
+            <tr>
+             <td [attr.colspan]="5" class="text-center">No se encontrarón registros</td>
+            </tr>
+          </ng-template>
+        <ng-template pTemplate="body" let-rowData let-columns="columns">
+            <tr [pSelectableRow]="rowData">
+                <td class="action-td">
+                    <p-splitButton icon="pi pi-cog" [model]="opciones"  appendTo="body">
+                    </p-splitButton>
+                </td>
+                <td>
+                    <p-tableCheckbox [value]="rowData">
+                    </p-tableCheckbox>        
+                </td>
+                <td *ngFor="let col of columns">
+                    <span class="p-column-title">{{col.header}}</span> {{ rowData[col.field] }}
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+    <p-footer>
+        <div class="ui-grid ui-fluid">
+            <div class="ui-g-12 ui-md-6">
+                <button pButton type="button" [disabled]="!seleccionArticulo" label="{{globalConstants.cAceptar}}" icon="{{globalConstants.icoAceptar}}" (click)="clickAceptar()"></button>
+            </div>
+            <div class="ui-g-12 ui-md-6">
+                <button pButton type="button" label="{{globalConstants.cCancelar}}" icon="{{globalConstants.icoCancelar}}" (click)="clickCancelar()"></button>
+            </div>
+        </div>
+    </p-footer>
+    </p-panel>
+</p-dialog>

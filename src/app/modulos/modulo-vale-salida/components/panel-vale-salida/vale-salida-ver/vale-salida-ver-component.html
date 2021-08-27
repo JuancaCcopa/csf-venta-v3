@@ -1,0 +1,97 @@
+<p-panel *ngIf="ValeSalida" header="Datos Principal" [toggleable]="true" [style]="{'margin-bottom':'20px'}">
+    <div class="ui-g ui-fluid">
+        <div class="ui-g-12 ui-md-3">
+            <span><strong>Id Vale Salida:</strong></span>{{ this.ValeSalida.idValeSalida }}
+        </div>
+        <div class="ui-g-12 ui-md-3">
+            <span><strong>Usuario:</strong></span>{{ ValeSalida.nombresApellidos }}
+        </div>
+        <div class="ui-g-12 ui-md-3">
+            <span><strong>COD C.C:</strong></span>{{ ValeSalida.codCentroCosto }}
+        </div>
+        <div class="ui-g-12 ui-md-3">
+            <span><strong>C.C:</strong></span> {{ ValeSalida.desCentroCosto }}
+        </div>
+        <div class="ui-g-12 ui-md-3">
+            <span><strong>Fecha Vale Salida:</strong></span> {{ ValeSalida.fecValeSalida }}
+        </div>
+        <div class="ui-g-12 ui-md-3">
+            <span><strong>Fecha Vencimiento:</strong></span> {{ ValeSalida.fecVenValeSalida }}
+        </div>
+        <div class="ui-g-12 ui-md-3">
+            <span><strong>COD A::</strong></span> {{ ValeSalida.codAlmacen}}
+        </div>
+        <div class="ui-g-12 ui-md-3">
+            <span><strong>Almancen:</strong></span>{{ ValeSalida.desAlmacen }}
+        </div>
+    </div>
+</p-panel>
+
+
+<p-panel *ngIf="ValeSalida" header="Lista de Vale de Salida Item" [toggleable]="true" [style]="{'margin-bottom':'20px'}">
+
+    <p-table [value]="ValeSalida.valeSalidaItem" [responsive]="true" [resizableColumns]="true" styleClass="p-datatable-responsive-demo" [columns]="cols" [autoLayout]="true">
+        <ng-template pTemplate="header" let-columns>
+            <tr>
+                <th *ngFor="let col of columns">{{ col.header }}</th>
+            </tr>
+        </ng-template>
+        <!-- body -->
+        <ng-template pTemplate="body" let-modelo let-ri="rowIndex">
+            <tr>
+                <td class="action-td">
+                    <span class="ui-column-title"></span> {{modelo.idValeSalidaItem}}
+                </td>
+                <td>
+                    <span class="ui-column-title"></span> {{modelo.idValeSalida}}
+                </td>
+                <td>
+                    <span class="ui-column-title"></span> {{modelo.codArticulo}}
+                </td>
+                <td>
+                    <span class="ui-column-title"></span> {{modelo.desArticulo}}
+                </td>
+                <td>
+                    <span class="ui-column-title"></span> {{modelo.codUnidadMedida}}
+                </td>
+                <td>
+                    <span class="ui-column-title"></span>{{modelo.cantidadNecesaria}} 
+                </td>
+                <td>
+                    <span class="ui-column-title"></span> {{modelo.codCentroCosto}}
+                </td>
+                <td>
+                    <span class="ui-column-title"></span> {{modelo.comentario}}
+                </td>
+            </tr>
+        </ng-template>
+
+    </p-table>
+
+
+    <!-- <p-table [value]="ValeSalida.ValeSalidaItem" [responsive]="true" [resizableColumns]="true" styleClass="p-datatable-responsive-demo" [columns]="cols" [autoLayout]="true">
+
+        <ng-template pTemplate="header" let-columns>
+            <tr>
+                <th *ngFor="let col of columns">{{ col.header }}</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="ValeSalida.ValeSalidaItem" let-rowData let-columns="columns">
+            <tr>
+                <td *ngFor="let col of columns" [ngSwitch]="col.field">
+                    <span *ngSwitchCase="'fecNecesaria'" class="p-column-title"> {{ rowData[col.IdValeSalidaItem] }}</span>
+                    <span *ngSwitchCase="'fecNecesaria'">{{ rowData[col.idRequerimiento]}}</span>
+                    <span *ngSwitchDefault class="p-column-title">{{rowData[col.codArticulo]}}</span>
+                    <span *ngSwitchDefault>{{ rowData[col.desArticulo] }}</span>
+                </td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="emptymessage" let-columns>
+            <tr>
+                <td [attr.colspan]="columns.length">
+                    Sin información.
+                </td>
+            </tr>
+        </ng-template>
+    </p-table> -->
+</p-panel>

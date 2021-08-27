@@ -1,0 +1,167 @@
+   <!-- Filtros -->
+   <p-panel >
+    <p-toast key="myKeyEditar"></p-toast>
+    <form [formGroup]="formularioSuperior">
+        <div class="ui-g ui-fluid">
+            <div class="ui-g-12 ui-md-3">
+                <label class="label-custom" for="float-input-fecha-ini">Fecha Recuento: </label>
+                <p-calendar id="float-input-fecha-ini" formControlName="fechaRegistro" [showButtonBar]="true" [locale]="lenguageService.es" dateFormat="dd/mm/yy" [showIcon]="true" disabled="true" ></p-calendar>
+            </div>
+            <div class="ui-g-12 ui-md-2">
+                <label class="label-custom" for="float-input-socio">Hora:</label>
+                <div class="ui-inputgroup">
+                    <input type="text" id="float-input-socio" formControlName="hora" pInputText disabled  />
+                </div>
+            </div>
+            <div class="ui-g-12 ui-md-3">
+                <label class="label-custom" for="numsolicitu">Nro Referencial: </label>
+                <input type="text" formControlName="numReferencial" pInputText/>
+            </div>
+            <div *ngIf="itemSelect.documentEntry>0" class="ui-g-12 ui-md-4">
+                <div style="display: flex; justify-content: flex-end">
+                    <span style="background: green; color: white; border-radius: 20px;height: 50px;">
+                        <div style="margin: 10px 20px 10px;">
+                            <h3>ENVIADO A SAP</h3>
+                        </div>
+                    </span>
+                  </div>
+            </div>
+        </div>
+        <div class="ui-g ui-fluid">
+            <div class="ui-g-12 ui-md-3">
+                <label class="label-custom" for="float-input-cbpersonal">Estado:</label>
+                <div class="ui-inputgroup">
+                    <input type="text" id="float-input-socio" formControlName="estado" pInputText disabled  />
+                </div>
+            </div>
+            <div class="ui-g-12 ui-md-5">
+                <label>Encargado de recuento: </label>
+                <input type="text" formControlName="responsable" pInputText disabled />
+            </div>
+        </div>
+        <div class="ui-g ui-fluid">
+            <div class="ui-g-12 ui-md-10">
+                <span class="ui-column-title">Descripción</span>
+                <textarea pInputTextarea autoResize="autoResize" formControlName="observacion"></textarea>
+            </div>
+        </div>
+    </form>
+        <HR>
+        <p-messages [(value)]="mensajePrimeNgService.msgs"></p-messages>
+        <p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000"></p-confirmDialog>
+
+       <p-panel header="Lista de Articulos">
+        <p-table [value]="listArticulosItem.tomaInventarioItem" dataKey="idTomaInventario" [(selection)]="selectedArticulos" [paginator]="true" [rows]="10" #tableBusqueda dataKey="codArticulo" autoLayout="true" [loading]="loading" [responsive]="true" [showCurrentPageReport]="true" 
+        currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} registros">
+            <ng-template pTemplate="caption">
+                <div style ="text-align: left">
+                    <label>Buscar</label>&nbsp;&nbsp;
+                    <input type="text" pInputText size="50" placeholder="Filtro global" (input)="tableBusqueda.filterGlobal($event.target.value, 'contains')" style="width: auto;" />
+                </div>
+            </ng-template>
+            <ng-template pTemplate="header" let-columns>
+                <tr>
+                    <th></th>
+                    <th>Codigo Articulo</th>
+                    <th>Descripción Articulo</th>
+                    <th>Cod Almacén</th>
+                    <th>Descripción Almacén</th>
+                    <th>Ubicación</th>
+                    <th>Cantidad en Almacén</th>
+                    <th>Contado</th>
+                    <th>Cantidad contada</th>
+                    <th>Desviación</th>
+                    <th>Cod UM</th>
+                    <th>Es Lote</th>
+                    <th>Es Ubicación</th>          
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="emptymessage" let-columns>
+                <tr>
+                 <td [attr.colspan]="13" class="text-center">No se encontrarón registros</td>
+                </tr>
+              </ng-template>
+            <ng-template pTemplate="body" let-modelo let-ri="rowIndex">
+                <tr>
+                    <td class="action-td">
+                        <p-splitButton icon="pi pi-cog" [model]="opciones" (onDropdownClick)="itemElegido(modelo,ri)" appendTo="body">
+                        </p-splitButton>
+                    </td>
+                    <td style="text-align: center" class="action-td">
+                        <span class="ui-column-title"></span> {{modelo.codArticulo}}
+                    </td>
+                    <td style="text-align: center" class="action-td">
+                        <span class="ui-column-title"></span> {{modelo.desArticulo}}
+                    </td>
+                    <td>
+                        <span class="ui-column-title"></span> {{listArticulosItem.codAlmacen}}
+                    </td>
+                    <td>
+                        <span class="ui-column-title"></span> {{listArticulosItem.desAlmacen}}
+                    </td>
+                    <td>
+                        <div class="ui-inputgroup">
+                            <div *ngIf="modelo.isUbicacion=== 'Y'">
+                                {{modelo.desUbicacion}}
+                                <button pButton icon="pi pi-tag" styleClass="ui-button-outlined ui-button-danger" style="width:5px;margin-left:10px" (click)="ubicacionModel(modelo,ri)"></button>
+                            </div>
+                        </div>
+                    </td>
+                    <td style="text-align: right">
+                        <span class="ui-column-title"></span> {{modelo.cantidadAlmacen}}
+                    </td>
+                    <td>
+                        <p-tableCheckbox [value]="modelo" class="test1" >
+                        </p-tableCheckbox>        
+                    </td>
+                    <td style="text-align: right; color:blue;" pEditableColumn>
+                        <span class="p-column-title">Cantidad:</span>
+                        <p-cellEditor>
+                            <ng-template pTemplate="input">
+                                <input pInputText type="number" [(ngModel)]="modelo.cantidadContada"  (keypress)="onKeypressEvent(modelo,$event)" (ngModelChange)="onChange(modelo,$event)"/>
+                            </ng-template>
+                            <ng-template pTemplate="output">
+                                {{ modelo.cantidadContada }}
+                            </ng-template>
+                        </p-cellEditor>
+                    </td>
+                    <td style="text-align: right">
+                        <span class="ui-column-title"></span>
+                        <div *ngIf="modelo.desviacion>0; else elseBlock" style="color:blue;">{{modelo.desviacion}}</div>
+                        <ng-template #elseBlock>
+                            <span class="label" style="color:red;">{{modelo.desviacion}}</span>
+                        </ng-template>
+                    </td>
+                    <td style="text-align: right">
+                        <span class="ui-column-title"></span>{{modelo.codUnidadMedida}}
+                    </td>
+                    <td style="text-align: right">
+                        <span class="ui-column-title"></span>{{modelo.isLote}}
+                    </td>
+                    <td style="text-align: right">
+                        <span class="ui-column-title"></span>{{modelo.isUbicacion}}
+                    </td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </p-panel>
+    <p-footer>
+        <div class="ui-grid ui-fluid">
+            <div *ngIf="itemSelect.documentEntry==null" class="ui-g-12 ui-md-3">
+                <button pButton type="button" id="btnsave" label="{{globalConstants.cAceptar}}" icon="{{globalConstants.icoAceptar}}" (click)="clickGuardar()"></button>
+            </div>
+            <div class="ui-g-12 ui-md-3" style="text-align: right">
+                <button pButton type="button" class="ui-button-secondary" label="{{globalConstants.cSalir}}" icon="pi pi-times" (click)="clickCancelar()"></button>
+            </div>
+        </div>
+    </p-footer>
+
+    <app-modal-busqueda-ubicacion-lt  *ngIf="isActivateUbicacion" [isDisplayBusqueda]="isActivateUbicacion" [itemCode]="ModalUbicacionItemCode" [whsCode]="ModalUbicacionWhsCode" [entorno]="ModalUbicacionEntorno" (cancel)="clickActivateUbicacion()" (eventoRegistroSeleccionado)="ubicacionSelecccioando($event)">
+    </app-modal-busqueda-ubicacion-lt>
+
+    </p-panel>
+
+  
+
+    
+

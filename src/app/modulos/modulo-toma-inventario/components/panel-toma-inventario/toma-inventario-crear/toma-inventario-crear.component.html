@@ -1,0 +1,116 @@
+<div class="card card-w-title">
+    <p-toast key="myKeyTomaInventarioCrear"></p-toast>
+    <div class="box">
+        <div class="titulo">
+            <h1>Recuento - Generar</h1>
+        </div>
+    </div>
+   <div class="ui-g ui-fluid">
+        <div class="ui-g-12 ui-lg-4">
+            <div class="card no-margin">
+                <form [formGroup]="formularioBusqueda">
+                    <div class="ui-g ui-fluid">
+                        <div class="ui-g-12 ui-md-8">
+                            <label class="label-custom" for="nomarticulo">Almacen</label>
+                            <input type="text" formControlName="almacen" pInputText />
+                        </div>
+                        <div class="ui-g-12 ui-md-4">
+                            <button style="top: 1.2em;" pButton type="button" label="{{globalConstants.cBuscar}}" icon="{{globalConstants.icoBuscar}}" (click)="onToBuscar()" class="btn btn-block"></button>
+                        </div>
+                    </div>
+                </form>
+                <p-panel header="Lista de Almacen">
+                    <!-- <p-table  [columns]="cols" [value]="data" [paginator]="true" [rows]="10" [scrollable]="true"  [(selection)]="dtSelectedRows" > -->
+                    <p-table [value]="listaAlmacen" [paginator]="true" [rows]="10"  [(selection)]="dtSelectedRows"  [loading]="loadingAlmacen"  dataKey="warehouseCode" selectionMode="single"  autoLayout="true" [responsive]="true" >
+                        <!-- Header -->
+                        <ng-template pTemplate="header" let-columns>
+                            <tr>
+                                <th>Opcion</th>
+                                <th>Almacen</th>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="emptymessage" let-columns>
+                            <tr>
+                             <td [attr.colspan]="2" class="text-center">No se encontrarón registros</td>
+                            </tr>
+                        </ng-template>
+                        <!-- body -->
+                        <ng-template pTemplate="body" let-modelo let-ri="rowIndex">
+                            
+                            <tr [pSelectableRow]="modelo">
+                                <td style="width: 2.25em">
+                                    <p-tableRadioButton [value]="modelo"></p-tableRadioButton>
+                                </td>
+                                <td>
+                                    <span class="p-column-title">Almacen</span> {{modelo.warehouseCode}} {{modelo.warehouseName}}
+                                </td>
+                            </tr>
+                        </ng-template>
+                    </p-table>
+                </p-panel>
+            </div>
+        </div>
+    
+        <div class="ui-g-12 ui-lg-8">
+            <div class="card no-margin">
+                <p-panel header="Generar">
+                    <form [formGroup]="formularioSuperior">
+                        <div class="ui-g ui-fluid">
+                            <div class="ui-g-12 ui-md-2">
+                                <label>Periodo: </label>
+                                <p-dropdown placeholder="Seleccionar" formControlName="cbperiodo" [options]="rowPeriodo" [ngModel]="PeriodoSelected" filter="true" optionLabel="label"></p-dropdown>
+                            </div>
+                        </div>
+                        <br>
+                        <label>Articulo: </label>
+                        <HR>
+                        <div class="ui-g ui-fluid">
+                            <div class="ui-g-12 ui-md-2">
+                                <label>Categoria: </label>
+                                <p-dropdown placeholder="Seleccionar" formControlName="cbcategoria" [options]="rowCategoria" filter="true" optionLabel="label"></p-dropdown>
+                            </div>
+                        </div>
+                        <div class="ui-g ui-fluid">
+                            <div class="ui-g-12 ui-md-3">
+                                <label class="label-custom" for="float-input-cod-socio">Desde:</label>
+                                <input id="float-input-desde"  type="text" formControlName="inicioCodeItem" pInputText/>
+                            </div>
+                            <div class="ui-g-12 ui-md-3">
+                                <label class="label-custom" for="float-input-cod-socio">Hasta:</label>
+                                <input id="float-input-hasta"  type="text" formControlName="finCodeItem" pInputText/>
+                            </div>    
+                        </div>
+                        <div class="ui-g ui-fluid">
+                            <div class="ui-g-12 ui-md-2">
+                                <label>Grupo: </label>
+                                <p-dropdown placeholder="Seleccionar" formControlName="cbgrupo" [options]="rowGrupo" filter="true" optionLabel="label"></p-dropdown>
+                            </div>
+                        </div>
+                        <br>
+                        <footer>
+                            <div class="ui-grid ui-fluid">
+                                <div class="ui-g-12 ui-md-6">
+                                    <button pButton type="button" class="ui-button-success"  label="Generar"  icon="pi pi-save" (click)="clickGenerar()"></button>
+                                </div>
+                                <div class="ui-g-12 ui-md-6">
+                                    <button pButton type="button" class="ui-button-secondary" label="Regresar" (click)="onClickRegresar()" icon="pi pi-times"></button>
+                                </div>
+                            </div>
+                        </footer>
+                    </form>
+                </p-panel>
+            </div>
+        </div>
+    </div>          
+   
+    <br>
+    
+    <p-messages [(value)]="mensajePrimeNgService.msgs"></p-messages>
+
+    <p-dialog  *ngIf="isActivateTomaInventarioGuardar" [closable]="false" [header]="tituloModalTomaInventarioGuardar" [(visible)]="isActivateTomaInventarioGuardar"  [transitionOptions]="timeAnimationModal" [modal]="true">
+        <app-toma-inventario-guardar [itemSelect]="itemSeleccionado" (cancel)="activarTomaInventarioGuardar()">
+        </app-toma-inventario-guardar>
+    </p-dialog>
+   
+</div>
+

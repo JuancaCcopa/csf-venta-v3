@@ -1,0 +1,172 @@
+<p-dialog [(header)]="titulo" [(visible)]="isHabilitaControl" [style]="{width: '55vw'}">
+    <div class="ui-g ui-fluid">
+        <!-- <div class="ui-g-12 ui-md-2"></div> -->
+        <div class="ui-g-12 ui-md-12">
+            <form [formGroup]="formularioTipoPago">
+                <div class="ui-g ui-fluid">
+                    <div class="ui-g-12 ui-md-2">
+                        <p><strong>Planilla</strong></p>
+                        <input id="float-input" type="text" formControlName="numeroPlanilla" pInputText disabled>
+                    </div>
+                    <div class="ui-g-12 ui-md-2">
+                        <p><strong>Documento</strong></p>
+                        <input id="float-input" type="text" formControlName="documento" pInputText disabled>
+                    </div>
+                    <div class="ui-g-12 ui-md-2">
+                        <p><strong>F.emisión</strong></p>
+                        <input id="float-input" type="text" formControlName="fechaEmision" pInputText disabled>
+                    </div>
+                    <div class="ui-g-12 ui-md-2">
+                        <p><strong>F. cancelación</strong></p>
+                        <input id="float-input" type="text" formControlName="fechaCancelacion" pInputText disabled>
+                    </div>
+                    <div class="ui-g-12 ui-md-1">
+                        <p><strong>Estado</strong></p>
+                        <input id="float-input" type="text" formControlName="estado" pInputText disabled>
+                    </div>
+                    <div class="ui-g-12 ui-md-2" *ngIf="isHabilitaEdicion">
+                        <br>
+                        <button pButton type="button" label="Insertar" class="sba-button btn btn-block" (click)="getGrillaPagosPorDefecto()"></button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="ui-g ui-fluid">
+        <!-- dataKey="idRegistroEquipo" editMode="row" -->
+        <!-- <div class="ui-g-12 ui-md-2" *ngIf="isHabilitaControl">
+        </div> -->
+        <div class="ui-g-12 ui-md-12">
+            <p-table [value]="listModeloPago" [paginator]="true" [rows]="globalConstants.sizePage" autoLayout="true"
+                [responsive]="true" [loading]="loading">
+                <ng-template pTemplate="header" let-columns>
+                    <tr>
+                        <th></th>
+                        <th>Tipo Pago</th>
+                        <th width="25%">Entidad</th>
+                        <th>Nro Operación</th>
+                        <th>M. Soles</th>
+                        <th>M. Dolares</th>
+                        <th>Total</th>
+                        <th>Terminal</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-modelo let-ri="rowIndex">
+                    <tr>
+                        <td class="action-td">
+                            <div *ngIf="isHabilitaEdicion">
+                                <button pButton icon="{{globalConstants.icoEliminar}}" class="ui-button-danger"
+                                    (click)="quitarItemTipoPago(ri)"></button>
+                            </div>
+                        </td>
+                        <td class="action-td">
+                            <div class="ui-inputgroup">
+                                {{modelo.nombreTipoPago}}
+                                <div style="float:right" *ngIf="isHabilitaEdicion">
+                                    <button pButton icon="pi pi-eye" styleClass="ui-button-outlined ui-button-danger"
+                                        style="width:5px;margin-left:10px" (click)="activarModalTPago(ri)"></button>
+                                </div>
+                            </div>
+                        </td>
+                        <td style="text-align: center" class="action-td">
+                            <div class="ui-inputgroup">
+                                {{modelo.nombreEntidad}}
+                                <div *ngIf="isHabilitaEdicion">
+                                    <div *ngIf="modelo.codTipoPago==='A' || modelo.codTipoPago==='C' "
+                                        style="float:right">
+                                        <button pButton icon="pi pi-eye"
+                                            styleClass="ui-button-outlined ui-button-danger"
+                                            style="width:5px;margin-left:10px"
+                                            (click)="activarModalBancos(ri)"></button>
+                                    </div>
+                                    <div *ngIf="modelo.codTipoPago==='T'" style="float:right">
+                                        <button pButton icon="pi pi-eye"
+                                            styleClass="ui-button-outlined ui-button-danger"
+                                            style="width:5px;margin-left:10px"
+                                            (click)="activarModalTCredito(ri)"></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                        <td style="text-align: right" pEditableColumn>
+                            <span class="p-column-title">nroOperacion:</span>
+                            <div
+                                *ngIf="modelo.codTipoPago==='A' || modelo.codTipoPago==='C' || modelo.codTipoPago==='T' ; else elseDato">
+                                <p-cellEditor>
+                                    <ng-template pTemplate="input" *ngIf="isHabilitaEdicion">
+                                        <input pInputText type="text" [(ngModel)]="modelo.nroOperacion"
+                                            style="background-color: rgb(203, 243, 198)" />
+                                    </ng-template>
+                                    <ng-template pTemplate="output">
+                                        {{ modelo.nroOperacion }}
+                                    </ng-template>
+                                </p-cellEditor>
+                            </div>
+                            <ng-template #elseDato>
+                                {{ modelo.nroOperacion }}
+                            </ng-template>
+                        </td>
+                        <td style="text-align: center" class="action-td" pEditableColumn>
+                            <p-cellEditor>
+                                <ng-template pTemplate="input" *ngIf="isHabilitaEdicion">
+                                    <input type="text" pInputText [(ngModel)]="modelo.montoSoles"
+                                        style="background-color: rgb(203, 243, 198)" (keypress)="soloNumeros($event)"
+                                        (keyup)="actualizarTotalPago($event,ri)" />
+                                </ng-template>
+                                <ng-template pTemplate="output">
+                                    {{ modelo.montoSoles }}
+                                </ng-template>
+                            </p-cellEditor>
+                        </td>
+                        <td style="text-align: center" class="action-td">
+                            <span class="ui-column-title"></span> {{modelo.montoDolar}}
+                        </td>
+                        <td style="text-align: center" class="action-td">
+                            <span class="ui-column-title"></span> {{modelo.montoMn}}
+                        </td>
+                        <td style="text-align: center" class="action-td">
+                            <div class="ui-inputgroup">
+                                {{modelo.terminal}}
+                                <div *ngIf="modelo.codTipoPago==='T' && isHabilitaEdicion==true" style="float:right">
+                                    <button pButton icon="pi pi-eye" styleClass="ui-button-outlined ui-button-danger"
+                                        style="width:5px;margin-left:10px" (click)="activarModalTerminal(ri)"></button>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="footer">
+                    <tr>
+                        <td colspan="6" style="text-align: right"><strong>TOTAL</strong></td>
+                        <td><strong>{{totalPago}}</strong></td>
+                        <td></td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+    </div>
+    <br>
+    <footer>
+        <div class="ui-grid ui-fluid">
+            <div class="ui-g-12 ui-md-6" *ngIf="isHabilitaEdicion">
+                <button pButton type="button" label="Aceptar" icon="{{globalConstants.icoAceptar}}"
+                    (click)="guadarTipoPago()"></button>
+            </div>
+            <div class="ui-g-12 ui-md-6">
+                <button pButton label="Cerrar" class="ui-button-secondary" (click)="isActivateTipoPago()"></button>
+            </div>
+        </div>
+    </footer>
+</p-dialog>
+
+<app-modal-busqueda-tipo-pago (eventoAceptar)="goTipoPagoSeleccionado($event)"
+    [isHabilitaControl]="isActivateBusquedaTPago"></app-modal-busqueda-tipo-pago>
+
+<app-modal-busqueda-entidad (eventoAceptar)="goBancosSeleccionado($event)"
+    [isHabilitaControl]="isActivateBusquedaBancos"></app-modal-busqueda-entidad>
+
+<app-modal-busqueda-tarjeta-credito (eventoAceptar)="goTCreditoSeleccionado($event)"
+    [isHabilitaControl]="isActivateBusquedaTCredito"></app-modal-busqueda-tarjeta-credito>
+
+<app-modal-busqueda-terminal (eventoAceptar)="goTerminalSeleccionado($event)"
+    [isHabilitaControl]="isActivateBusquedaTerminal"></app-modal-busqueda-terminal>

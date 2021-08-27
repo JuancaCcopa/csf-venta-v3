@@ -1,0 +1,101 @@
+<form [formGroup]="formularioVisor">
+    <div class="ui-inputgroup">
+        <input type="text" pInputText placeholder="Lector por Código de Barra" style="background-color: rgb(203, 243, 198);" formControlName="nombreVisor" (keyup.enter)="getProductoPorCodigo()">
+        <button pButton type="button" icon="{{globalConstants.icoBuscar}}" (click)="isVisualizar = true" class="btn btn-block" [disabled]="isHabilitaBotonPedido"></button>
+    </div>
+</form>
+
+<p-dialog header="Buscar Producto" [(visible)]="isVisualizar" [modal]="true" [transitionOptions]="timeAnimationModal" [style]="{width: '50vw'}" [autoZIndex]>
+    <p-panel header="Opción de busqueda de Producto" [style]="{'margin-bottom':'20px'}">
+        <form [formGroup]="formularioBusqueda">
+            <div class="ui-g ui-fluid">
+                <div class="ui-g-12 ui-md-4">
+                    <label class="label-custom">Por Nombre: </label>
+                    <input type="text" pInputText placeholder="Ingresar Nombre" formControlName="nombre" autocomplete="off" (keyup.enter)="getListProductoPorFiltro()">
+                </div>
+                <div class="ui-g-12 ui-md-2">
+                    <label class="label-custom">Por Código: </label>
+                    <input type="text" pInputText placeholder="Ingresar Código" formControlName="codigo" autocomplete="off" (keyup.enter)="getListProductoPorFiltro()">
+                </div>
+                <div class="ui-g-12 ui-md-2">
+                    <button pButton type="button" label="{{globalConstants.cBuscar}}" icon="{{globalConstants.icoBuscar}}" class="sba-button btn btn-block" (click)="getListProductoPorFiltro()"></button>
+                </div>
+                <div class="ui-g-12 ui-md-2">
+                    <button pButton type="button" label="{{globalConstants.cGenerico}}" icon="{{globalConstants.icoGenerico}}" class="sba-button btn btn-block" (click)="getListProductoGenericoPorCodigo()"></button>
+                </div>
+                <div class="ui-g-12 ui-md-2">
+                    <button pButton type="button" label="{{globalConstants.cAlternatico}}" icon="{{globalConstants.icoGenerico}}" class="sba-button btn btn-block" (click)="getListProductoGenericoPorCodigo()"></button>
+                </div>
+            </div>
+        </form>
+    </p-panel>
+    <p-panel header="Opción de busqueda de Producto" [style]="{'margin-bottom':'20px'}">
+        <p-table [value]="listModelo" [loading]="loading" [columns]="columnas" [paginator]="true" [rows]="globalConstants.sizePage" dataKey="itemCode" [(selection)]="seleccionItem" selectionMode="single" autoLayout="true" [responsive]="true" (onRowSelect)="goClearGenerico()"
+            (onRowUnselect)="goClearGenerico()">
+            <ng-template pTemplate="header" let-columns>
+                <tr>
+                    <th *ngFor="let col of columns">
+                        {{col.header}}
+                    </th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-rowData let-columns="columns">
+                <tr [pSelectableRow]="rowData">
+                    <td *ngFor="let col of columns" [ngClass]="col.field === 'itemCode' ? 'custom-td-producto' : 
+                                                               col.field === 'lote' ? 'custom-td-lote' : 
+                                                               col.field === 'itemName' || col.field === 'u_SYP_CS_LABORATORIO' ? null : 'custom-td-number-1'" [ngSwitch]="col.field">
+                        <span class="p-column-title">{{col.header}}</span>
+                        <span *ngSwitchCase="'itemCode'"><i class="fa fa-arrow-right" (click)="goChangeVisibleProducto(rowData)"></i>{{ rowData[col.field] }}</span>
+                        <span *ngSwitchCase="'lote'"><i *ngIf="rowData.manBtchNum === 'Y'  || rowData.binActivat === 'Y'" class="fa fa-list" (click)="goChangeVisibleLote(rowData)"></i></span>
+                        <span *ngSwitchDefault>{{ rowData[col.field] }}</span>
+                    </td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </p-panel>
+    <br>
+    <p-panel header="Generico/Alternativo" [style]="{'margin-bottom':'20px'}">
+        <p-table [value]="listModeloGenerico" [loading]="loadingGenerico" [columns]="columnasGenerico" [paginator]="true" [rows]="globalConstants.sizePageModal" [(selection)]="seleccionItem" dataKey="itemCode" selectionMode="single" autoLayout="true" [responsive]="true">
+            <ng-template pTemplate="header" let-columns>
+                <tr>
+                    <th *ngFor="let col of columns">
+                        {{col.header}}
+                    </th>
+
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-rowData let-columns="columns">
+                <tr [pSelectableRow]="rowData">
+                    <td *ngFor="let col of columns" [ngClass]="col.field === 'itemCode' 
+                                                                ? 'custom-td-producto': col.field === 'lote' 
+                                                                ? 'custom-td-lote':col.field === 'itemName' || col.field === 'u_SYP_CS_LABORATORIO' 
+                                                                ? null: 'custom-td-number-1'" [ngSwitch]="col.field">
+                        <span class="p-column-title">{{col.header}}</span>
+                        <span *ngSwitchCase="'itemCode'"><i class="fa fa-arrow-right" (click)="goChangeVisibleProducto(rowData)"></i>{{ rowData[col.field] }}</span>
+                        <span *ngSwitchCase="'lote'"><i *ngIf="rowData.manBtchNum === 'Y' || rowData.binActivat === 'Y'" class="fa fa-list" (click)="goChangeVisibleLote(rowData)"></i></span>
+                        <span *ngSwitchDefault>{{ rowData[col.field] }}</span>
+                    </td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </p-panel>
+    <footer>
+        <div class="ui-g-12 ui-md-6">
+            <button pButton type="button" label="{{globalConstants.cAceptar}}" icon="{{globalConstants.icoAceptar}}" [disabled]="!seleccionItem" (click)="clickAceptar()"></button>
+        </div>
+
+        <div class="ui-g-12 ui-md-6">
+            <button pButton type="button" label="{{globalConstants.cCancelar}}" icon="{{globalConstants.icoCancelar}}" (click)="clickCancelar()"></button>
+        </div>
+    </footer>
+
+    <p-dialog *ngIf="isVisualizarProducto" header="{{seleccionModeloItem.itemCode}} - {{seleccionModeloItem.itemName}}" [(visible)]="isVisualizarProducto" [modal]="true">
+        <app-modal-consulta-producto [isCodigoProducto]="seleccionModeloItem.itemCode" [isVisualizarProducto]="isVisualizarProducto" (eventoSalir)="goSalirProducto()"></app-modal-consulta-producto>
+    </p-dialog>
+
+    <p-dialog *ngIf="isVisualizarLote" header="{{seleccionModeloItem.itemCode}} - {{seleccionModeloItem.itemName}}" [(visible)]="isVisualizarLote" [modal]="true">
+        <app-modal-consulta-lote [isActivoVenta]="false" [isActivoDevolucion]="false" [isActivoVerVenta]="false" [isActivoProducto]="true" [isCodProducto]="seleccionModeloItem.itemCode" [isActivoVentaDetalleLote]="false" [isCodAlmacen]="isCodAlmacen" [IsActivaUbicacion]="seleccionModeloItem.binActivat === 'Y'"
+            [IsActivaLote]="seleccionModeloItem.manBtchNum === 'Y'" (eventoSalir)="goSalirLote()"></app-modal-consulta-lote>
+    </p-dialog>
+
+</p-dialog>

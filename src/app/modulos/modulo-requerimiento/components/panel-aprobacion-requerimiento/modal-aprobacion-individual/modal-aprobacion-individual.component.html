@@ -1,0 +1,45 @@
+<p-dialog [(visible)]="isModalAprobar" [modal]="true" [header]="titulo" *ngIf="isModalAprobar" [transitionOptions]="timeAnimationModal" [closable]="false" [style]="{width: '30vw'}">
+    <div class="content-formulario" style="display: grid; padding: 10px;">
+        <div class="row-form" style="margin-bottom: 10px;">
+            Nro Requerimineto: {{ this.requerimiento.idRequerimiento }}
+        </div>
+        Observación:
+        <textarea [rows]="2" [cols]="20" style="margin-top: 10px;" pInputTextarea [(ngModel)]="desAprobacion" autoResize="autoResize"></textarea>
+        <div class="combo-aprobador" style="margin-top: 10px;">
+            <p-dropdown [filter]="true" optionLabel="desAprobador" placeholder="Seleccionar aprobador" (onChange)="cambioComboAprobadorFinal($event.value)" [options]="dataListaAprobadorFinal" [(ngModel)]="aprobadorSeleccionado" appendTo="body" [disabled]="aprobadorSeleccionado ? true: false"></p-dropdown>
+        </div>
+    </div>
+    <p-footer>
+        <div class="ui-grid ui-fluid">
+            <div class="ui-g-12 ui-md-6">
+                <button type="button" pButton icon="pi pi-check" label="Guardar" (click)="clickGuardarAprobacion()"></button>
+            </div>
+            <div class="ui-g-12 ui-md-6">
+                <button type="button" pButton icon="pi pi-check" label="Cerrar" (click)="clickCerrar()"></button>
+            </div>
+        </div>
+    </p-footer>
+</p-dialog>
+
+<p-dialog [(visible)]="isModalDesaprobar" [modal]="true" [header]="titulo" *ngIf="isModalDesaprobar" [transitionOptions]="timeAnimationModal" [style]="{width: '30vw'}">
+    <div class="content-formulario" style="display: grid; padding: 10px;">
+        <div class="row-form" style="margin-bottom: 10px;">
+            Nro Requerimineto: {{ this.requerimiento.idRequerimiento }}
+        </div>
+        Observación:
+        <textarea [rows]="2" [cols]="20" style="margin-top: 10px;" pInputTextarea [(ngModel)]="desAprobacion" autoResize="autoResize"></textarea>
+        <div class="combo-aprobador" style="margin-top: 10px;">
+            <p-dropdown [filter]="true" optionLabel="desAprobador" placeholder="Seleccionar aprobador" (onChange)="cambioComboAprobadorFinal($event.value)" [options]="dataListaAprobadorFinal" [(ngModel)]="aprobadorSeleccionado" appendTo="body" [disabled]="aprobadorSeleccionado ? true: false"></p-dropdown>
+        </div>
+    </div>
+    <p-footer>
+        <div class="ui-grid ui-fluid">
+            <div class="ui-g-12 ui-md-6">
+                <button type="button" pButton icon="pi pi-check" label="Guardar" (click)="clickGuardarAprobacion()"></button>
+            </div>
+            <div class="ui-g-12 ui-md-6">
+                <button type="button" pButton icon="pi pi-check" label="Cerrar" (click)="clickCerrar()"></button>
+            </div>
+        </div>
+    </p-footer>
+</p-dialog>

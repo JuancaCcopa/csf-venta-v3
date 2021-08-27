@@ -1,0 +1,53 @@
+<p-dialog [(visible)]="isActivarUsuario" header="USUARIOS" [modal]="true" [transitionOptions]="timeAnimationModal"
+    [style]="{width: '50vw'}">
+    <p-toast key="myKey1"></p-toast>
+    <p-panel>
+        <form [formGroup]="formularioBusquedaUsuario">
+            <div class="ui-g ui-fluid">
+                <div class="ui-g-12 ui-md-4">
+                    <label class="label-custom" for="nomarticulo">Buscar por usuarios</label>
+                    <input type="text" formControlName="nombre" pInputText />
+                </div>
+                <div class="ui-g-12 ui-md-4">
+                    <button style="top: 1.2em;" pButton type="button" label="{{globalConstants.cBuscar}}"
+                        icon="{{globalConstants.icoBuscar}}" (click)="onToBuscar()" class="btn btn-block"></button>
+                </div>
+            </div>
+        </form>
+    </p-panel>
+    <hr>
+
+    <p-messages [(value)]="mensajePrimeNgService.msgs"></p-messages>
+    <p-table [value]="listaModelo" [paginator]="true" [rows]="10" [autoLayout]="true"
+        [(selection)]="registroSeleccionado" selectionMode="single" [loading]="loading" [responsive]="true"
+        [resizableColumns]="true" styleClass="p-datatable-responsive-demo">
+        <ng-template pTemplate="header">
+            <tr>
+                <th>Codigo</th>
+                <th>Nombre</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-modelo let-index="rowIndex">
+            <tr [pSelectableRow]="modelo">
+                <td>
+                    {{modelo.idUsuario}}
+                </td>
+                <td>
+                    {{modelo.nombre}} {{modelo.apellidoPaterno}} {{modelo.apellidoMaterno}}
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+    <p-footer>
+        <div class="ui-g ui-fluid">
+            <div class="ui-g-12 ui-md-6">
+                <button pButton type="button" label="Aceptar" [disabled]="!registroSeleccionado"
+                    (click)="clickAceptar()"></button>
+            </div>
+            <div class="ui-g-12 ui-md-6">
+                <button pButton type="button" label="Cancelar" (click)="clickCancelar()"></button>
+            </div>
+        </div>
+
+    </p-footer>
+</p-dialog>

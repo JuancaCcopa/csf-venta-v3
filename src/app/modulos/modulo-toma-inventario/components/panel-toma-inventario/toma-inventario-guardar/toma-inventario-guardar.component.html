@@ -1,0 +1,126 @@
+   <!-- Filtros -->
+   <p-panel >
+    <p-toast key="myKeyTomaInventarioSave"></p-toast>
+    <form [formGroup]="formularioSuperior">
+        <div class="ui-g ui-fluid">
+            <div class="ui-g-12 ui-md-3">
+                <label class="label-custom" for="float-input-fecha-ini">Fecha Recuento: </label>
+                <p-calendar id="float-input-fecha-ini" formControlName="fechaRegistro" [showButtonBar]="true" [locale]="lenguageService.es" dateFormat="dd/mm/yy" [showIcon]="true" disabled="true" ></p-calendar>
+            </div>
+            <div class="ui-g-12 ui-md-2">
+                <label class="label-custom" for="float-input-socio">Hora:</label>
+                <div class="ui-inputgroup">
+                    <input type="text" id="float-input-hora" formControlName="hora" pInputText disabled  />
+                </div>
+            </div>
+            <div class="ui-g-12 ui-md-3">
+                <label class="label-custom" for="numsolicitu">Nro Referencial: </label>
+                <input type="text" formControlName="numReferencial" pInputText/>
+            </div>
+        </div>
+        <div class="ui-g ui-fluid">
+            <div class="ui-g-12 ui-md-3">
+                <label class="label-custom" for="float-input-cbpersonal">Estado:</label>
+                <div class="ui-inputgroup">
+                    <input type="text" id="float-input-socio" formControlName="estado" pInputText disabled  />
+                </div>
+            </div>
+            <div class="ui-g-12 ui-md-5">
+                <label>Encargado de recuento: </label>
+                <input type="text" formControlName="responsable" pInputText disabled />
+            </div> 
+            <div class="ui-g-12 ui-md-4">
+                <label class="label-custom" for="float-input-estado">Imprimir Stock:</label>
+                <div class="ui-inputgroup">
+                    <p-checkbox [ngStyle]="{'padding-top': '5px'}" id="float-input-estado" [binary]="true" formControlName="flgImprimirStock"></p-checkbox>
+                </div>
+            </div>
+        </div>
+        <div class="ui-g ui-fluid">
+            <div class="ui-g-12 ui-md-10">
+                <span class="ui-column-title">Descripción</span>
+                <textarea pInputTextarea autoResize="autoResize" formControlName="observacion"></textarea>
+            </div>
+        </div>
+    </form>
+        <HR>
+        <p-messages [(value)]="mensajePrimeNgService.msgs"></p-messages>
+
+       <p-panel header="Lista de Articulos">
+        <p-table [value]="listArticulosItem" [columns]="columnas" [paginator]="true" [rows]="10" #tableBusqueda dataKey="codArticulo" autoLayout="true" [loading]="loading" [responsive]="true" [showCurrentPageReport]="true" 
+        currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} registros">
+            <ng-template pTemplate="caption">
+                <label>Buscar por articulo</label>
+                <input type="text" pInputText size="50" placeholder="Filtro global" (input)="tableBusqueda.filterGlobal($event.target.value, 'contains')" style="width: auto;" />
+            </ng-template>
+            <ng-template pTemplate="header" let-columns>
+                <tr>
+                    <th></th>
+                    <th *ngFor="let col of columns">
+                        {{col.header}}
+                    </th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="emptymessage" let-columns>
+                <tr>
+                 <td [attr.colspan]="5" class="text-center">No se encontrarón registros</td>
+                </tr>
+              </ng-template>
+            <ng-template pTemplate="body" let-modelo let-ri="rowIndex">
+            <tr>
+                <td class="action-td">
+                    <p-splitButton icon="pi pi-cog" [model]="opciones" (onDropdownClick)="itemElegido(ri)" appendTo="body">
+                    </p-splitButton>
+                </td>
+                <td style="text-align: center" class="action-td">
+                    <span class="ui-column-title"></span> {{modelo.codArticulo}}
+                </td>
+                <td style="text-align: center" class="action-td">
+                    <span class="ui-column-title"></span> {{modelo.desArticulo}}
+                </td>
+                <td>
+                    <span class="ui-column-title"></span> {{modelo.codAlmacen}}
+                </td>
+                <td>
+                    <span class="ui-column-title"></span> {{modelo.desAlmacen}}
+                </td>
+                <td style="text-align: right">
+                    <span class="ui-column-title"></span> {{modelo.cantidadAlmacen}}
+                </td>
+                <td style="text-align: right">
+                    <span class="ui-column-title"></span> {{modelo.isLote}}
+                </td>
+                <td style="text-align: right">
+                    <span class="ui-column-title"></span> {{modelo.isUbicacion}}
+                </td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </p-panel>
+    <p-footer>
+        <div class="ui-grid ui-fluid">
+            <div class="ui-g-12 ui-md-3">
+                <button pButton type="button" id="btnsave" label="{{globalConstants.cAceptar}}" icon="{{globalConstants.icoAceptar}}" (click)="clickGuardar()"></button>
+            </div>
+            <div class="ui-g-12 ui-md-3">
+                <button pButton type="button" label="Reporte" icon="{{globalConstants.icoVisualizar}}" class="p-button-outlined" (click)="clickVerReporte()"></button>
+            </div>
+            <div class="ui-g-12 ui-md-3">
+                <button pButton type="button" label="Exportar" class="p-button-secondary" (click)="clickExportar()"></button>
+            </div>
+            <div class="ui-g-12 ui-md-3">
+                <button pButton type="button" id="btnsalir" label="{{globalConstants.cSalir}}" class="p-button-secondary" (click)="clickSalir()"></button>
+            </div>
+        </div>
+    </p-footer>
+    <p-dialog *ngIf="isVerReporteStockModal" [(visible)]="isVerReporteStockModal" [transitionOptions]="timeAnimationModal" [modal]="true">
+        <app-toma-inventario-ver-stock [items]="listArticulosItem" [itemAlmacen]="itemSelect" [isVerStock]="isVerStock">
+        </app-toma-inventario-ver-stock>
+    </p-dialog>
+
+    </p-panel>
+
+  
+
+    
+

@@ -1,0 +1,116 @@
+<p-panel>
+    <form [formGroup]="formularioSuperior">
+        <div class="ui-g ui-fluid">
+            <div class="ui-g-12 ui-md-12">
+                <div class="ui-g-12 ui-md-1">
+                    <label class="label-custom" for="float-input-tc">Codigo: </label>
+                    <input type="text" formControlName="codCentro" pInputText disabled>
+                </div>
+                <div class="ui-g-12 ui-md-5">
+                    <label class="label-custom">Centro Costo:</label>
+                    <app-modal-busqueda-centro-costo (eventoAceptar)="goCentroCostoSeleccionado($event)">
+                    </app-modal-busqueda-centro-costo>
+                </div>
+                <div class="ui-g-12 ui-md-2">
+                    <label>Del: </label>
+                    <p-calendar class="calendar" dateFormat="dd/mm/yy" [locale]="lenguageService.es" [showIcon]="true" formControlName="fechaDesde" required></p-calendar>
+                </div>
+                <div class="ui-g-12 ui-md-2">
+                    <label>Al: </label>
+                    <p-calendar class="calendar" dateFormat="dd/mm/yy" [locale]="lenguageService.es" [showIcon]="true" formControlName="fechaHasta" required></p-calendar>
+                </div>
+                <div class="ui-g-12 ui-md-1">
+                    <label>Monto $/. </label>
+                    <input type="text" formControlName="montoDolar" pInputText disabled>
+                </div>
+
+            </div>
+        </div>
+        <div class="ui-g ui-fluid">
+            <div class="ui-g-12 ui-md-12">
+                <div class="ui-g-12 ui-md-1">
+                    <label class="label-custom" for="float-input-tc">Codigo: </label>
+                    <input type="text" formControlName="codCobrador" pInputText disabled>
+                </div>
+                <div class="ui-g-12 ui-md-4">
+                    <label class="label-custom" for="float-input-tc">Cobrador</label>
+                    <div class="ui-inputgroup">
+                        <input type="text" formControlName="nombreCobrador" pInputText style="background-color: rgb(203, 243, 198)">
+                        <button pButton type="button" icon="{{globalConstants.icoBuscar}}" (click)="activarModalUsuario()" class="ui-button-success"></button>
+                    </div>
+                </div>
+                <div class="ui-g-12 ui-md-2">
+                    <label class="label-custom" for="float-input-tc">Ingresos: </label>
+                    <input type="text" formControlName="totalIngresos" pInputText disabled>
+                </div>
+                <div class="ui-g-12 ui-md-1">
+                    <label class="label-custom" for="float-input-tc">Serie</label>
+                    <input type="text" formControlName="seriePlanilla" pInputText disabled>
+                </div>
+                <div class="ui-g-12 ui-md-2">
+                    <label class="label-custom" for="float-input-tc">Nro de Planilla: </label>
+                    <input type="text" formControlName="numeroPlanilla" pInputText disabled>
+                </div>
+                <div class="ui-g-12 ui-md-1">
+                    <label class="label-custom" for="float-input-tc">Nro de Doc: </label>
+                    <input type="text" formControlName="numeroDocumento" pInputText disabled>
+                </div>
+
+            </div>
+        </div>
+        <div class="ui-g ui-fluid">
+            <div class="ui-g-12 ui-md-2">
+                <button pButton type="button" label="{{globalConstants.cBuscar}}" icon="{{globalConstants.icoBuscar}}" class="btn btn-block" (click)="onConsultar()"></button>
+            </div>
+        </div>
+    </form>
+    <HR>
+    <p-panel header="Lista">
+        <p-table [value]="listModelo" [columns]="columnas" [paginator]="true" [rows]="globalConstants.sizePage" dataKey="documento" autoLayout="true" [loading]="loading" [responsive]="true">
+            <ng-template pTemplate="header" let-columns>
+                <tr>
+                    <th>OPCIONES</th>
+                    <th *ngFor="let col of columns">
+                        {{col.header}}
+                    </th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-modelo let-ri="rowIndex">
+                <tr>
+                    <td class="action-td">
+                        <p-splitButton label="Acciones" icon="fa fa-list-ol " [model]="items" (onClick)="itemElegido(ri)" appendTo="body">
+                        </p-splitButton>
+                    </td>
+                    <td class="action-td" style="text-align: center">
+                        <span class="ui-column-title"></span> {{modelo.documento}}
+                    </td>
+                    <td class="action-td" style="text-align: center">
+                        <span class="ui-column-title"></span> {{modelo.nombres}}
+                    </td>
+                    <td class="action-td" style="text-align: right">
+                        <span class="ui-column-title"></span> {{modelo.docmonto}}
+                    </td>
+                    <td class="action-td" style="text-align: center">
+                        <span class="ui-column-title"></span> {{modelo.movimiento}}
+                    </td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </p-panel>
+    <p-footer>
+        <div class="ui-grid ui-fluid">
+            <div class="ui-g-12 ui-md-6">
+                <button pButton type="button" label="Procesar" icon="{{globalConstants.icoAceptar}}" (click)="registrarPlanilla()"></button>
+            </div>
+            <div class="ui-g-12 ui-md-6">
+                <button pButton type="button" label="Cerrar" icon="{{globalConstants.icoCancelar}}" (click)="onCerrar();"></button>
+            </div>
+        </div>
+    </p-footer>
+</p-panel>
+
+<app-planilla-usuario *ngIf="isActivateUsuario" [isActivarUsuario]="isActivateUsuario" (itemSeleccionado)="usuarioBuscado($event)" (cancel)="activarModalUsuario()">
+</app-planilla-usuario>
+
+<app-planilla-tipopago *ngIf="isActivateTipodePago" [isHabilitaControl]="isActivateTipodePago" [isHabilitaEdicion]="isActivateEdicionTipodePago" [obtenerDocumento]="selectDocumento" (cancel)="activarModalTipoPago()">
+</app-planilla-tipopago>

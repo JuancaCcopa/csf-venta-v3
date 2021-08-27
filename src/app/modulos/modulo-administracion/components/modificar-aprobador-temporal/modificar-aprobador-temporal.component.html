@@ -1,0 +1,70 @@
+<div class="card card-w-title">
+    <div class="box">
+        <div class="titulo">
+            <h1>{{titulo}} | Actualizar</h1>
+        </div>
+    </div>
+    <p-panel>
+        <div class="ui-grid ui-fluid">
+            <div class="ui-g-12">
+                <form [formGroup]="formularioModificar">
+                    <div class="p-grid form-group">
+                        <div class="ui-g-12">
+                            <label>Nro Apro Temp: </label>
+                        </div>
+                        <div class="ui-g-12 ui-md-1">
+                            <input formControlName="nroAproTemp" type="text" pInputText size="30" />
+                        </div>
+                        <div class="ui-g-12">
+                            <label>Aprobador: </label>
+                        </div>
+                        <div class="ui-g-12  ui-md-1">
+                            <input type="text" pInputText formControlName="idAprobador" size="2" />
+                        </div>
+                        <div class="ui-g-12  ui-md-4">
+                            <input formControlName="aprobador" type="text" pInputText size="30" />
+                        </div>
+                        <div class="ui-g-12">
+                            <label>Usuario: </label>
+                        </div>
+                        <div class="ui-g-12  ui-md-5">
+                            <input type="text" pInputText formControlName="usuario" size="35" />
+                        </div>
+                        <div class="ui-g-12">
+                            <label>Centro costo: </label>
+                        </div>
+                        <div class="ui-g-12  ui-md-4">
+                            <input formControlName="centroCosto" type="text" pInputText size="30" />
+                        </div>
+                        <div class="ui-g-12">
+                            <label> Fecha Inicio:</label>
+                        </div>
+                        <div class="ui-g-12 ui-md-2">
+                            <p-calendar class="calendar" [locale]="lenguageService.es" dateFormat="dd/mm/yy" formControlName="fechaInicio" [showIcon]="true"></p-calendar>
+                        </div>
+                        <div class="ui-g-12">
+                            <label> Fecha Fin:</label>
+                        </div>
+                        <div class="ui-g-12 ui-md-2">
+                            <p-calendar class="calendar" [locale]="lenguageService.es" dateFormat="dd/mm/yy" formControlName="fechaFin" [showIcon]="true"></p-calendar>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <p-footer>
+            <p-messages [(value)]="mensajePrimeNgService.msgs"></p-messages>
+            <div class="ui-grid ui-fluid">
+                <div class="ui-g-12 ui-md-6">
+                    <ng-container *ngIf="bodyParams.idAprobadorEstado !== 3">
+                        <button pButton type="submit" [disabled]="!formularioModificar.valid" label="{{globalConstants.cGrabar}}" icon="{{globalConstants.icoGrabar}}" (click)="clickGuardar()"></button>
+                    </ng-container>
+
+                </div>
+                <div class="ui-g-12 ui-md-6">
+                    <button pButton type="button" label="{{globalConstants.cRegresar}}" icon="{{globalConstants.icoRegresar}}" class="{{globalConstants.cStyleButtonSecundario}}" (click)="onClickRegresar()"></button>
+                </div>
+            </div>
+        </p-footer>
+    </p-panel>
+</div>

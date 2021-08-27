@@ -1,0 +1,31 @@
+ .ui-inputtext {
+     text-transform: uppercase !important;
+ }
+ 
+ .producto-agotado-background {
+     color: #ffffff !important;
+     background-color: #880382 !important;
+     text-align: center;
+ }
+ 
+ .producto-restringido-background {
+     color: #ffffff !important;
+     background-color: #a50606 !important;
+     text-align: center;
+ }
+ 
+ .producto-alta-riesgo-background {
+     color: #ffffff !important;
+     background-color: #0d148f !important;
+     text-align: center;
+ }
+ /* :host ::ng-deep .swal2-container {
+     z-index: 12000 !important;
+ }
+ 
+ .swal-overlay {
+     z-index: 100000000000 !important
+ } */
+ /* .swal2-container {
+     z-index: 100060!important;
+ } */

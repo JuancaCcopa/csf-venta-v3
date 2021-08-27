@@ -1,0 +1,61 @@
+<div class="ui-fluid">
+    <form [formGroup]="formularioVale">
+        <div class="ui-g-12 ui-md-2">
+            <label class="label-custom">Cod. Atención: </label>
+            <input type="text" formControlName="codatencion" pInputText>
+        </div>
+        <div class="ui-g-12 ui-md-6">
+            <label class="label-custom">Nombre Paciente: </label>
+            <input type="text" formControlName="nombrepaciente" pInputText>
+        </div>
+        <div class="ui-g-12 ui-md-2">
+            <label class="label-custom">Telefono: </label>
+            <input type="text" formControlName="telefono" pInputText>
+        </div>
+        <div class="ui-g-12 ui-md-2">
+            <label class="label-custom">Celular: </label>
+            <input type="text" formControlName="celular" pInputText>
+        </div>
+        <div class="ui-g-12 ui-md-10">
+            <label class="label-custom">Dirección: </label>
+            <input type="text" formControlName="direccion" pInputText>
+        </div>
+        <div class="ui-g-12 ui-md-2">
+            <label class="label-custom">Distrito: </label>
+            <input type="text" formControlName="distrito" pInputText>
+        </div>
+        <div class="ui-g-12 ui-md-12">
+            <label class="label-custom">Referencia: </label>
+            <input type="text" formControlName="referencia" pInputText>
+        </div>
+        <div class="ui-g-12 ui-md-2">
+            <label class="label-custom">Fecha Entrega: </label>
+            <p-calendar formControlName="fechaentrega" placeholder="Seleccionar Fecha" [showButtonBar]="true" [locale]="lenguageService.es" dateFormat="dd/mm/yy" [showIcon]="true" [appendTo]="isAppendVale"></p-calendar>
+        </div>
+        <div class="ui-g-12 ui-md-10">
+            <label class="label-custom">Lugar Entrega: </label>
+            <input type="text" formControlName="lugarentrega" pInputText>
+        </div>
+        <!-- <div class="ui-g-12 ui-md-6">
+            <label class="label-custom">Prioridad I: </label>
+            <input type="text" formControlName="prioridad_1" pInputText>
+        </div>
+        <div class="ui-g-12 ui-md-6">
+            <label class="label-custom">Prioridad II: </label>
+            <input type="text" formControlName="prioridad_2" pInputText>
+        </div>
+        <div class="ui-g-12 ui-md-12">
+            <p-checkbox styleClass="sba-checked" formControlName="estado" label="Entregado" binary="true"></p-checkbox>
+        </div> -->
+    </form>
+
+    <footer>
+        <div class="ui-g-12 ui-md-6">
+            <button pButton type="button" label="{{globalConstants.cGrabar}}" icon="{{globalConstants.icoGrabar}}" (click)="goAceptar()"></button>
+        </div>
+
+        <div class="ui-g-12 ui-md-6">
+            <button pButton type="button" label="{{globalConstants.cCancelar}}" icon="{{globalConstants.icoCancelar}}" (click)="goCancelar()"></button>
+        </div>
+    </footer>
+</div>

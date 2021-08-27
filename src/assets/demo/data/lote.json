@@ -1,0 +1,10 @@
+{
+    "data": [
+        { "codigo": "PEOEL", "nombre": "PANADOL ANTIGRIPAL", "ubicacion": "FILA 2", "fecha": "23/11/2021", "stock": 50 },
+        { "codigo": "XLSKT", "nombre": "PANADOL ANTIGRIPAL", "ubicacion": "FILA 1", "fecha": "25/12/2021", "stock": 100 },
+        { "codigo": "AS1222D", "nombre": "PANADOL ANTIGRIPAL", "ubicacion": "FILA 3", "fecha": "03/03/2022", "stock": 200 },
+        { "codigo": "AS212SDD2D", "nombre": "PANADOL ANTIGRIPAL", "ubicacion": "FILA 3", "fecha": "30/08/2022", "stock": 52 },
+        { "codigo": "AS2XWQ2D", "nombre": "PANADOL ANTIGRIPAL", "ubicacion": "FILA 3", "fecha": "22/03/2023", "stock": 50 },
+        { "codigo": "12SWAS1", "nombre": "PANADOL ANTIGRIPAL", "ubicacion": "FILA 3", "fecha": "22/09/2023", "stock": 300 }
+    ]
+}

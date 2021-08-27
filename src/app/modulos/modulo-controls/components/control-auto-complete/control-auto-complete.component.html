@@ -1,0 +1,1 @@
+<p-autoComplete [(ngModel)]="item" [suggestions]="filteredDataSingle" (completeMethod)="filterDataSingle($event)" (onSelect)='onSelect($event)' (onClear)='onClear($event)' field="name" [size]="30" placeholder="Seleccionar" [minLength]="1"></p-autoComplete>

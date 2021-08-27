@@ -1,0 +1,26 @@
+<p-table [value]="datosRecibidos" [columns]="cabecera" responsive="true" [paginator]="true" [rows]="10" [autoLayout]="true" [loading]="loading" [responsive]="true" [resizableColumns]="true" styleClass="p-datatable-responsive-demo">
+    <ng-template pTemplate="header" let-columns>
+        <tr>
+            <th>Opciones</th>
+            <th *ngFor="let col of columns">
+                {{ col.header }}
+            </th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-rowData let-columns="columns">
+        <tr class="row-hover" [ngClass]="rowData.idAprobador === idEditado || rowData.idAprobadorTemporal === idEditado || rowData.idAprobacionCC === idEditado ? 'resaltarFila' : null">
+            <td>
+                <p-splitButton icon="pi pi-cog" (onDropdownClick)="verOpciones(rowData)" [model]="opciones" appendTo="body">
+                </p-splitButton>
+            </td>
+            <td *ngFor="let col of columns" [ngSwitch]="col.field">
+                <span class="p-column-title">{{col.header}}</span>
+                <span *ngSwitchCase="'desAprobadorEstado'" [ngClass]="{'anulado-activo': rowData[col.field] === 'ACTIVO', inactivo: rowData[col.field] === 'INACTIVO', anulado: rowData[col.field] === 'ANULADO'}">{{ rowData[col.field] }}</span>
+                <span *ngSwitchCase="'estadoAprobacionCC'" [ngClass]="{activoCC: rowData[col.field] === 'ACTIVO', inactivo: rowData[col.field] === 'INACTIVO', anulado: rowData[col.field] === 'ANULADO'}">{{ rowData[col.field] }}</span>
+                <span *ngSwitchCase="'fechaInicio'">{{ rowData[col.field] | date: 'dd/MM/yy' }}</span>
+                <span *ngSwitchCase="'fechaFin'">{{ rowData[col.field] | date: 'dd/MM/yy' }}</span>
+                <span *ngSwitchDefault>{{ rowData[col.field] }}</span>
+            </td>
+        </tr>
+    </ng-template>
+</p-table>

@@ -1,0 +1,15 @@
+<form [formGroup]="formulario">
+    <div class="ui-g ui-fluid">
+        <div class="ui-g-12">
+            <p-inputMask mask="a999-9999999" formControlName="comprobante" placeholder="Ingresar Nota de Crédito"></p-inputMask>
+        </div>
+        <div class="ui-g-12 ui-md-6">
+            <button pButton type="submit" [disabled]="!formulario.valid" label="{{globalConstants.cAceptar}}" icon="{{globalConstants.icoAceptar}}" (click)="goAceptar()"></button>
+        </div>
+
+        <div class="ui-g-12 ui-md-6">
+            <button pButton type="button" label="{{globalConstants.cCancelar}}" icon="{{globalConstants.icoCancelar}}" class="btn btn-block ui-button-danger" (click)="goSalir()"></button>
+        </div>
+
+    </div>
+</form>

@@ -1,0 +1,34 @@
+<div class="box content content-admin-aprobar">
+    <div class="content-data">
+        <h1>Portal de Requerimientos SAP v1</h1>
+
+        <h4>{{ mensajeBienvenida }}</h4>
+        <div class="content-card">
+            <div class="card">
+                <p>Mensajes del Portal -R equerimientos</p>
+                <div class="item-card" *ngFor="let item of rowNotificacion">
+                    <p>{{ item.idDocumento }} - {{ item.desAprobacionNotificacion }}</p>
+                    <p [ngClass]="tipoNotificacion(item.tipoNotificacion)">
+                        {{ item.tipoNotificacion }}
+                    </p>
+                    <!-- <p>12501 - Requerimiento Desaprobado Nro 65200</p>
+          <p>GERENCIA FIN.</p>
+          <p>12500 - Requerimeinto Aprobado Nro 65109</p>
+          <p>GERENCIA FIN.</p> -->
+                </div>
+            </div>
+
+            <div class="card">
+                <p>Mensajes del Portal - Solicitud Vale Salida</p>
+                <div class="item-card">
+                    <p>12391 - Solicitud Vale de Salida Entregado Nro 65200</p>
+                    <p>ALMACEN</p>
+                    <p>12380 - Solicitud Vale de Salida Aprobado Nro 78910</p>
+                    <p>GERENCIA FIN.</p>
+                    <p>12371 - Solicitud Vale de Salida Desaprobado Nro 6421</p>
+                    <p>GERENCIA FIN.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

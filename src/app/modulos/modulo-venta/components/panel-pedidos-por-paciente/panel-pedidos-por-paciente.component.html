@@ -1,0 +1,57 @@
+<div class="card card-w-title">
+    <h1><strong>{{titulo}}</strong></h1>
+
+    <p-panel header="Opción de busqueda de {{titulo}}" [toggleable]="true" [style]="{'margin-bottom':'20px'}">
+        <form [formGroup]="formularioBusqueda">
+            <div class="ui-g ui-fluid">
+                <div class="ui-g-12 ui-md-2">
+                    <label class="label-custom">Pabellon: </label>
+                    <p-dropdown class="ui dropdown-item-text" [options]="listTablaPabellon" formControlName="pabellon" placeholder="Seleccionar Pabellon" optionLabel="label" [showClear]="true"></p-dropdown>
+                </div>
+                <div class="ui-g-12 ui-md-3">
+                    <label class="label-custom" for="float-input-nro-comprobante">Piso: </label>
+                    <p-dropdown class="ui dropdown-item-text" [options]="listTablaPiso" formControlName="piso" placeholder="Seleccionar Piso" optionLabel="label" [showClear]="true"></p-dropdown>
+                </div>
+                <div class="ui-g-12 ui-md-3"></div>
+                <div class="ui-g-12 ui-md-2">
+                    <button pButton type="button" label="{{globalConstants.cBuscar}}" icon="{{globalConstants.icoBuscar}}" class="sba-button btn btn-block" (click)="goListarPacienteClinica()"></button>
+                </div>
+                <div class="ui-g-12 ui-md-2">
+                    <app-btn-salir [isMargenTop]="true"></app-btn-salir>
+                </div>
+            </div>
+        </form>
+    </p-panel>
+
+    <!-- Grilla de Datos     -->
+    <p-panel header="Lista de {{titulo}}">
+
+        <p-table [value]="listModelo" [columns]="columnas" [paginator]="true" [rows]="globalConstants.sizePage" dataKey="idRegistroEquipo" autoLayout="true" [responsive]="true" [loading]="loading">
+            <ng-template pTemplate="header" let-columns>
+                <tr>
+                    <th colspan="1">Acciones</th>
+                    <th *ngFor="let col of columns">
+                        {{col.header}}
+                    </th>
+
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-rowData let-columns="columns">
+                <tr>
+                    <td class="action-td">
+                        <button pButton type="button" label="P.Farmacia" icon="{{globalConstants.icoGenerico}}" class="btn btn-block" (click)="goPedidosFarmaciaPorAtencion(rowData)"></button>
+                    </td>
+                    <td *ngFor="let col of columns" [ngSwitch]="col.field">
+                        <span class="p-column-title">{{col.header}}</span>
+                        <span *ngSwitchCase="'fechainicio'">{{ rowData[col.field]  | date: 'dd/MM/yyyy HH:mm'}}</span>
+                        <span *ngSwitchDefault>{{ rowData[col.field] }}</span>
+                    </td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </p-panel>
+</div>
+
+<p-dialog *ngIf="isVisible" header="Pedidos Realizados para el Paciente" [(visible)]="isVisible" [modal]="true" [style]="{width: '50vw'}" [autoZIndex] [closable]="false">
+    <app-modal-busqueda-pedidos-por-paciente [isModeloHospital]="isModeloHospital" (eventoCerrar)="goCerrarPedidosFarmaciaPorAtencion()"></app-modal-busqueda-pedidos-por-paciente>
+</p-dialog>

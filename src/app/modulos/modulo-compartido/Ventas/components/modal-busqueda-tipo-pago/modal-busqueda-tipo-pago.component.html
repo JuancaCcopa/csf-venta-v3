@@ -1,0 +1,30 @@
+
+<p-dialog header="Buscar Tipo Pago" [(visible)]="isHabilitaControl" [modal]="true" [transitionOptions]="timeAnimationModal">
+    <!-- Filtros -->
+   <p-panel header="Listado de Tipo Pago">
+    <!-- <p-dialog header="Buscar Socio de Negocio" [(visible)]="isDisplayBusqueda" [modal]="true" [transitionOptions]="timeAnimationModal"> -->
+        <div class="content-formulario">
+            <p-table [value]="registros" [columns]="cols" [paginator]="true" [rows]="10" [autoLayout]="true" #tableBusqueda [(selection)]="registroSeleccionado" selectionMode="single" [loading]="loading" [responsive]="true" [resizableColumns]="true" styleClass="p-datatable-responsive-demo">
+                <ng-template pTemplate="header" let-columns>
+                    <tr>
+                        <th *ngFor="let col of columns">
+                            {{ col.header }}
+                        </th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-rowData let-columns="columns">
+                    <tr [pSelectableRow]="rowData">
+                        <td *ngFor="let col of columns">
+                            <span class="p-column-title">{{col.header}}</span> {{ rowData[col.field].trim() }}
+                        </td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+        <p-footer>
+            <button pButton type="button" label="Aceptar" [disabled]="!registroSeleccionado" (click)="clickAceptar()"></button>
+            <button pButton type="button" label="Cancelar" (click)="clickCancelar()"></button>
+        </p-footer>
+    </p-panel>
+
+</p-dialog>

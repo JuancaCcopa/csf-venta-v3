@@ -1,0 +1,9 @@
+{
+    "data": [
+        { "comprobante": "B43500025805", "estado": "G", "codVenta": "50293850", "codAtencion": "H0176873", "nombre": "TRUJILLO MARTINEZ JUAN RAUL", "montoPaciente": 1722.19, "moneda": "S", "fecEmision": "03/09/2020", "fecCancelación": "03/09/2020", "fecAnulación": "03/09/2020" },
+        { "comprobante": "B43500025805", "estado": "G", "codVenta": "50293850", "codAtencion": "H0176873", "nombre": "TRUJILLO MARTINEZ JUAN RAUL", "montoPaciente": 1722.19, "moneda": "S", "fecEmision": "03/09/2020", "fecCancelación": "03/09/2020", "fecAnulación": "03/09/2020" },
+        { "comprobante": "B43500025805", "estado": "G", "codVenta": "50293850", "codAtencion": "H0176873", "nombre": "TRUJILLO MARTINEZ JUAN RAUL", "montoPaciente": 1722.19, "moneda": "S", "fecEmision": "03/09/2020", "fecCancelación": "03/09/2020", "fecAnulación": "03/09/2020" },
+        { "comprobante": "B43500025805", "estado": "G", "codVenta": "50293850", "codAtencion": "H0176873", "nombre": "TRUJILLO MARTINEZ JUAN RAUL", "montoPaciente": 1722.19, "moneda": "S", "fecEmision": "03/09/2020", "fecCancelación": "03/09/2020", "fecAnulación": "03/09/2020" },
+        { "comprobante": "B43500025805", "estado": "G", "codVenta": "50293850", "codAtencion": "H0176873", "nombre": "TRUJILLO MARTINEZ JUAN RAUL", "montoPaciente": 1722.19, "moneda": "S", "fecEmision": "03/09/2020", "fecCancelación": "03/09/2020", "fecAnulación": "03/09/2020" }
+    ]
+}

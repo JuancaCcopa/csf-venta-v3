@@ -1,0 +1,200 @@
+<div class="box content-solicitud-vale">
+    <div class="titulo-page">
+        <h1>Solicitud Vale Salida Registrar</h1>
+    </div>
+
+    <form [formGroup]="formularioSuperior" class="formulario-busqueda">
+        <div class="left">
+            <div class="trabajador item-formulario">
+                <label>Trabajador: </label>
+                <input type="text" size="2" formControlName="idTrabajador" pInputText required />
+                <input type="text" size="30" pInputText formControlName="trabajador" />
+                <button pButton type="button" label="Buscar" (click)="clickActivateBuscarUsuario()"></button>
+            </div>
+            <div class="cc item-formulario">
+                <label>Centro Costo: </label>
+                <input type="text" size="2" formControlName="codCentroCosto" pInputText required />
+                <input type="text" size="30" formControlName="desCentroCosto" pInputText />
+            </div>
+            <div class="item-formulario">
+                <label>Observación: </label>
+                <textarea rows="4" cols="30" pInputTextarea autoResize="autoResize" formControlName="observacion"></textarea>
+            </div>
+            <!-- <div class="item-formulario">
+        <label>Concepto Salida: </label>
+        <p-dropdown
+          placeholder="Seleccionar"
+          formControlName="motivo"
+          [options]="comboMotivo"
+          filter="true"
+          (onChange)="cambioEnComboMotivo($event.value)"
+          optionLabel="desMotivoRequerimiento"
+        ></p-dropdown>
+      </div> -->
+        </div>
+        <div class="right">
+            <div class="item-formulario">
+                <label>Fecha Sol: </label>
+                <p-calendar class="calendar" dateFormat="dd/mm/yy" [locale]="lenguageService.es" [showIcon]="true" formControlName="fechaSol" required></p-calendar>
+            </div>
+            <div class="item-formulario">
+                <label>Fecha Necesaria: </label>
+                <p-calendar class="calendar" dateFormat="dd/mm/yy" [locale]="lenguageService.es" [showIcon]="true" formControlName="fechaNecesaria" required></p-calendar>
+            </div>
+            <div class="item-formulario">
+                <label>Fecha Validez: </label>
+                <p-calendar class="calendar" dateFormat="dd/mm/yy" [locale]="lenguageService.es" [showIcon]="true" formControlName="fechaValidez" required></p-calendar>
+            </div>
+            <div class="item-formulario">
+                <label>Codigo Entrega: </label>
+                <input type="text" pInputText disabled />
+            </div>
+
+            <div class="item-formulario">
+                <label>Nro SAP: </label>
+                <input type="text" pInputText disabled />
+            </div>
+        </div>
+    </form>
+
+    <p-toolbar>
+        <button pButton type="button" label="Agregar artículo" icon="pi pi-plus" (click)="clickActivateBuscarArticulo()"></button>
+    </p-toolbar>
+
+    <div class="box table">
+        <p-table [value]="dataGrilla" [responsive]="true" [resizableColumns]="true" styleClass="p-datatable-responsive-demo" [columns]="cols" #tablaGrilla>
+            <ng-template pTemplate="header" let-columns>
+                <tr>
+                    <th *ngFor="let col of columns">
+                        {{ col.header }}
+                    </th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-rowData let-index="rowIndex">
+                <tr>
+                    <td>
+                        <p-splitButton icon="pi pi-cog" (onDropdownClick)="itemElegido(index)" [model]="opciones" appendTo="body">
+                        </p-splitButton>
+                    </td>
+                    <td>
+                        <span class="p-column-title">Num Linea</span> {{ index + 1 }}
+                    </td>
+                    <!--          <td pEditableColumn>-->
+                    <!--            <p-cellEditor>-->
+                    <!--              <ng-template pTemplate="input">-->
+                    <!--                <input-->
+                    <!--                  pInputText-->
+                    <!--                  type="text"-->
+                    <!--                  [(ngModel)]="rowData.nroOrdenTrabajo"-->
+                    <!--                />-->
+                    <!--              </ng-template>-->
+                    <!--              <ng-template pTemplate="output">-->
+                    <!--                {{ rowData.nroOrdenTrabajo }}-->
+                    <!--              </ng-template>-->
+                    <!--            </p-cellEditor>-->
+                    <!--          </td>-->
+                    <td>
+                        <span class="p-column-title">Cod Articulo:</span> {{ rowData.codArticulo }}
+                    </td>
+
+                    <td>
+                        <span class="p-column-title">Des Articulo:</span> {{ rowData.desArticulo }}
+                    </td>
+
+                    <td>
+                        <span class="p-column-title">Cod Unidad Medida:</span> {{ rowData.codUnidadMedida }}
+                    </td>
+                    <td>
+                        <span class="p-column-title">Cod Almacen:</span> {{ rowData.codAlmacen }}
+                    </td>
+                    <td pEditableColumn>
+                        <span class="p-column-title">Cantidad Necesaria:</span>
+
+                        <p-cellEditor>
+                            <ng-template pTemplate="input">
+                                <input pInputText type="number" [(ngModel)]="rowData.cantidad" />
+                            </ng-template>
+                            <ng-template pTemplate="output">
+                                {{ rowData.cantidad }}
+                            </ng-template>
+                        </p-cellEditor>
+                    </td>
+                    <td pEditableColumn>
+                        <span class="p-column-title">Cod centro costo:</span>
+
+                        <p-cellEditor>
+                            <ng-template pTemplate="input">
+                                <!-- <input pInputText type="text" [(ngModel)]="rowData.codCentroCosto"> -->
+                                <button pButton type="button" label="Agregar Centro Costo" icon="pi pi-plus" (click)="activarModalCentroCosto(index)"></button>
+                            </ng-template>
+                            <ng-template pTemplate="output">
+                                {{ rowData.codCentroCosto }}
+                            </ng-template>
+                        </p-cellEditor>
+                    </td>
+                    <!-- <td pEditableColumn>
+          <p-cellEditor>
+            <ng-template pTemplate="input">
+              <p-calendar
+                class="calendar"
+                [locale]="ES"
+                [showIcon]="true"
+                [(ngModel)]="rowData.fecNecesaria"
+                appendTo="body"
+              ></p-calendar>
+            </ng-template>
+            <ng-template pTemplate="output">
+              {{ rowData.fecNecesaria | date: 'dd/MM/yy' }}
+            </ng-template>
+          </p-cellEditor>
+        </td> -->
+                    <td pEditableColumn>
+                        <span class="p-column-title">Cod Comentario:</span>
+
+                        <p-cellEditor>
+                            <ng-template pTemplate="input">
+                                <input pInputText type="text" [(ngModel)]="rowData.comentario" />
+                            </ng-template>
+                            <ng-template pTemplate="output">
+                                {{ rowData.comentario }}
+                            </ng-template>
+                        </p-cellEditor>
+                    </td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </div>
+    <div class="anexo">
+        <h2>Anexo</h2>
+        <p-fileUpload name="myfile[]" chooseLabel="Añadir" uploadLabel="Subir" cancelLabel="Cancelar" multiple="true" fileLimit="3" customUpload="true" [auto]="true" (uploadHandler)="myUploader($event)" invalidFileLimitMessageSummary="Archivos excedidos">
+            <!-- <ng-template pTemplate="content">
+      <ul *ngIf="uploadedFiles.length">
+        <li *ngFor="let file of uploadedFiles">
+          {{ file.name }} - {{ file.size }} bytes
+        </li>
+      </ul>
+    </ng-template> -->
+        </p-fileUpload>
+    </div>
+
+    <div class="barra-progreso">
+        <ng-container *ngIf="isEnvioArchivo && progress === 0">
+            <p-progressBar mode="indeterminate" [style]="{ height: '6px', margin: '10px 0 0 0' }"></p-progressBar>
+            <h3 style="text-align: center">Enviando solicitud...</h3>
+        </ng-container>
+        <p-progressBar *ngIf="progress > 0" [value]="progress" [style]="{ margin: '10px 0 15px 0' }">
+        </p-progressBar>
+    </div>
+    <p-messages [(value)]="mensajePrimeNgService.msgs"></p-messages>
+    <div class="botones">
+        <button pButton type="button" class="ui-button-success" label="Grabar" icon="pi pi-save" [disabled]="!formularioSuperior.valid || dataGrilla.length < 1" (click)="clickGuardarGrilla(tablaGrilla._value)"></button>
+        <button pButton type="button" class="ui-button-secondary" label="Cancelar" icon="pi pi-times" (click)="onClickRegresar()"></button>
+    </div>
+</div>
+<app-modal-busqueda-usuario *ngIf="isActivateBusquedaUsuario" [isDisplayBusquedaUsuario]="isActivateBusquedaUsuario" (usuarioSeleccionado)="usuarioBuscado($event)" (cancel)="clickActivateBuscarUsuario()"></app-modal-busqueda-usuario>
+
+<app-modal-busqueda-centro-costo [isDisplayBusquedaCentroCosto]="isActivateBusquedaCentroCosto" (CentroCostoSeleccionado)="centroCostoSeleccionado($event)" (cancel)="activarModalCentroCosto()">
+</app-modal-busqueda-centro-costo>
+
+<app-modal-busqueda-articulo *ngIf="isActivateBusquedaArticulo" [isDisplayBusquedaArticulo]="isActivateBusquedaArticulo" (articuloSeleccionado)="articuloBuscado($event)" (cancel)="clickActivateBuscarArticulo()">
+</app-modal-busqueda-articulo>

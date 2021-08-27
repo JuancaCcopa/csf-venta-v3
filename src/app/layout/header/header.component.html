@@ -1,0 +1,56 @@
+<div class="topbar clearfix">
+
+    <img class="logo" routerLink="/main/csfe/bienvenido" style="outline: none; cursor: pointer;" alt="apollo-layout" src="assets/layout/images/logo_header.png" />
+
+    <a id="menu-button" href="#" (click)="app.onMenuButtonClick($event)">
+        <i class="fa fa-align-left"></i>
+    </a>
+
+    <a href="#" class="profile" (click)="app.onTopbarMenuButtonClick($event)">
+        <span class="username">{{nombre}}</span>
+        <img class="headerimg" [src]="imagen | domSeguroImagenBase64" alt="apollo-layout" />
+        <i class="fa fa-angle-down"></i>
+    </a>
+
+    <!-- <span class="topbar-search">
+        <input type="text" pInputText placeholder="Search"/>
+        <span class="fa fa-search"></span>
+    </span> -->
+
+    <!-- <span class="topbar-themeswitcher">
+        <p-inputSwitch [(ngModel)]="app.darkTheme" (onChange)="app.changeTheme(app.selectedColor)"></p-inputSwitch>
+    </span> -->
+
+    <ul class="topbar-menu fadeInDown" [ngClass]="{'topbar-menu-visible': app.topbarMenuActive}">
+        <li #profile [ngClass]="{'menuitem-active':app.activeTopbarItem === profile}">
+            <a href="#" (click)="app.onTopbarItemClick($event, profile)">
+                <i class="topbar-icon fa fa-fw fa-user"></i>
+                <span class="topbar-item-name">Usuario</span>
+            </a>
+            <ul>
+                <li role="menuitem">
+                    <a (click)="onMuestraInformacionGeneral()">
+                        <i class="fa fa-fw fa-user"></i>
+                        <span>Información General</span>
+                    </a>
+                </li>
+                <li role="menuitem">
+                    <a (click)="onDescargaDocumento($event)">
+                        <i class="fa fa-fw fa-file-pdf-o"></i>
+                        <span>Manual de Usuario</span>
+                    </a>
+                </li>
+                <li role="menuitem">
+                    <a (click)="onLogout($event)">
+                        <i class="fa fa-fw fa-sign-out"></i>
+                        <span>Cerrar Sesión</span>
+                    </a>
+                </li>
+            </ul>
+        </li>
+    </ul>
+</div>
+
+<p-dialog header="Información General" [(visible)]="isVisibleInformacionGeneral" [modal]="true" [style]="{width: '60vw'}" [baseZIndex]="10000">
+    <app-persona-ver></app-persona-ver>
+</p-dialog>

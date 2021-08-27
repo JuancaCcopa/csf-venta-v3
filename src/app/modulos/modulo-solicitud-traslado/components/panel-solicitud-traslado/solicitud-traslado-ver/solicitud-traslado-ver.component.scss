@@ -1,0 +1,35 @@
+.content-detalle {
+  padding: 20px 0;
+  display: grid;
+  gap: 15px;
+  .content-superior {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    padding: 0 20px 20px 20px;
+    position: relative;
+    .left,
+    .right {
+      display: grid;
+      row-gap: 12px;
+      p {
+        & > span {
+          font-weight: bold;
+        }
+      }
+    }
+    .labelEstado_solicitud {
+      position: absolute;
+      right: 0;
+      top: 0;
+      display: block;
+      text-align: center;
+      // color: white;
+      // font-weight: bold;
+      // padding: 5px 12px;
+      // border-radius: 8px;
+    }
+  }
+  // .articulos{
+  //   // grid-column: 1/3;
+  // }
+}

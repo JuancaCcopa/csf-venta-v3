@@ -1,0 +1,88 @@
+<div class="card card-w-title">
+    <h1><strong>{{titulo}}</strong></h1>
+
+    <!-- Filtros -->
+    <p-panel header="{{titulo}}" [toggleable]="true" [style]="{'margin-bottom':'20px'}">
+        <div class="ui-g ui-fluid">
+            <div class="ui-g-12 ui-md-6">
+                <input type="text" pInputText placeholder="Ingresar descripcion" size="100" [(ngModel)]="descripcionFind" />
+            </div>
+            <div class="ui-g-12 ui-md-3">
+                <button pButton type="button" label="{{globalConstants.cBuscar}}" icon="{{globalConstants.icoBuscar}}" (click)="onToBuscar()" class="btn btn-block"></button>
+            </div>
+            <div class="ui-g-12 ui-md-3">
+                <button [disabled]="buttonAcces.btnNuevo" pButton type="button" label="{{globalConstants.cNuevo}}" icon="{{globalConstants.icoNuevo}}" (click)="onToCreate()"></button>
+            </div>
+        </div>
+    </p-panel>
+
+    <p-messages [(value)]="mensajePrimeNgService.msgs"></p-messages>
+
+    <!-- Grilla de Datos     -->
+    <p-panel header="Lista de {{titulo}}">
+        <p-table [value]="listModelo" [columns]="columnas" [paginator]="true" [rows]="globalConstants.sizePage" dataKey="idPerfil" editMode="row" autoLayout="true" [responsive]="true">
+            <!-- Header -->
+            <ng-template pTemplate="header" let-columns>
+                <tr>
+                    <th *ngFor="let col of columns">
+                        {{col.header}}
+                    </th>
+                    <th colspan="2">Acciones</th>
+                </tr>
+            </ng-template>
+            <!-- body -->
+            <ng-template pTemplate="body" let-modelo let-editing="editing" let-ri="rowIndex">
+                <tr [pEditableRow]="modelo">
+                    <td class="action-td">
+                        <span class="ui-column-title">Codigo</span> {{modelo.idPerfil}}
+                    </td>
+                    <td class="ui-fluid">
+                        <span class="ui-column-title">Descripción</span>
+                        <p-cellEditor>
+                            <ng-template pTemplate="input">
+                                <span class="p-float-label">
+                                    <input id="float-input" type="text" pInputText [(ngModel)]="modelo.descripcionPerfil" size="100"> 
+                                </span>
+                            </ng-template>
+                            <ng-template pTemplate="output">
+                                {{modelo.descripcionPerfil}}
+                            </ng-template>
+                        </p-cellEditor>
+                    </td>
+                    <td class="action-td">
+                        <span class="ui-column-title">Activo</span>
+                        <p-cellEditor>
+                            <ng-template pTemplate="input">
+                                <span class="p-float-label">
+                                    <p-checkbox [(ngModel)]="modelo.flgActivo" [binary]="true"></p-checkbox>
+                                </span>
+                            </ng-template>
+                            <ng-template pTemplate="output">
+                                <p-checkbox [(ngModel)]="modelo.flgActivo" [binary]="true" [disabled]="true"></p-checkbox>
+                            </ng-template>
+                        </p-cellEditor>
+                    </td>
+                    <td class="action-td-action">
+                        <button [disabled]="buttonAcces.btnEditar" *ngIf="!editing" pButton type="button" pInitEditableRow icon="{{globalConstants.icoEditar}}" (click)="onRowEditInit(modelo)"></button>
+                        <button *ngIf="editing" pButton type="button" pSaveEditableRow icon="{{globalConstants.icoGrabar}}" class="ui-button-success" (click)="onRowEditSave(modelo)"></button>
+                        <button *ngIf="editing" pButton type="button" pCancelEditableRow icon="{{globalConstants.icoCancelar}}" class="ui-button-danger" style="margin-left: .5em" (click)="onRowEditCancel(modelo, ri)"></button>
+                    </td>
+                    <td class="action-td">
+                        <button [disabled]="buttonAcces.btnEliminar" pButton icon="{{globalConstants.icoEliminar}}" class="ui-button-danger" (click)="onToRowSelectDelete(modelo)"></button>
+                    </td>
+                </tr>
+            </ng-template>
+
+        </p-table>
+        <p-footer>
+            <div class="ui-grid ui-fluid">
+                <div class="ui-g-12 ui-md-3">
+                    <button [disabled]="buttonAcces.btnNuevo" pButton type="button" label="{{globalConstants.cNuevo}}" icon="{{globalConstants.icoNuevo}}" (click)="onToCreate()"></button>
+                </div>
+            </div>
+        </p-footer>
+    </p-panel>
+</div>
+
+<!-- Para Eliminar -->
+<p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000"></p-confirmDialog>

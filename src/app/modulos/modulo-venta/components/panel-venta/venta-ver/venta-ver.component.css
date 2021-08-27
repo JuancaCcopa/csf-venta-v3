@@ -1,0 +1,21 @@
+.sba-checkbox-devolucion {
+    margin: 1.5em 0 0 0 !important;
+}
+
+.sba-checkbox-soles {
+    margin: .5em 0 0 0 !important;
+}
+
+.sba-checkbox-gratuito {
+    margin: .7em 0 0 0 !important;
+}
+
+.sba-label-total {
+    margin: 0.9em !important;
+    text-align: right !important;
+}
+
+.sba-label-observacion {
+    margin: 0.5em !important;
+    text-align: right !important;
+}

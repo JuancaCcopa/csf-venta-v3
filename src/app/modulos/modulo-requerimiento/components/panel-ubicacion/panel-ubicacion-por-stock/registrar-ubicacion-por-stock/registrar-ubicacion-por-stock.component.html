@@ -1,0 +1,84 @@
+<div class="card card-w-title">
+    <div class="box">
+        <div class="titulo">
+            <h1>{{titulo}} | {{globalConstants.cNuevo}}</h1>
+        </div>
+    </div>
+    <p-panel>
+        <div class="ui-grid ui-fluid">
+            <div class="ui-g-12">
+                <form [formGroup]="maestroForm">
+                    <div class="p-grid form-group">
+
+                        <div class="ui-g-12">
+                            <label class="label-custom" for="float-lbl-cc">Ubicación: </label>
+                        </div>
+                        <div class="ui-g-12 ui-md-2">
+                            <input id="float-input-codigo-cc" type="text" pInputText formControlName="idUbicacion" placeholder="Id Ubicación">
+                        </div>
+                        <div class="ui-g-12 ui-md-4">
+                            <input id="float-input-descripcion-cc" type="text" pInputText formControlName="desUbicacion" placeholder="Ubicación">
+                        </div>
+                        <div class="ui-g-12 ui-md-2">
+                            <button pButton type="button" icon="{{globalConstants.icoBuscar}}" (click)="activarModalUbicacion()" class="btn btn-block"></button>
+                        </div>
+                        <div class="ui-g-12">
+                            <label class="label-custom" for="float-lbl-cc">Tipo Producto: </label>
+                        </div>
+                        <div class="ui-g-12 ui-md-2">
+                            <input id="float-input-cod-tipo-producto" type="text" pInputText formControlName="codTipoProducto" placeholder="Id Tipo Producto">
+                        </div>
+                        <div class="ui-g-12 ui-md-4">
+                            <input id="float-input-des-tipo-producto" type="text" pInputText formControlName="desTipoProducto" placeholder="Tipo Producto">
+                        </div>
+                        <div class="ui-g-12 ui-md-2">
+                            <button pButton type="button" icon="{{globalConstants.icoBuscar}}" (click)="activarModalTipoProducto()" class="btn btn-block"></button>
+                        </div>
+                        <div class="ui-g-12">
+                            <label class="label-custom" for="float-lbl-producto">Producto: </label>
+                        </div>
+                        <div class="ui-g-12 ui-md-2">
+                            <input id="float-input-codigo-producto" type="text" pInputText formControlName="codArticulo" placeholder="Id Producto">
+                        </div>
+                        <div class="ui-g-12 ui-md-4">
+                            <input id="float-input-descripcion-producto" type="text" pInputText formControlName="desArticulo" placeholder="Producto">
+                        </div>
+                        <div class="ui-g-12 ui-md-2">
+                            <button pButton type="button" icon="{{globalConstants.icoBuscar}}" (click)="activarModalArticulo()" class="btn btn-block"></button>
+                        </div>
+                        <div class="ui-g-12">
+                            <label class="label-custom" for="float-lbl-stock-maximo">Stock Máximo: </label>
+                        </div>
+                        <div class="ui-g-12  ui-md-2">
+                            <input id="float-lbl-stock-maximo" type="number" pInputText formControlName="stockMaximo" placeholder="Stock Máximo">
+                            <div *ngIf="maestroForm.controls['stockMaximo'].errors && maestroForm.controls['stockMaximo'].dirty">
+                                <p-message severity="error" text="Stock Máximo es requerido" *ngIf="maestroForm.controls['stockMaximo'].errors['required']"></p-message>
+                                <p-message severity="error" text="Stock Máximo no puede ser 0 o menor." *ngIf="maestroForm.controls['stockMaximo'].errors['min']"></p-message>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <p-footer>
+            <p-messages [(value)]="mensajePrimeNgService.msgs"></p-messages>
+            <div class="ui-grid ui-fluid">
+                <div class="ui-g-12 ui-md-6">
+                    <button pButton type="submit" [disabled]="!maestroForm.valid" label="{{globalConstants.cGrabar}}" icon="{{globalConstants.icoGrabar}}" (click)="onClickSave()"></button>
+                </div>
+                <div class="ui-g-12 ui-md-6">
+                    <button pButton type="button" label="{{globalConstants.cRegresar}}" icon="{{globalConstants.icoRegresar}}" class="{{globalConstants.cStyleButtonSecundario}}" (click)="back()"></button>
+                </div>
+            </div>
+        </p-footer>
+    </p-panel>
+</div>
+
+<app-modal-busqueda-ubicacion [isDisplayBusquedaUbicacion]="isActivateBusquedaUbicacion" (UbicacionSeleccionado)="ubicacionSeleccionado($event)" (cancel)="activarModalUbicacion()">
+</app-modal-busqueda-ubicacion>
+
+<app-modal-busqueda-articulo [selectionMode]="'single'" [tipoArticulo]="itemTipoProductoSeleccionado.codTipoProducto" [isDisplayBusquedaArticulo]="isActivateBusquedaArticulo" (articuloSeleccionado)="articuloBuscado($event)" (cancel)="activarModalArticulo()">
+</app-modal-busqueda-articulo>
+
+<app-modal-busqueda-articulo-por-grupop [idUbicacion]="itemUbicacionSeleccionado.idUbicacion" [isDisplayBusqueda]="isActivateBusquedaTipoProducto" (itemSeleccionado)="tipoProductoSeleccionado($event)" (cancel)="activarModalTipoProducto()">
+</app-modal-busqueda-articulo-por-grupop>

@@ -1,0 +1,154 @@
+<div class="card card-w-title">
+    <div class="box">
+        <div class="titulo">
+            <h1>Solicitud de Traslado - Externo | Nuevo</h1>
+        </div>
+    </div>
+   <!-- Filtros -->
+   <p-panel >
+        <form [formGroup]="formularioSuperior">
+            <div class="ui-g ui-fluid">
+                <div class="ui-g-12 ui-md-1">
+                         <label class="label-custom" for="float-input-cod-socio">Codigo Socio:</label>
+                        <input id="float-input-cod-socio"  type="text" formControlName="codSocioNegocio" pInputText disabled  />
+                    </div>
+                <div class="ui-g-12 ui-md-3">
+                    <label class="label-custom" for="float-input-socio">Socio de Negocio:</label>
+                    <div class="ui-inputgroup">
+                        <input type="text" id="float-input-socio" formControlName="desSocioNegocio" pInputText disabled  />
+                        <button pButton type="button" icon="{{globalConstants.icoBuscar}}" (click)="onToBuscarSocio()" class="ui-button-success"></button>
+                    </div>
+                </div>
+                <div class="ui-g-12 ui-md-2">
+                    <label class="label-custom" for="float-input-fecha-ini">Fecha Solicitud: </label>
+                    <p-calendar id="float-input-fecha-ini" disabled="true" formControlName="fechaReg" placeholder="Seleccionar Fecha Inicio" [showButtonBar]="true" [locale]="lenguageService.es" dateFormat="dd/mm/yy" [showIcon]="true"></p-calendar>
+                </div>
+                <div class="ui-g-12 ui-md-2">
+                    <label>Responsable: </label>
+                    <input type="text" formControlName="responsable" pInputText disabled />
+                </div> 
+            </div>
+            <div class="ui-g ui-fluid">
+                <div class="ui-g-12 ui-md-2">
+                    <label class="label-custom" for="float-input-socio">Almacén Origen:</label>
+                    <div class="ui-inputgroup">
+                        <input type="text" id="float-input-socio" formControlName="almacenOrigen" pInputText disabled  />
+                        <button pButton type="button" icon="{{globalConstants.icoBuscar}}" (click)="activarModalAlmacen('origen')" class="ui-button-success"></button>
+                    </div>
+                </div>
+                <div class="ui-g-12 ui-md-2">
+                    <label class="label-custom" for="float-input-socio">Almacén Destino:</label>
+                    <div class="ui-inputgroup">
+                        <input type="text" id="float-input-socio" formControlName="almacenDestino" pInputText disabled  />
+                        <button pButton type="button" icon="{{globalConstants.icoBuscar}}" (click)="activarModalAlmacen('destino')" class="ui-button-success"></button>
+                    </div>
+                </div>
+                <div class="ui-g-12 ui-md-2">
+                    <label>Motivo: </label>
+                    <p-dropdown placeholder="Seleccionar" formControlName="cbMotivo" [options]="rowMotivo" filter="true" optionLabel="label"></p-dropdown>
+                </div>
+                <div class="ui-g-12 ui-md-2">
+                    <label>Estado: </label>
+                    <input type="text" formControlName="estado" pInputText disabled />
+                </div>
+            </div>
+            <div class="ui-g ui-fluid">
+                <div class="ui-g-12 ui-md-8">
+                    <span class="ui-column-title">Descripción</span>
+                    <textarea pInputTextarea autoResize="autoResize" formControlName="observacion"></textarea>
+                </div>
+                <div class="ui-g-12 ui-md-2">
+
+                </div>
+               
+            </div>
+        </form>
+    </p-panel>
+    <br>
+    <p-toolbar>
+        <!--  -->
+        <button pButton type="button" label="Agregar Articulos" icon="pi pi-plus" (click)="onToBuscarArticulo()"></button>
+    </p-toolbar>
+    <br>
+
+    <p-messages [(value)]="mensajePrimeNgService.msgs"></p-messages>
+   
+     <!-- Grilla de Datos     -->
+     <p-panel header="Lista de Articulos">
+        <p-table [value]="listArticulosItem" [paginator]="true" [rows]="globalConstants.sizePage" editMode="row" autoLayout="true" [responsive]="true" #tablaGrilla>
+            <!-- Header -->
+            <ng-template pTemplate="header" let-columns>
+                <tr>
+                    <th>Opciones</th>
+                    <th>Num Linea</th>
+                    <th>Código Articulo</th>
+                    <th>Descripción Articulo</th>
+                    <th>Cantidad</th>
+                    <th>Cod Unidad Medida</th>
+                </tr>
+            </ng-template>
+            <!-- body -->
+            <ng-template pTemplate="body" let-modelo let-ri="rowIndex">
+                <tr>
+                    <td class="action-td">
+                        <p-splitButton icon="pi pi-cog" (onDropdownClick)="itemElegido(ri)" [model]="opciones" appendTo="body">
+                        </p-splitButton>
+                    </td>
+                    <td>
+                        <span class="p-column-title">Num Linea</span> {{ri + 0 }}
+                    </td>
+                    <td>
+                        <span class="p-column-title">Cod Articulo:</span> {{ modelo.codArticulo }}
+                    </td>
+                    <td>
+                        <span class="p-column-title">Descripción Articulo:</span> {{ modelo.desArticulo }}
+                    </td>                    
+                    <td style="text-align: right" pEditableColumn>
+                        <span class="p-column-title">Cantidad:</span>
+                        <p-cellEditor>
+                            <ng-template pTemplate="input">
+                                <input pInputText type="number" [(ngModel)]="modelo.cantidadSolicitada" />
+                            </ng-template>
+                            <ng-template pTemplate="output">
+                                {{ modelo.cantidadSolicitada }}
+                            </ng-template>
+                        </p-cellEditor>
+                    </td>
+                    <td>
+                        <span class="p-column-title">Cod UM:</span> {{ modelo.codUnidadMedida }}
+                    </td>
+                </tr>
+            </ng-template>
+
+        </p-table>
+
+        <footer>
+            <div class="ui-grid ui-fluid">
+                <div class="ui-g-12 ui-md-6">
+                    <button pButton type="button" class="ui-button-success" id="btnsave" label="Grabar"  icon="pi pi-save" (click)="clickGuardar()"></button>
+                </div>
+                <div class="ui-g-12 ui-md-6">
+                    <button pButton type="button" class="ui-button-secondary" label="Regresar" (click)="onClickRegresar()" icon="pi pi-times"></button>
+                </div>
+            </div>
+        </footer>
+
+    </p-panel>
+
+</div>
+
+<div *ngIf="isActivateBusquedaSocioNegocio">
+    <app-modal-busqueda-socio-negocio-lt [isDisplayBusqueda]="isActivateBusquedaSocioNegocio" (eventoRegistroSeleccionado)="socioNegocioSeleccionado($event)" (cancel)="activarModalSocioNegocio()">
+    </app-modal-busqueda-socio-negocio-lt>
+</div>
+
+<div *ngIf="isActivateBusquedaArticuloStock">
+    <app-modal-busqueda-articulo-stock [isDisplayBusquedaArticulo]="isActivateBusquedaArticuloStock" [almacenSelect]="almacenOrigenSelect" (articuloSeleccionado)="articuloBuscado($event)" (cancel)="activarModalArticuloStock()" >
+    </app-modal-busqueda-articulo-stock>
+</div>
+
+<div *ngIf="isActivateBusquedaAlmacen">
+    <app-modal-busqueda-almacenes-lt [isDisplayBusqueda]="isActivateBusquedaAlmacen" (eventoRegistroSeleccionado)="almacenSeleccionado($event)" (cancel)="activarModalAlmacen()">
+    </app-modal-busqueda-almacenes-lt>
+</div>
+

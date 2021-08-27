@@ -1,0 +1,50 @@
+<p-panel header="Datos del Producto" [style]="{'margin-bottom':'20px'}">
+    <form [formGroup]="formulario">
+        <div class="ui-g ui-fluid">
+            <div class="ui-g-12 ui-md-3">
+                <label class="label-custom">Precio: </label>
+                <input type="number" pInputText formControlName="precio">
+            </div>
+            <div class="ui-g-12 ui-md-3">
+                <label class="label-custom">Stock: </label>
+                <input type="number" pInputText formControlName="stock">
+            </div>
+            <div class="ui-g-12 ui-md-3">
+                <label class="label-custom">Solicitado: </label>
+                <input type="number" pInputText formControlName="solicitado">
+            </div>
+            <div class="ui-g-12 ui-md-3">
+                <label class="label-custom">Reservado: </label>
+                <input type="number" pInputText formControlName="reservado">
+            </div>
+        </div>
+    </form>
+</p-panel>
+
+<p-table [value]="listStock" [loading]="loading" [columns]="columnas" [paginator]="true" [rows]="globalConstants.sizePageModal" dataKey="whsCode" autoLayout="true" [responsive]="true">
+    <ng-template pTemplate="header" let-columns>
+        <tr>
+            <th *ngFor="let col of columns">
+                {{col.header}}
+            </th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-rowData let-columns="columns">
+        <tr>
+            <td *ngFor="let col of columns" [ngSwitch]="col.field">
+                <span class="p-column-title">{{col.header}}</span>
+
+                <span *ngSwitchDefault>{{ rowData[col.field] }}</span>
+            </td>
+        </tr>
+    </ng-template>
+</p-table>
+
+<div class="ui-g ui-fluid">
+    <div class="ui-g-12 ui-md-10">
+    </div>
+
+    <div class="ui-g-12 ui-md-2">
+        <button pButton type="button" label="{{globalConstants.cSalir}}" icon="{{globalConstants.icoSalir}}" class="btn btn-block ui-button-danger" (click)="goSalir()"></button>
+    </div>
+</div>

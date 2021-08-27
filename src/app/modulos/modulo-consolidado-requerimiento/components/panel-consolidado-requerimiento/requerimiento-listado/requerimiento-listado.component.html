@@ -1,0 +1,90 @@
+<p-dialog header="Buscar Requerimiento" [(visible)]="isDisplayBusquedaArticulo" [modal]="true" [transitionOptions]="timeAnimationModal" [style]="{width: '80vw'}" [autoZIndex]>
+    <!-- Filtros -->
+    <p-panel header="Busqueda de {{titulo}}" [toggleable]="true" [style]="{'margin-bottom':'20px'}">
+        <form [formGroup]="formularioBusqueda">
+            <div class="ui-g ui-fluid">
+                <div class="ui-g-12 ui-md-4">
+                    <label class="label-custom" for="float-input-fecha-ini">Fecha Inicio: </label>
+                    <p-calendar id="float-input-fecha-ini" formControlName="fechaInicio" placeholder="Seleccionar Fecha Inicio" [showButtonBar]="true" [locale]="lenguageService.es" dateFormat="dd/mm/yy" [showIcon]="true"></p-calendar>
+                </div>
+                <div class="ui-g-12 ui-md-4">
+                    <label class="label-custom" for="float-input-fecha-fin">Fecha Fin: </label>
+                    <p-calendar id="float-input-fecha-fin" formControlName="fechaFin" placeholder="Seleccionar Fecha Fin" [showButtonBar]="true" [locale]="lenguageService.es" dateFormat="dd/mm/yy" [showIcon]="true"></p-calendar>
+                </div>
+                <div class="ui-g-12 ui-md-4">
+                    <label>Motivo: </label>
+                    <p-dropdown placeholder="Seleccionar" formControlName="comboMotivo" [options]="rowMotivo" [(ngModel)]="rowMotivoSelect" filter="true" optionLabel="label" required></p-dropdown>
+                </div>
+            </div>
+            <div class="ui-g ui-fluid">
+                <div class="ui-g-12 ui-md-4">
+                    <label>Agrupado Por: </label>
+                    <p-dropdown placeholder="Seleccionar" formControlName="comboAgrupar" [options]="rowAgrupado" [(ngModel)]="rowAgrupadoSelect" filter="true" optionLabel="label" required></p-dropdown>
+                </div>
+                <div class="ui-g-12 ui-md-2">
+                    <button style="top: 1.2em;" pButton type="button" label="{{globalConstants.cBuscar}}" icon="{{globalConstants.icoBuscar}}" (click)="onToBuscar()" class="btn btn-block"></button>
+                </div>
+            </div>
+        </form>
+    </p-panel>
+
+    <!-- Grilla de Datos     -->
+    <p-panel header="1Lista de {{titulo}}">
+        <!-- <p-table [value]="listGrilla" [columns]="columnas" [paginator]="true" [rows]="10"  [(selection)]="dtSelectedRows"  [loading]="loading"  dataKey="warehouseCode" selectionMode="single"  autoLayout="true" [responsive]="true" > -->
+        <!-- [(selection)]="seleccionArticulo" -->
+        <p-table [value]="listGrilla" [columns]="columnas" [paginator]="true" [loading]="loading" [rows]="globalConstants.sizePage" dataKey="idRequerimiento" [(selection)]="seleccionArticulo" selectionMode="multiple" autoLayout="true" [responsive]="true">
+            <!-- Header -->
+            <ng-template pTemplate="header" let-columns>
+                <tr>
+                    <th>Opciones</th>
+                    <th style="width: 2.25em">
+                        <!-- <p-tableHeaderCheckbox></p-tableHeaderCheckbox> -->
+                    </th>
+                    <th *ngFor="let col of columns">
+                        {{col.header}}
+                    </th>
+                </tr>
+            </ng-template>
+            <!-- body let-editing="editing"let-ri="rowIndex" [value]="modelo" [pSelectableRow]="modelo"-->
+            <ng-template pTemplate="body" let-modelo>
+                <tr [pSelectableRow]="modelo">
+                    <td class="action-td">
+                        <p-splitButton icon="pi pi-cog" [model]="opciones" (onDropdownClick)="itemElegido(modelo)" appendTo="body">
+                        </p-splitButton>
+                    </td>
+                    <td>
+                        <p-tableCheckbox [pSelectableRow]="modelo" [value]="modelo"></p-tableCheckbox>
+                    </td>
+                    <td class="action-td">
+                        {{modelo.idRequerimiento}}
+                    </td>
+                    <td>
+                        {{modelo.fecRequerimiento | date: 'dd/MM/yyyy' }}
+                    </td>
+                    <td>
+                        {{modelo.desCentroCosto}}
+                    </td>
+                    <td>{{modelo.nombreCompleto}}</td>
+                    <td>{{modelo.desRequerimientoEstado}}</td>
+                </tr>
+            </ng-template>
+
+        </p-table>
+        <p-footer>
+            <div class="ui-grid ui-fluid">
+                <div class="ui-g-12 ui-md-6">
+                    <button pButton type="button" [disabled]="!seleccionArticulo" label="{{globalConstants.cAceptar}}" icon="{{globalConstants.icoAceptar}}" (click)="clickAceptar()"></button>
+                </div>
+                <div class="ui-g-12 ui-md-6">
+                    <button pButton type="button" label="{{globalConstants.cCancelar}}" icon="{{globalConstants.icoCancelar}}" (click)="clickCancelar()"></button>
+                </div>
+            </div>
+        </p-footer>
+    </p-panel>
+    <!-- </div> -->
+</p-dialog>
+
+<p-dialog *ngIf="isVerModalDetalle" [header]="tituloDetalle" [(visible)]="isVerModalDetalle" [transitionOptions]="timeAnimationModal" [modal]="true" [style]="{width: '80vw'}" [autoZIndex]>
+    <app-requerimiento-ver-detalle [requerimiento]="this.itemSeleccionado">
+    </app-requerimiento-ver-detalle>
+</p-dialog>

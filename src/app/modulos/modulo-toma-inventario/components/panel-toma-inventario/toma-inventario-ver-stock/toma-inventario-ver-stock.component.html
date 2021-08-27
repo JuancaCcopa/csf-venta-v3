@@ -1,0 +1,57 @@
+<p-panel header="REPORTE" [toggleable]="true" [style]="{'margin-bottom':'20px'}">
+    <div class="ui-g ui-fluid">
+        <div class="ui-g-12 ui-md-12">
+            <span style="text-align: center; font-size: 20px"><strong>ESTRUCTURA PLANTILLA DE INVENTARIO</strong></span>
+        </div>
+        <div class="ui-g-12 ui-md-6">
+            <span><strong>ALMACEN: </strong></span><span><strong>{{itemAlmacen.codAlmacen}} {{itemAlmacen.desAlmacen}}</strong></span>
+        </div>
+    </div>
+</p-panel>
+
+<p-panel header="Lista de Articulos" [toggleable]="true" [style]="{'margin-bottom':'20px'}">
+    <p-table [value]="items" [columns]="cols" [paginator]="true" [rows]="10" dataKey="codArticulo" autoLayout="true" [loading]="loading" [responsive]="true">
+        <ng-template pTemplate="header" let-columns>
+            <tr>
+                <th *ngFor="let col of columns">
+                    {{col.header}}
+                </th>
+            </tr>
+        </ng-template>
+            <ng-template pTemplate="emptymessage" let-columns>
+                <tr>
+                 <td [attr.colspan]="5" class="text-center">No se encontrarón registros</td>
+                </tr>
+              </ng-template>
+            <ng-template pTemplate="body" let-modelo let-ri="rowIndex">
+            <tr>
+                <td style="text-align: center" class="action-td">
+                    <span class="ui-column-title"></span> {{modelo.codArticulo}}
+                </td>
+                <td style="text-align: center" class="action-td">
+                    <span class="ui-column-title"></span> {{modelo.desArticulo}}
+                </td>
+                <td style="text-align: center" class="action-td">
+                    <span class="ui-column-title"></span> {{modelo.laboratorio}}
+                </td>
+                <td style="text-align: center" class="action-td">
+                    <span class="ui-column-title"></span> {{modelo.grupoArticulo}}
+                </td>
+                <td>
+                    <div *ngIf="isVerStock==true">
+                        <span class="ui-column-title"></span> {{modelo.cantidadAlmacen}}
+                    </div>
+                </td>
+                <td>
+                    <span class="ui-column-title"></span> {{modelo.isLote}}
+                </td>
+                <td style="text-align: right">
+                    <span class="ui-column-title"></span> 
+                </td>
+                <td style="text-align: right">
+                    <span class="ui-column-title"></span> 
+                </td>
+                </tr>
+            </ng-template>
+        </p-table>
+</p-panel>

@@ -1,0 +1,27 @@
+{
+    "data": [{
+            "cama": "B201",
+            "atencion": "H0179089",
+            "fechaIngresa": "30/01/2021",
+            "apellidosNombres": "0100000039306DD757D6CE9B71D699AB843291A9B5B2734A3B1285E23214",
+            "edad": "61 AÑOS",
+            "sexo": "M",
+            "medico": "CHAVEZ PECHE JOSE ANTONIO",
+            "poliza": "0000006874-878",
+            "historia": "201183",
+            "aseguradora": "RIMAC SEGUROS Y REASEGUROS"
+        },
+        {
+            "cama": "B203",
+            "atencion": "H0179091",
+            "fechaIngresa": "30/01/2021",
+            "apellidosNombres": "01000000ED205FB2AFEE65D4A6C3CE690DE53699B2EC6CBE4BC553156D7E",
+            "edad": "61 AÑOS",
+            "sexo": "M",
+            "medico": "HURTADO FERNANDEZ EULOGIO JORGE",
+            "poliza": "DE5461-A",
+            "historia": "357531  ",
+            "aseguradora": "CIGNA GLOBAL HEALTH BENEFITS"
+        }
+    ]
+}

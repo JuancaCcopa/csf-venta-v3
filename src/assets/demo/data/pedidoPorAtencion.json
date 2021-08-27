@@ -1,0 +1,130 @@
+{
+    "data": [{
+        "label": "TODOS",
+        "data": "TODOS",
+        "expandedIcon": "pi pi-folder-open",
+        "collapsedIcon": "pi pi-folder",
+        "expanded": true,
+        "children": [{
+                "label": "00000403088896",
+                "data": "00000403088896",
+                "expandedIcon": "fa fa-medkit",
+                "collapsedIcon": "fa fa-medkit"
+            },
+            {
+                "label": "00000403088896",
+                "data": "00000403088896",
+                "expandedIcon": "fa fa-medkit",
+                "collapsedIcon": "fa fa-medkit"
+            },
+            {
+                "label": "00000403088896",
+                "data": "00000403088896",
+                "expandedIcon": "fa fa-medkit",
+                "collapsedIcon": "fa fa-medkit"
+            },
+            {
+                "label": "00000403088896",
+                "data": "00000403088896",
+                "expandedIcon": "fa fa-medkit",
+                "collapsedIcon": "fa fa-medkit"
+            },
+            {
+                "label": "00000403088896",
+                "data": "00000403088896",
+                "expandedIcon": "fa fa-medkit",
+                "collapsedIcon": "fa fa-medkit"
+            },
+            {
+                "label": "00000403088896",
+                "data": "00000403088896",
+                "expandedIcon": "fa fa-medkit",
+                "collapsedIcon": "fa fa-medkit"
+            },
+            {
+                "label": "00000403088896",
+                "data": "00000403088896",
+                "expandedIcon": "fa fa-medkit",
+                "collapsedIcon": "fa fa-medkit"
+            },
+            {
+                "label": "00000403088896",
+                "data": "00000403088896",
+                "expandedIcon": "fa fa-medkit",
+                "collapsedIcon": "fa fa-medkit"
+            },
+            {
+                "label": "00000403088896",
+                "data": "00000403088896",
+                "expandedIcon": "fa fa-medkit",
+                "collapsedIcon": "fa fa-medkit"
+            },
+            {
+                "label": "00000403088896",
+                "data": "00000403088896",
+                "expandedIcon": "fa fa-medkit",
+                "collapsedIcon": "fa fa-medkit"
+            },
+            {
+                "label": "00000403088896",
+                "data": "00000403088896",
+                "expandedIcon": "fa fa-medkit",
+                "collapsedIcon": "fa fa-medkit"
+            },
+            {
+                "label": "00000403088896",
+                "data": "00000403088896",
+                "expandedIcon": "fa fa-medkit",
+                "collapsedIcon": "fa fa-medkit"
+            },
+            {
+                "label": "00000403088896",
+                "data": "00000403088896",
+                "expandedIcon": "fa fa-medkit",
+                "collapsedIcon": "fa fa-medkit"
+            },
+            {
+                "label": "00000403088896",
+                "data": "00000403088896",
+                "expandedIcon": "fa fa-medkit",
+                "collapsedIcon": "fa fa-medkit"
+            },
+            {
+                "label": "00000403088896",
+                "data": "00000403088896",
+                "expandedIcon": "fa fa-medkit",
+                "collapsedIcon": "fa fa-medkit"
+            },
+            {
+                "label": "00000403088896",
+                "data": "00000403088896",
+                "expandedIcon": "fa fa-medkit",
+                "collapsedIcon": "fa fa-medkit"
+            },
+            {
+                "label": "00000403088896",
+                "data": "00000403088896",
+                "expandedIcon": "fa fa-medkit",
+                "collapsedIcon": "fa fa-medkit"
+            },
+            {
+                "label": "00000403088896",
+                "data": "00000403088896",
+                "expandedIcon": "fa fa-medkit",
+                "collapsedIcon": "fa fa-medkit"
+            },
+            {
+                "label": "00000403088896",
+                "data": "00000403088896",
+                "expandedIcon": "fa fa-medkit",
+                "collapsedIcon": "fa fa-medkit"
+            },
+            {
+                "label": "00000403088896",
+                "data": "00000403088896",
+                "expandedIcon": "fa fa-medkit",
+                "collapsedIcon": "fa fa-medkit"
+            }
+        ]
+    }]
+}

@@ -1,0 +1,24 @@
+.contenedor-panel-requerimiento{
+    display: grid;
+    row-gap: 20px;
+    .formulario-busqueda{
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        .item-formulario{
+            margin: 8px 4px;
+            display: grid;
+            grid-template-columns: repeat(2, max-content);
+            align-items: center;
+            >.calendar{
+                margin-left: 20px;
+            }
+        }
+    }
+    .botones{
+        display: grid;
+        justify-content: end;
+        grid-template-columns: max-content max-content;
+        column-gap: 20px;
+    }
+}

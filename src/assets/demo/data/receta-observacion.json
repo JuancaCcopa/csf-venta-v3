@@ -1,0 +1,7 @@
+{
+    "data": [
+        { "id": 1, "receta": "315559", "fecha": "23/01/2021 09:40:12", "usuario": "LUIS MIGUEL TASAYCO MARQUEZ", "comentario": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book", "fechaAnulacion": "23/11/2021" },
+        { "id": 2, "receta": "315559", "fecha": "23/02/2021 13:32:00", "usuario": "LUIS MIGUEL TASAYCO MARQUEZ", "comentario": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book", "fechaAnulacion": null },
+        { "id": 3, "receta": "315559", "fecha": "23/03/2021 10:20:02", "usuario": "LUIS MIGUEL TASAYCO MARQUEZ", "comentario": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book", "fechaAnulacion": null }
+    ]
+}

@@ -1,0 +1,150 @@
+<div class="card card-w-title">
+    <div class="box">
+        <div class="titulo">
+            <h1>Vale de Salida | Nuevo</h1>
+        </div>
+    </div>
+   <!-- Filtros -->
+   <p-panel >
+        <form [formGroup]="formularioSuperior">
+            <div class="ui-g ui-fluid">
+                <div class="ui-g-12 ui-md-2">
+                    <label class="label-custom" for="float-input-fecha-ini">Fecha Reg: </label>
+                    <p-calendar id="float-input-fecha-ini"  formControlName="fechaReg" placeholder="Seleccionar Fecha Inicio" [showButtonBar]="true" [locale]="lenguageService.es" dateFormat="dd/mm/yy" [showIcon]="true"></p-calendar>
+                </div>
+                <div class="ui-g-12 ui-md-2">
+                    <label>Nro.SAP: </label>
+                    <input type="text" formControlName="codNumSap" pInputText disabled />
+                </div>
+                <div class="ui-g-12 ui-md-2">
+                    <label>Conformidad </label>
+                    <input type="text" formControlName="conformidadSap" pInputText disabled />
+                </div>
+                <div class="ui-g-12 ui-md-2">
+                    <label class="label-custom" for="float-input-socio">Almacen:</label>
+                    <div class="ui-inputgroup">
+                        <!-- <input type="text" formControlName="almacen" pInputText /> -->
+                        <input type="text" id="float-input-socio" formControlName="almacen" placeholder="SELECCIONE ALMACEN" pInputText  disabled />
+                        <button pButton type="button" icon="{{globalConstants.icoBuscar}}" (click)="activarModalAlmacen()" class="ui-button-success"></button>
+                    </div>
+                </div>
+
+            </div>
+            <div class="ui-g ui-fluid">
+                <div class="ui-g-12 ui-md-6">
+                    <span class="ui-column-title">Descripción</span>
+                    <textarea pInputTextarea autoResize="autoResize" formControlName="observacionValeSalida"></textarea>
+                    <!-- <textarea type="text" id="form7" class="md-textarea md-textarea-auto form-control" pInputText></textarea> -->
+                </div>
+                <div class="ui-g-12 ui-md-2">
+
+                </div>
+               
+            </div>
+        </form>
+    </p-panel>
+    <br>
+    <p-toolbar>
+        
+        <button pButton type="button" label="Agregar RQ" icon="pi pi-plus" (click)="clickActivateBuscarArticulo()"></button>
+    </p-toolbar>
+    <br>
+
+    <p-messages [(value)]="mensajePrimeNgService.msgs"></p-messages>
+   
+     <!-- Grilla de Datos     -->
+     <p-panel header="Lista de Articulos">
+        <p-table [value]="listRequerimientoItem" [paginator]="true" [rows]="globalConstants.sizePage" editMode="row" autoLayout="true" [responsive]="true" #tablaGrilla>
+            <!-- Header -->
+            <ng-template pTemplate="header" let-columns>
+                <tr>
+                    <th>Opciones</th>
+                    <th>Num Linea</th>
+                    <th>Cod Articulo</th>
+                    <th>Des Articulo</th>
+                    <th>Cod Unidad Medida</th>
+                    <th>Almacen</th>
+                    <th>Cantidad Necesaria</th>
+                    <th>Cod.Centro Costos (Usuario)</th>
+                    <th>Comentario</th>
+                   
+                </tr>
+            </ng-template>
+            <!-- body -->
+            <ng-template pTemplate="body" let-modelo let-ri="rowIndex">
+                <tr>
+                    <td class="action-td">
+                        <p-splitButton icon="pi pi-cog" (onDropdownClick)="itemElegido(ri)" [model]="opciones" appendTo="body">
+                        </p-splitButton>
+                    </td>
+                    <td>
+                        <span class="p-column-title">Num Linea</span> {{ ri + 1 }}
+                    </td>
+                    <td>
+                        <span class="p-column-title">Cod Articulo:</span> {{ modelo.codArticulo }}
+                    </td>
+
+                    <td>
+                        <span class="p-column-title">Des Articulo:</span> {{ modelo.desArticulo }}
+                    </td>
+
+                    <td>
+                        <span class="p-column-title">Cod Unidad Medida:</span> {{ modelo.codUnidadMedida }}
+                    </td>
+                    <td>
+                        <span class="p-column-title">Almacen:</span> {{ (modelo.desAlmacen==undefined)? '': modelo.desAlmacen}}
+                    </td>
+                    <td pEditableColumn>
+                        <!-- <span class="p-column-title">Cantidad:</span> {{ modelo.cantidadNecesaria }} -->
+                        <span class="p-column-title">Cantidad:</span>
+                        <p-cellEditor>
+                            <ng-template pTemplate="input">
+                                <input pInputText type="number" [(ngModel)]="modelo.cantidadNecesaria" />
+                            </ng-template>
+                            <ng-template pTemplate="output">
+                                {{ modelo.cantidadNecesaria }}
+                            </ng-template>
+                        </p-cellEditor>
+                    </td>
+                    <td>
+                        <span class="p-column-title">codCentroCosto:</span>{{ modelo.codCentroCosto }}
+                    </td>
+                    <td pEditableColumn>
+                        <span class="p-column-title">comentario:</span>
+                        <p-cellEditor>
+                            <ng-template pTemplate="input">
+                                <input pInputText type="text" [(ngModel)]="modelo.comentario" />
+                            </ng-template>
+                            <ng-template pTemplate="output">
+                                {{ modelo.comentario }}
+                            </ng-template>
+                        </p-cellEditor>
+                    </td>
+                </tr>
+            </ng-template>
+
+        </p-table>
+
+        <footer>
+            <div class="ui-grid ui-fluid">
+                <div class="ui-g-12 ui-md-6">
+                    <button pButton type="button" class="ui-button-success" id="btnsave" label="Grabar"  icon="pi pi-save" (click)="clickGuardar()"></button>
+                </div>
+                <div class="ui-g-12 ui-md-6">
+                    <button pButton type="button" class="ui-button-secondary" label="Regresar" (click)="onClickRegresar()" icon="pi pi-times"></button>
+                </div>
+            </div>
+        </footer>
+
+    </p-panel>
+
+</div>
+
+
+<app-modal-busqueda-requerimiento *ngIf="isActivateBusquedaArticulo" [isDisplayBusquedaArticulo]="isActivateBusquedaArticulo" (articuloSeleccionado)="articuloBuscado($event)" (cancel)="clickActivateBuscarArticulo()">
+</app-modal-busqueda-requerimiento>
+
+<div *ngIf="isActivateBusquedaAlmacen">
+    <app-modal-busqueda-almacenes-lt [isDisplayBusqueda]="isActivateBusquedaAlmacen" (eventoRegistroSeleccionado)="almacenSeleccionado($event)" (cancel)="activarModalAlmacen()">
+    </app-modal-busqueda-almacenes-lt>
+</div>

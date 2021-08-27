@@ -1,0 +1,68 @@
+<p-panel header="Datos Principal" [toggleable]="true" [style]="{'margin-bottom':'20px'}">
+    <div class="ui-g ui-fluid">
+        <div class="ui-g-12 ui-md-3">
+            <span><strong>Numero de solicitud: </strong></span>{{ item.idSolicitudTraslado }}
+        </div>
+        <div class="ui-g-12 ui-md-3">
+            <span><strong>Socio Negocio: </strong></span>{{ item.nombreSocioNegocio }}
+        </div>
+        <div class="ui-g-12 ui-md-3">
+            <span><strong>Almacén Origen: </strong></span>{{  item.almacenOrigen.warehouseName }}
+        </div>
+        <div class="ui-g-12 ui-md-3">
+            <span><strong>Almacén Destino: </strong></span>{{ item.almacenDestino.warehouseName }}
+        </div>
+        <div class="ui-g-12 ui-md-3">
+            <span><strong>Motivo:</strong></span> {{ item.motivoSolicitudTraslado.descripcionMotivoSolicitudTraslado}}
+        </div>
+        <div class="ui-g-12 ui-md-3">
+            <span><strong>Estado: </strong></span> {{ item.solicitudTrasladoEstado.desSolicitudTrasladoEstado}}
+        </div>
+    </div>
+    <div class="ui-g ui-fluid">
+        <div class="ui-g-12 ui-md-2">
+            <span><strong>Observación: </strong></span> 
+        </div>
+    </div>
+    <div class="ui-g ui-fluid">
+        <div class="ui-g-12 ui-md-8">
+            <div style="word-break: break-all;">{{ item.observacion }}</div>
+        </div>
+    </div>
+</p-panel>
+
+
+<p-panel header="Lista de Articulos" [toggleable]="true" [style]="{'margin-bottom':'20px'}">
+    <p-table [value]="itemSolicitudDetalle" [columns]="cols" [responsive]="true" [autoLayout]="true" [resizableColumns]="true" styleClass="p-datatable-responsive-demo">
+        <ng-template pTemplate="header" let-columns>
+            <tr>
+                <th *ngFor="let col of columns">{{ col.header }}</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-modelo let-ri="rowIndex">
+        <!-- <ng-template pTemplate="body" let-rowData let-columns="columns"> -->
+            <tr>
+                <!-- <td *ngFor="let col of columns">
+                    <span class="p-column-title">{{ rowData[col.field] }}</span>
+                    <span>
+                        {{ rowData[col.field] }}
+                    </span> </td>-->
+                    <td>
+                        <span class="p-column-title"></span>{{ modelo.idSolicitudTrasladoItem }}
+                    </td>
+                    <td>
+                        <span class="p-column-title"></span>{{ modelo.codArticulo }}
+                    </td>
+                    <td>
+                        <span class="p-column-title"></span>{{ modelo.desArticulo }}
+                    </td>
+                    <td style="text-align: right">
+                        <span class="p-column-title"></span>{{ modelo.cantidadSolicitada }}
+                    </td>
+                    <td>
+                        <span class="p-column-title"></span>{{ modelo.codUnidadMedida }}
+                    </td>
+            </tr>
+        </ng-template>
+    </p-table>
+</p-panel>

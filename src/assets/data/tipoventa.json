@@ -1,0 +1,23 @@
+{
+    "data": [{
+            "code": "A",
+            "name": "FARMACOS"
+        },
+        {
+            "code": "F",
+            "name": "MATERIAL QUIRUGICO"
+        },
+        {
+            "code": "T",
+            "name": "ECONOMATO"
+        },
+        {
+            "code": "O",
+            "name": "OTROS"
+        },
+        {
+            "code": "X",
+            "name": "ARTICULO USO PERSONAL"
+        }
+    ]
+}

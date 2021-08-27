@@ -1,0 +1,37 @@
+<div class="card card-w-title">
+    <h1><strong>Aprobador Temporal</strong></h1>
+    <p-panel header="Opción de busqueda de Aprobador Temporal" [toggleable]="true" [style]="{'margin-bottom':'20px'}">
+        <form [formGroup]="formularioBusqueda" class="content-item-busqueda">
+            <div class="ui-g ui-fluid">
+                <div class="ui-g-12 ui-md-4">
+                    <label>Nro Aprobador: </label>
+                    <input type="text" formControlName="idAprobador" pInputText />
+                </div>
+                <div class="ui-g-12 ui-md-4">
+                    <label>Aprobador: </label>
+                    <p-dropdown [options]="dataListaAprobador" formControlName="aprobador" placeholder="Selecciona un aprobador" appendTo="body" optionLabel="usuario" [showClear]="false" filter="true" (onChange)="cambioEnComboAprobador($event.value)"></p-dropdown>
+                </div>
+                <div class="ui-g-12 ui-md-4">
+                    <label>.</label>
+                    <button [disabled]="formularioBusqueda.invalid" pButton type="button" label="{{globalConstants.cBuscar}}" icon="{{globalConstants.icoBuscar}}" (click)="clickBuscarAprobadorTemporal()"></button>
+                </div>
+            </div>
+        </form>
+    </p-panel>
+
+    <ng-container *ngIf="isVerContenidoTabla">
+        <p-panel header="Lista de Aprobadores Temporales">
+            <app-table-compartido [cabecera]="cabeceraTabla" [datosRecibidos]="dataAprobadorTemporal" (anular)="anular($event)" (modificar)="modificar($event)" [idEditado]="idEditadoResaltar">
+            </app-table-compartido>
+        </p-panel>
+    </ng-container>
+    <p-footer>
+        <div class="ui-grid ui-fluid">
+            <div class="ui-g-12 ui-md-3">
+                <button *ngIf="isActivateButtonRegistrar" pButton type="button" label="{{globalConstants.cNuevo}}" icon="{{globalConstants.icoNuevo}}" (click)="clickRegistrar()"></button>
+            </div>
+        </div>
+    </p-footer>
+</div>
+<!-- Para anular  -->
+<p-confirmDialog [style]="{ width: '50vw' }"></p-confirmDialog>

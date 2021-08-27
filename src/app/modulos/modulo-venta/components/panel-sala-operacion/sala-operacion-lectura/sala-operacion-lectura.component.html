@@ -1,0 +1,30 @@
+<div class="card card-w-title">
+    <p-panel header="Paciente" [toggleable]="true" [style]="{'margin-bottom':'20px'}">
+        <div class="ui-g ui-fluid">
+            <div class="ui-g-12 ui-md-2">
+                <label for="float-input">Id Borrador</label>
+                <input id="float-input-nro" type="number" pInputText placeholder="Nombre">
+            </div>
+            <div class="ui-g-12 ui-md-6">
+                <label for="float-input">Id Operacion</label>
+                <input id="float-input-nro" type="number" pInputText placeholder="Nombre">
+            </div>
+            <div class="ui-g-12 ui-md-4">
+                <label class="label-custom" for="float-input-nro">Almacén: </label>
+                <app-modal-busqueda-almacen></app-modal-busqueda-almacen>
+            </div>
+        </div>
+    </p-panel>
+
+    <p-panel header="Lectura" [toggleable]="true" [style]="{'margin-bottom':'20px'}">
+        <div class="ui-g ui-fluid">
+            <input id="float-input-nro" type="number" pInputText placeholder="Barra" style="font-size: 2em;">
+        </div>
+        <p-footer>
+            <div class="ui-grid ui-fluid">
+                <button pButton type="button" label="{{globalConstants.cRegresar}}" icon="{{globalConstants.icoRegresar}}"></button>
+            </div>
+        </p-footer>
+    </p-panel>
+
+</div>

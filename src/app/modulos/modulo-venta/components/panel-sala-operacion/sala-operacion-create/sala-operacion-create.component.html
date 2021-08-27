@@ -1,0 +1,87 @@
+<div class="sales-panel">
+    <br>
+    <p-panel header="Borrador N° X" [toggleable]="true" [style]="{'margin-bottom':'20px'}">
+        <div class="ui-g ui-fluid">
+            <div class="ui-g-12 ui-md-2">
+                <label for="float-input">Id Operación</label>
+                <input id="float-input-nro" type="number" pInputText placeholder="Id Operación">
+            </div>
+            <div class="ui-g-12 ui-md-1">
+                <label for="float-input">Atención</label>
+                <app-modal-busqueda-atencion-paciente></app-modal-busqueda-atencion-paciente>
+            </div>
+            <div class="ui-g-12 ui-md-5">
+                <label for="float-input">Nombre</label>
+                <input id="float-input-nro" type="text" pInputText placeholder="Nombre">
+            </div>
+            <div class="ui-g-12 ui-md-2">
+                <label class="label-custom" for="float-input-nro">Almacén: </label>
+                <app-modal-busqueda-almacen></app-modal-busqueda-almacen>
+            </div>
+
+            <div class="ui-g-12 ui-md-2">
+                <label class="label-custom" for="float-input-fecha">Fecha: </label>
+                <p-calendar id="float-input-fecha" placeholder="Seleccionar Fecha" [showButtonBar]="true" [locale]="lenguageService.es" dateFormat="dd/mm/yy" showTime="true" hourFormat="24" [showIcon]="true"></p-calendar>
+            </div>
+        </div>
+    </p-panel>
+    <div class="card">
+        <p-table [columns]="cols" [value]="cars" selectionMode="single" dataKey="codigo" [(selection)]="selectedCar" [responsive]="true" [paginator]="true" [rows]="10">
+            <ng-template pTemplate="caption">
+                Lista de Articulos
+            </ng-template>
+            <ng-template pTemplate="header" let-columns>
+                <tr>
+                    <th *ngFor="let col of columns" [pSortableColumn]="col.field">
+                        {{col.header}}
+                        <p-sortIcon [field]="col.field"></p-sortIcon>
+                    </th>
+                    <th>
+                        Acciones
+                    </th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-rowData let-columns="columns">
+                <tr [pSelectableRow]="rowData">
+                    <td *ngFor="let col of columns" [ngClass]="col.field === 'codigo'  
+                                                    ? 'custom-td-producto':col.field !== 'nombre' 
+                                                    ? 'custom-td-number-1':null" [ngSwitch]="col.field">
+                        <span class="p-column-title">{{col.header}}</span>
+
+                        <!-- <span *ngSwitchCase="'codigo'"><app-modal-consulta-producto [isCodProducto] ="rowData[col.field]"></app-modal-consulta-producto>{{ rowData[col.field] }}</span> -->
+                        <span *ngSwitchDefault>{{ rowData[col.field] }}</span>
+                    </td>
+                    <td class="ui-fluid">
+                        <button pButton icon="{{globalConstants.icoPlus}}"></button>
+                        <button pButton icon="{{globalConstants.icoMinus}}" class="ui-button-rounded ui-button-danger"></button>
+                        <button pButton icon="{{globalConstants.icoEliminar}}" class="ui-button-rounded ui-button-danger"></button>
+                    </td>
+                </tr>
+
+            </ng-template>
+        </p-table>
+
+        <p-footer>
+            <div class="ui-grid ui-fluid">
+
+
+                <div class="ui-g-12 ui-md-3">
+                    <button pButton type="button" label="Nuevo Producto" icon="{{globalConstants.icoNuevo}}"></button>
+                </div>
+                <div class="ui-g-12 ui-md-3">
+                    <button pButton type="button" label="Lecturar Producto" icon="{{globalConstants.icoNuevo}}" (click)="goLecturarProducto()"></button>
+                </div>
+                <div class="ui-g-12 ui-md-2">
+                    <button pButton type="button" label="Finalizar Proceso Preparado" icon="{{globalConstants.icoGrabar}}"></button>
+                </div>
+                <div class="ui-g-12 ui-md-2">
+                    <button pButton type="button" label="Generar Vale de Venta" icon="{{globalConstants.icoGrabar}}"></button>
+                </div>
+                <div class="ui-g-12 ui-md-2">
+                    <button pButton type="button" label="{{globalConstants.cRegresar}}" icon="{{globalConstants.icoRegresar}}"></button>
+                </div>
+            </div>
+        </p-footer>
+
+    </div>
+</div>

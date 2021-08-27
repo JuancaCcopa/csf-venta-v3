@@ -1,0 +1,138 @@
+<div class="card card-w-title">
+    <div class="box">
+        <div class="titulo">
+            <h1>Consolidado RQ | Editar</h1>
+        </div>
+    </div>
+   <!-- Filtros -->
+   <p-panel >
+        <form [formGroup]="formularioSuperior">
+            <div class="ui-g ui-fluid">
+                <div class="ui-g-12 ui-md-2">
+                    <label class="label-custom" for="float-input-fecha-ini">Fecha Reg: </label>
+                    <p-calendar id="float-input-fecha-ini" disabled="true" formControlName="fechaConsolidado" placeholder="Seleccionar Fecha Inicio" [showButtonBar]="true" [locale]="lenguageService.es" dateFormat="dd/mm/yy" [showIcon]="true" ></p-calendar>
+                </div>
+                <div class="ui-g-12 ui-md-2">
+                    <label>Almacen: </label>
+                    <div class="ui-inputgroup">
+                        <input type="text" id="float-input-socio" formControlName="almacen" placeholder="SELECCIONE ALMACEN" pInputText  />
+                        <button pButton type="button" icon="{{globalConstants.icoBuscar}}" (click)="activarModalAlmacen()" class="ui-button-success"></button>
+                    </div>
+                    <!-- <p-dropdown placeholder="Seleccionar" formControlName="cbalmacen" [options]="rowAlmacen" [ngModel]="selectAlmacen" filter="true" optionLabel="label"  required></p-dropdown> -->
+                </div>
+            </div>
+            <div class="ui-g ui-fluid">
+                <div class="ui-g-12 ui-md-2">
+                    <label>Responsable: </label>
+                    <input type="text" formControlName="responsable" pInputText disabled />
+                </div>
+            </div>
+            <div class="ui-g ui-fluid">
+                <div class="ui-g-12 ui-md-6">
+                    <span class="ui-column-title">Comentario</span>
+                    <!--  -->
+                    <textarea pInputTextarea autoResize="autoResize" formControlName="observacion"></textarea>
+                </div>
+                <div class="ui-g-12 ui-md-2">
+
+                </div>
+               
+            </div>
+        </form>
+    </p-panel>
+    <br>
+    <p-toolbar>
+        
+        <button pButton type="button" label="Cargar Productos" icon="pi pi-plus" (click)="clickActivateBuscarArticulo()"></button>
+    </p-toolbar>
+    <br>
+
+    <p-messages [(value)]="mensajePrimeNgService.msgs"></p-messages>
+   
+     <!-- Grilla de Datos     -->
+     <p-panel header="Lista de Articulos">
+        <p-table [value]="listFilteredProducto" [paginator]="true" [rows]="globalConstants.sizePage" editMode="row" autoLayout="true" [responsive]="true" #tablaGrilla>
+            <!-- Header -->
+            <ng-template pTemplate="header" let-columns>
+                <tr>
+                    <th>Opciones</th>
+                    <th>Cod Articulo</th>
+                    <th>Des Articulo</th>
+                    <th>Socios de negocio</th>
+                    <th>Cantidad</th>
+                    <th>Cantidad Solicitada</th>
+                    <th>Stock Almacen</th>
+                    <th>Cod Unidad Medida</th>
+                </tr>
+            </ng-template>
+            <!-- body -->
+            <ng-template pTemplate="body" let-modelo let-ri="rowIndex">
+                <tr>
+                    <td class="action-td">
+                        <p-splitButton icon="pi pi-cog" (onDropdownClick)="itemElegido(ri)" [model]="opciones" appendTo="body">
+                        </p-splitButton>
+                    </td>
+                    <td>
+                        <span class="p-column-title">Cod Articulo:</span> {{ modelo.codArticulo }}
+                    </td>
+
+                    <td>
+                        <span class="p-column-title">Des Articulo:</span> {{ modelo.desArticulo }}
+                    </td>
+                    <td class="ui-fluid" pEditableColumn>
+                        <span class="p-column-title">Socio de Negocio:</span>
+                        <p-cellEditor>
+                            <ng-template pTemplate="input">
+                                <button pButton type="button" label="Agregar Socio de Negocio" icon="pi pi-plus" (click)="activarModalSocioNegocio(ri)"></button>
+                            </ng-template>
+                            <ng-template pTemplate="output">
+                                {{ modelo.codSocioNegocioCompra }}
+                            </ng-template>
+                        </p-cellEditor>
+                    </td> 
+                    <td>
+                        {{ modelo.cantidad }}
+                    </td>
+                    <td>
+                        {{ modelo.cantidadCompra }}
+                    </td>
+                    <td>
+                        {{ modelo.stock }}
+                    </td>
+                    <td>
+                        {{ modelo.codUnidadMedida }}
+                    </td>
+                </tr>
+            </ng-template>
+
+        </p-table>
+
+        <footer>
+            <div class="ui-grid ui-fluid">
+                <div class="ui-g-12 ui-md-6">
+                    <button pButton type="button" class="ui-button-success" id="btnsave" label="Grabar"  icon="pi pi-save" (click)="clickGuardar()"></button>
+                </div>
+                <div class="ui-g-12 ui-md-6">
+                    <button pButton type="button" class="ui-button-secondary" label="Regresar" (click)="onClickRegresar()" icon="pi pi-times"></button>
+                </div>
+            </div>
+        </footer>
+
+    </p-panel>
+
+</div>
+
+<app-requerimiento-listado *ngIf="isActivateBusquedaArticulo" [isDisplayBusquedaArticulo]="isActivateBusquedaArticulo" (articuloSeleccionado)="articuloBuscado($event)" (cancel)="clickActivateBuscarArticulo()">
+</app-requerimiento-listado>
+
+
+<app-cantidad-editar *ngIf="isActivateCantidadEditar" [isDisplayCantidaEditar]="isActivateCantidadEditar" [listaCantidaEditar]="listModalRequerimientoProducto" (editarCantidaSeleccionado)="editarCantidadBuscado($event)" (cancel)="clickActivateEditarCantidad()">
+</app-cantidad-editar>
+
+<app-modal-busqueda-socio-negocio [isDisplayBusqueda]="isActivateBusquedaSocioNegocio" (eventoRegistroSeleccionado)="socioNegocioSeleccionado($event)" (cancel)="activarModalSocioNegocio()">
+</app-modal-busqueda-socio-negocio>
+
+<div *ngIf="isActivateBusquedaAlmacen">
+    <app-modal-busqueda-almacenes-lt [isDisplayBusqueda]="isActivateBusquedaAlmacen" (eventoRegistroSeleccionado)="almacenSeleccionado($event)" (cancel)="activarModalAlmacen()">
+    </app-modal-busqueda-almacenes-lt>
+</div>

@@ -1,0 +1,31 @@
+<p-panel header="Registro de {{titulo}}">
+    <div class="ui-grid ui-fluid">
+        <div class="ui-g-12">
+            <form [formGroup]="maestroForm">
+                <div class="p-grid form-group">
+                    <div class="ui-g-12">
+                        <label class="label-custom" for="float-input-corta">Descripcion: </label>
+                    </div>
+                    <div class="ui-g-12">
+                        <textarea id="float-input-corta" formControlName="descripcion" pInputTextarea autoResize="autoResize" placeholder="Ingresar descripción"> </textarea>
+                        <div *ngIf="maestroForm.controls['descripcion'].errors && maestroForm.controls['descripcion'].dirty">
+                            <p-message severity="error" text="Descripcion es requerido" *ngIf="maestroForm.controls['descripcion'].errors['required']"></p-message>
+                            <p-message severity="error" text="La descripcion debe tener un maximo de 100 y un minimo de 4 caractares." *ngIf="maestroForm.controls['descripcion'].errors['maxlength'] || maestroForm.controls['descripcion'].errors['minlength']"></p-message>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <p-footer>
+        <p-messages [(value)]="mensajePrimeNgService.msgs"></p-messages>
+        <div class="ui-grid ui-fluid">
+            <div class="ui-g-12 ui-md-6">
+                <button pButton type="submit" [disabled]="!maestroForm.valid" label="{{globalConstants.cGrabar}}" icon="{{globalConstants.icoGrabar}}" (click)="onClickSave()"></button>
+            </div>
+            <div class="ui-g-12 ui-md-6">
+                <button pButton type="button" label="{{globalConstants.cRegresar}}" icon="{{globalConstants.icoRegresar}}" (click)="back()"></button>
+            </div>
+        </div>
+    </p-footer>
+</p-panel>

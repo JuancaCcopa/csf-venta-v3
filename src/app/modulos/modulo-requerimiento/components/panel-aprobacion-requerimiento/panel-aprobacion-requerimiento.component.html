@@ -1,0 +1,127 @@
+<div class="card card-w-title">
+    <h1><strong>{{titulo}}</strong></h1>
+    <!-- Filtros -->
+    <p-panel header="Opción de busqueda de {{titulo}}" [toggleable]="true" [style]="{'margin-bottom':'20px'}">
+        <form [formGroup]="formularioBusqueda">
+            <div class="ui-g ui-fluid">
+                <div class="ui-g-12 ui-md-3">
+                    <label>Fecha Inicio: </label>
+                    <p-calendar id="float-input-fecha-ini" class="calendar" formControlName="fechaInicio" appendTo="body" placeholder="Seleccionar Fecha Inicio" [showButtonBar]="true" [locale]="lenguageService.es" dateFormat="dd/mm/yy" [showIcon]="true"></p-calendar>
+                </div>
+                <div class="ui-g-12 ui-md-3">
+                    <label>Fecha Fin: </label>
+                    <p-calendar id="float-input-fecha-fin" class="calendar" formControlName="fechaFin" appendTo="body" placeholder="Seleccionar Fecha Inicio" [showButtonBar]="true" [locale]="lenguageService.es" dateFormat="dd/mm/yy" [showIcon]="true"></p-calendar>
+                </div>
+                <div class="ui-g-12 ui-md-3">
+                    <label>Estado: </label>
+                    <p-dropdown [options]="comboRequerimientoEstado" appendTo="body" placeholder="Seleccionar estado" formControlName="requerimientoEstado" optionLabel="desRequerimientoEstado" (onChange)="cambioEnComboEstadoRequerimiento($event.value)" filter="true" [showClear]="true"></p-dropdown>
+                </div>
+                <div class="ui-g-12 ui-md-3">
+                    <label>.</label>
+                    <button pButton type="button" label="{{globalConstants.cBuscar}}" icon="{{globalConstants.icoBuscar}}" (click)="clickBusqueda()" class="btn btn-block"></button>
+                </div>
+            </div>
+        </form>
+    </p-panel>
+
+    <p-messages [(value)]="mensajePrimeNgService.msgs"></p-messages>
+
+    <p-panel header="Lista de {{titulo}}">
+        <p-table *ngIf="!isCambioTablaPendientesPorAprobar" [value]="rowBusquedaRequerimiento" [columns]="cabeceraTablaVisible" [paginator]="true" [rows]="10" [responsive]="true" [resizableColumns]="true" styleClass="p-datatable-responsive-demo" #tableBusqueda>
+            <ng-template pTemplate="caption">
+                <div class="ui-table-globalfilter-container" style="text-align: right;">
+                    <input pInputText type="text" (input)="tableBusqueda.filterGlobal($event.target.value, 'contains')" placeholder="Filtro general" />
+                </div>
+            </ng-template>
+            <ng-template pTemplate="header" let-columns>
+                <tr>
+                    <th>Opciones</th>
+                    <th *ngFor="let col of columns">
+                        {{ col.header }}
+                    </th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-rowData let-columns="columns">
+                <tr #opt class="row-hover">
+                    <td>
+                        <p-splitButton icon="pi pi-cog" (onDropdownClick)="itemElegido(rowData)" [model]="opciones" appendTo="body">
+                        </p-splitButton>
+                    </td>
+                    <td *ngFor="let col of columns" [ngSwitch]="col.field">
+                        <span class="p-column-title">{{col.header}}</span>
+                        <span *ngSwitchCase="'fecRequerimiento'">{{rowData[col.field] | date: 'dd/MM/yy'}}</span>
+                        <span class="label" *ngSwitchCase="'desRequerimientoEstado'" [ngClass]="estadoRequerimiento(rowData[col.field])">{{ rowData[col.field] }}</span>
+                        <span *ngSwitchDefault>{{ rowData[col.field] }}</span>
+                    </td>
+                </tr>
+            </ng-template>
+        </p-table>
+
+        <p-table *ngIf="isCambioTablaPendientesPorAprobar" [value]="rowBusquedaRequerimiento" [columns]="cabeceraTablaVisible" [paginator]="true" [rowHover]="true" [rows]="10" [(selection)]="rowSeleccionParaAprobarMasivo" [responsive]="true" [resizableColumns]="true"
+            styleClass="p-datatable-responsive-demo" #tableBusqueda>
+            <ng-template pTemplate="caption">
+                <div class="ui-table-globalfilter-container" style="text-align: right;">
+                    <input pInputText type="text" (input)="tableBusqueda.filterGlobal($event.target.value, 'contains')" placeholder="Filtro general" />
+                </div>
+            </ng-template>
+            <ng-template pTemplate="header" let-columns>
+                <tr>
+                    <th>Opciones</th>
+                    <th style="width: 3em;">
+                        <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                    </th>
+                    <th *ngFor="let col of columns">
+                        {{ col.header }}
+                    </th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-rowData let-columns="columns">
+                <tr #opt>
+                    <td>
+                        <p-splitButton icon="pi pi-cog" (onDropdownClick)="itemElegido(rowData)" [model]="opciones" appendTo="body">
+                        </p-splitButton>
+                    </td>
+                    <td>
+                        <p-tableCheckbox [value]="rowData"></p-tableCheckbox>
+                    </td>
+                    <td *ngFor="let col of columns" [ngSwitch]="col.field">
+                        <span class="p-column-title">{{col.header}}</span>
+                        <span *ngSwitchCase="'fecRequerimiento'">{{rowData[col.field] | date: 'dd/MM/yy'}}</span>
+                        <span class="label" *ngSwitchCase="'desRequerimientoEstado'" [ngClass]="estadoRequerimiento(rowData[col.field])">{{ rowData[col.field] }}</span>
+                        <span *ngSwitchDefault>{{ rowData[col.field] }}</span>
+                    </td>
+                </tr>
+            </ng-template>
+        </p-table>
+
+        <ng-container *ngIf="isCambioTablaPendientesPorAprobar">
+            <p-footer>
+                <div class="ui-grid ui-fluid">
+                    <div class="ui-g-12 ui-md-6">
+                        <button pButton type="button" label="Aprobar" (click)="clickAprobarMasivo()"></button>
+                    </div>
+                    <div class="ui-g-12 ui-md-6">
+                        <button pButton type="button" label="Desaprobar" (click)="clickDesaprobarMasivo()"></button>
+                    </div>
+                </div>
+            </p-footer>
+        </ng-container>
+
+    </p-panel>
+</div>
+
+
+
+
+<app-modal-busqueda-usuario *ngIf="isActivateBusquedaUsuario" [isDisplayBusquedaUsuario]="isActivateBusquedaUsuario" (usuarioSeleccionado)="usuarioBuscado($event)" (cancel)="clickActivateBuscarUsuario()"></app-modal-busqueda-usuario>
+
+<app-aprobacion-requerimiento-individual *ngIf="isModalAprobacion" [requerimiento]="itemSeleccionado" [isDisplayAprobacion]="isModalAprobacion" (actualizarTabla)="clickBusqueda()" (cerrar)="cerrarModalDetalle($event)">
+</app-aprobacion-requerimiento-individual>
+
+<app-modal-aprobacion-requerimiento-masiva *ngIf="isAprobarMasivo" [idRequerimiento]="0" [idArraySolicitudes]="arrayIdQueSeAprobaran" [isModalAprobacionMasiva]="isAprobarMasivo" [titulo]="tituloAprobacionMasivo" (guardarAprobacionMasiva)="guardarAprobacionMasiva($event)"
+    (cerrarModalEvent)="cerrarModalMasivo()">
+</app-modal-aprobacion-requerimiento-masiva>
+
+<app-modal-aprobacion-requerimiento-masiva *ngIf="isDesaprobarMasivo" [idRequerimiento]="0" [idArraySolicitudes]="arrayIdQueSeAprobaran" [isModalDesaprobacionMasiva]="isDesaprobarMasivo" [titulo]="tituloAprobacionMasivo" (guardarAprobacionMasiva)="guardarAprobacionMasiva($event)"
+    (cerrarModalEvent)="cerrarModalMasivo()">
+</app-modal-aprobacion-requerimiento-masiva>

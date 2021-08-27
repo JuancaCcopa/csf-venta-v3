@@ -1,0 +1,31 @@
+{
+    "data": [{
+            "estado": "Observado",
+            "codVenta": "50293849",
+            "codPedido": "0000001020202",
+            "codAtencion": "H0176873",
+            "fechaGenerado": "03/09/2020 10:28:50 AM",
+            "fechaAtencion": "03/09/2020 10:31:50 AM",
+            "nombrePacinete": "ZELADA DE AREVALO MARIA",
+            "cama": "B311",
+            "centroCosto": "EDIFICO B HOSPITAL",
+            "observacion": "**********SSSSS**************",
+            "usuario": "ASTO CARRAZCO LESLY",
+            "almacen": "EMERGENCIA"
+        },
+        {
+            "estado": "Observado",
+            "codVenta": "50293849",
+            "codPedido": "0000001020201",
+            "codAtencion": "H0176873",
+            "fechaGenerado": "03/09/2020 10:28:50 AM",
+            "fechaAtencion": "03/09/2020 10:31:50 AM",
+            "nombrePacinete": "ZELADA DE AREVALO MARIA",
+            "cama": "B311",
+            "centroCosto": "EDIFICO B HOSPITAL",
+            "observacion": "**********SSSSS**************",
+            "usuario": "ASTO CARRAZCO LESLY",
+            "almacen": "ENDOSCOPIA"
+        }
+    ]
+}

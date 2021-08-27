@@ -1,0 +1,7 @@
+{
+    "data": [
+        { "codigo": "0000000200", "nombre": "PANADOL ANTIGRIPAL", "lote": "GLXO", "sala": "SI", "origen": "COCHE", "adicional": 1, "ubicacion": "SXAL1029" },
+        { "codigo": "0000000300", "nombre": "PANADOL EFERVECENTE", "lote": "GLXOS", "sala": "NO", "origen": "", "adicional": 1, "ubicacion": "SXAL1029" },
+        { "codigo": "0000000400", "nombre": "PANADOL FORTE", "lote": "GLXOS", "sala": "SI", "origen": "MALETIN", "adicional": 1, "ubicacion": "SXAL1029" }
+    ]
+}

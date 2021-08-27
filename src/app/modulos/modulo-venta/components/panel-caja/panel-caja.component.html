@@ -1,0 +1,376 @@
+<p-card>
+    <p-toast key="toasVentaCaja"></p-toast>
+    <form [formGroup]="formularioCabecera">
+        <div class="ui-g ui-fluid">
+            <div class="ui-g-12 ui-md-1">
+                <strong>Nro. Venta</strong>
+                <input type="text" formControlName="codVenta" pInputText readonly style="background-color: #e9f79e;font-weight:bold;text-align:right;">
+            </div>
+            <div class="ui-g-12 ui-md-2">
+                <label for="float-input-tcomprobante">Tipo Comprobante: </label>
+                <p-dropdown placeholder="Seleccionar" formControlName="cbTipoComprobante" [options]="rowTipoComprobante" [ngModel]="selectTipoComprobante" filter="true" optionLabel="label" (onChange)="onChangesTComprobante($event.value)"></p-dropdown>
+            </div>
+            <div class="ui-g-12 ui-md-2">
+                <label for="float-input-tcomprobante">Serie: </label>
+                <p-dropdown placeholder="Seleccionar" formControlName="cbSerie" [options]="rowSerieComprobante" [ngModel]="selectSerieComprobante" filter="true" optionLabel="label"></p-dropdown>
+            </div>
+            <div class="ui-g-12 ui-md-2">
+                <label for="float-input-estado">Para quien: </label>
+                <p-dropdown placeholder="Seleccionar" formControlName="cbParaQuien" [options]="rowParaQuien" [ngModel]="selectParaQuien" filter="true" optionLabel="label" (onChange)="onChangesParaQuien($event.value)"></p-dropdown>
+            </div>
+            <div class="ui-g-12 ui-md-1">
+                <strong>Total Ventas</strong>
+                <input type="text" formControlName="totalVenta" pInputText style="background-color: #e9f79e;font-weight:bold;text-align:right;" readonly>
+            </div>
+            <div class="ui-g-12 ui-md-1">
+                <!-- [disabled]="isGrabar" -->
+                <button pButton type="button" label="{{globalConstants.cGrabar}}" icon="{{globalConstants.icoGrabar}}" (click)="generarPagar()" class="sba-button btn btn-block"></button>
+            </div>
+            <div class="ui-g-12 ui-md-1">
+                <p-splitButton label="Opcion" icon="{{globalConstants.icoImprimir}}" [model]="items" styleClass="sba-button"></p-splitButton>
+            </div>
+            <div class="ui-g-12 ui-md-1">
+                <button pButton type="button" label="Salir" icon="{{globalConstants.icoCerrado}}" class="sba-button btn btn-block" (click)="vistaPrevia"></button>
+            </div>
+
+        </div>
+
+        <div class="ui-g ui-fluid">
+
+            <div class="ui-g-12 ui-md-9">
+                <p-fieldset legend="Cliente">
+                    <div class="ui-g ui-fluid">
+                        <div class="ui-g-12 ui-md-1">
+                            <label class="label-custom" for="float-input-tc">Codigo: </label>
+                            <input type="text" formControlName="codigoCliente" pInputText disabled>
+                        </div>
+                        <div class="ui-g-12 ui-md-7">
+                            <label class="label-custom" for="float-input-tc">A nombre de: </label>
+                            <div class="ui-inputgroup">
+                                <input type="text" formControlName="cliente" pInputText style="background-color: rgb(203, 243, 198)">
+                                <button pButton type="button" icon="{{globalConstants.icoBuscar}}" (click)="activarModalCliente()" class="ui-button-success"></button>
+                            </div>
+                        </div>
+                        <div class="ui-g-12 ui-md-1">
+                            <label class="label-custom" for="float-input-tc">Codigo TC: </label>
+                            <input type="text" formControlName="codTipoCliente" pInputText disabled>
+                        </div>
+                        <div class="ui-g-12 ui-md-2">
+                            <label class="label-custom" for="float-input-tc">Tipo Cliente: </label>
+                            <input type="text" formControlName="tipoCliente" pInputText disabled>
+                        </div>
+                    </div>
+                    <div class="ui-g ui-fluid">
+                        <div class="ui-g-12 ui-md-8">
+                            <label class="label-custom" for="float-input-tc">Dirección </label>
+                            <input type="text" formControlName="direccion" pInputText style="background-color: rgb(203, 243, 198)">
+                        </div>
+                        <div class="ui-g-12 ui-md-3">
+                            <label class="label-custom" for="float-input-tc">R.U.C: </label>
+                            <input type="text" formControlName="ruc" pInputText style="background-color: rgb(203, 243, 198)">
+                        </div>
+                    </div>
+                    <div class="ui-g ui-fluid">
+                        <div class="ui-g-12 ui-md-1">
+                            <label class="label-custom" for="float-input-ctdi">Codigo: </label>
+                            <input type="text" formControlName="codDocumentoIdentidad" pInputText disabled>
+                        </div>
+                        <div class="ui-g-12 ui-md-4">
+                            <label class="label-custom" for="float-input-dci">Documento Identidad: </label>
+                            <div class="ui-inputgroup">
+                                <input type="text" formControlName="documentoIdentidad" pInputText disabled>
+                                <button pButton type="button" icon="{{globalConstants.icoBuscar}}" (click)="activarModalTDIdentidad()" class="ui-button-success"></button>
+                            </div>
+                        </div>
+                        <div class="ui-g-12 ui-md-3">
+                            <label class="label-custom" for="float-input-tc">Nro. Documento: </label>
+                            <input type="text" formControlName="numdocumentoIdentidad" pInputText style="background-color: rgb(203, 243, 198)">
+                        </div>
+                        <div class="ui-g-12 ui-md-2">
+                            <label class="label-custom" for="float-input-estado">Comprobante: </label>
+                            <input type="text" formControlName="comprobante" pInputText disabled>
+                        </div>
+                        <div class="ui-g-12 ui-md-1">
+                            <br>
+                            <p-checkbox binary="true" label="Electronica" formControlName="checkElectronico" [disabled]="isDisableCheckElect"></p-checkbox>
+                        </div>
+                    </div>
+                    <div class="ui-g ui-fluid">
+                        <div class="ui-g-12 ui-md-5">
+                            <label class="label-custom" for="float-input-tc">Correo: </label>
+                            <input id="float-input-tc" type="text" formControlName="correo" pInputText style="background-color: rgb(203, 243, 198)">
+                        </div>
+                        <div class="ui-g-12 ui-md-3">
+                            <label class="label-custom" for="float-input-tc">Tipo afectación igv (gratuitos): </label>
+                            <p-dropdown placeholder="Seleccionar" formControlName="cbTipoAfectacionIgv" [options]="rowTipoAfectacionIgv" [ngModel]="selectTipoAfectacionIgv" filter="true" optionLabel="label" [disabled]="isDisableTipoAfectacion"></p-dropdown>
+                        </div>
+                        <div class="ui-g-12 ui-md-1">
+                            <label class="label-custom" for="float-input-estado">Estado: </label>
+                            <input type="text" formControlName="estado" pInputText disabled>
+                        </div>
+                    </div>
+                </p-fieldset>
+            </div>
+
+            <div class="ui-g-12 ui-md-3">
+                <p-fieldset legend="Plan">
+                    <div class="ui-g ui-fluid">
+                        <div class="ui-g-12 ui-md-12">
+                            <label class="label-custom" for="float-input-tc">Plan: </label>
+                            <input type="text" formControlName="codPlan" pInputText disabled>
+                        </div>
+                        <div class="ui-g-12 ui-md-6">
+                            <label class="label-custom" for="float-input-tc">Dscto Plan: </label>
+                            <input type="number" formControlName="dsctoPlan" pInputText disabled>
+                        </div>
+                        <div class="ui-g-12 ui-md-6">
+                            <label class="label-custom" for="float-input-tc">Coaseguro: </label>
+                            <input type="number" formControlName="coaSeguro" pInputText disabled>
+                        </div>
+                    </div>
+                </p-fieldset>
+                <div class="ui-g-12 ui-md-5">
+                    <label class="label-custom" for="float-input-tc"><strong>Fecha Emisión</strong></label>
+                    <input id="float-input-femision" type="text" pInputText formControlName="fechaEmision" disabled>
+                </div>
+                <div class="ui-g-12 ui-md-5">
+                    <strong>Card Code</strong>
+                    <input id="float-input-cardcode" type="text" formControlName="cardCode" pInputText disabled>
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <div class="ui-g ui-fluid">
+        <div class="ui-g-12 ui-md-6">
+            <p-panel header="Detalle Producto" [toggleable]="true" [style]="{'margin-bottom':'20px'}">
+                <p-table [value]="listVentaDetalle" [columns]="columnas" [paginator]="true" [rows]="globalConstants.sizePage" dataKey="idRegistroEquipo" editMode="row" autoLayout="true" [responsive]="true">
+                    <ng-template pTemplate="header" let-columns>
+                        <tr>
+                            <th *ngFor="let col of columns">
+                                {{col.header}}
+                            </th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-rowData let-columns="columns">
+                        <tr>
+                            <td *ngFor="let col of columns">
+                                {{rowData[col.field]}}
+                            </td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+            </p-panel>
+        </div>
+        <div class="ui-g-12 ui-md-6">
+            <!-- [style]="{'margin-bottom':'20px'}" -->
+            <p-panel header="Pago" [toggleable]="true">
+                <div class="ui-g ui-fluid">
+                    <div class="ui-g-12 ui-md-2">
+                        <button pButton type="button" label="Nuevo" class="btn btn-block" (click)="getGrillaPagosPorDefecto()"></button>
+                    </div>
+                    <div class="ui-g-12 ui-md-10">
+                        <p-table [value]="listModeloPago" [paginator]="true" [rows]="globalConstants.sizePage" dataKey="idRegistroEquipo" editMode="row" autoLayout="true" [responsive]="true">
+                            <ng-template pTemplate="header" let-columns>
+                                <tr>
+                                    <th></th>
+                                    <th>Tipo Pago</th>
+                                    <th width="25%">Entidad</th>
+                                    <th>Nro Operación</th>
+                                    <th>M. Soles</th>
+                                    <th>M. Dolares</th>
+                                    <th>Total</th>
+                                    <th>Terminal</th>
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="body" let-modelo let-ri="rowIndex">
+                                <tr>
+                                    <td class="action-td">
+                                        <button pButton icon="{{globalConstants.icoEliminar}}" class="ui-button-danger" (click)="quitar(ri)"></button>
+                                    </td>
+                                    <td class="action-td">
+                                        <div class="ui-inputgroup">
+                                            {{modelo.nombreTipoPago}}
+                                            <div style="float:right">
+                                                <button pButton icon="pi pi-eye" styleClass="ui-button-outlined ui-button-danger" style="width:5px;margin-left:10px" (click)="activarModalTPago(modelo,ri)"></button>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td style="text-align: center" class="action-td">
+                                        <div class="ui-inputgroup">
+                                            {{modelo.nombreEntidad}}
+                                            <div *ngIf="modelo.codTipoPago==='A' || modelo.codTipoPago==='C' " style="float:right">
+                                                <button pButton icon="pi pi-eye" styleClass="ui-button-outlined ui-button-danger" style="width:5px;margin-left:10px" (click)="activarModalBancos(modelo,ri)"></button>
+                                            </div>
+                                            <div *ngIf="modelo.codTipoPago==='T'" style="float:right">
+                                                <button pButton icon="pi pi-eye" styleClass="ui-button-outlined ui-button-danger" style="width:5px;margin-left:10px" (click)="activarModalTCredito(modelo,ri)"></button>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td style="text-align: right" pEditableColumn>
+                                        <span class="p-column-title">nroOperacion:</span>
+                                        <div *ngIf="modelo.codTipoPago==='A' || modelo.codTipoPago==='C' || modelo.codTipoPago==='T' ; else elseDato">
+                                            <p-cellEditor>
+                                                <ng-template pTemplate="input">
+                                                    <input pInputText type="text" [(ngModel)]="modelo.nroOperacion" style="background-color: rgb(203, 243, 198)" />
+                                                </ng-template>
+                                                <ng-template pTemplate="output">
+                                                    {{ modelo.nroOperacion }}
+                                                </ng-template>
+                                            </p-cellEditor>
+                                        </div>
+                                        <ng-template #elseDato>
+                                            {{ modelo.nroOperacion }}
+                                        </ng-template>
+                                    </td>
+                                    <td style="text-align: center" class="action-td" pEditableColumn>
+                                        <p-cellEditor>
+                                            <ng-template pTemplate="input">
+                                                <input type="text" pInputText [(ngModel)]="modelo.montoSoles" (keypress)="soloNumeros($event)" (keyup)="actualizarTotalPago($event,ri)" style="background-color: rgb(203, 243, 198)" />
+                                            </ng-template>
+                                            <ng-template pTemplate="output">
+                                                {{ modelo.montoSoles }}
+                                            </ng-template>
+                                        </p-cellEditor>
+                                    </td>
+                                    <td style="text-align: center" class="action-td">
+                                        <span class="ui-column-title"></span> {{modelo.montoDolar}}
+                                    </td>
+                                    <td style="text-align: center" class="action-td">
+                                        <span class="ui-column-title"></span> {{modelo.montoMn}}
+                                    </td>
+                                    <td style="text-align: center" class="action-td">
+                                        <div class="ui-inputgroup">
+                                            {{modelo.terminal}}
+                                            <div *ngIf="modelo.codTipoPago==='T'" style="float:right">
+                                                <button pButton icon="pi pi-eye" styleClass="ui-button-outlined ui-button-danger" style="width:5px;margin-left:10px" (click)="activarModalTerminal(modelo,ri)"></button>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="footer">
+                                <tr>
+                                    <td colspan="6" style="text-align: right"><strong>TOTAL</strong></td>
+                                    <td><strong>{{totalPago}}</strong></td>
+                                    <td></td>
+                                </tr>
+                            </ng-template>
+                        </p-table>
+                    </div>
+                </div>
+            </p-panel>
+        </div>
+        <form [formGroup]="formularioTotales">
+            <div class="ui-g ui-fluid">
+                <div class="ui-g-12 ui-md-2">
+                    <strong>Sub Total:</strong>
+                    <input id="float-input-sub-total-1" type="number" formControlName="subTotal" pInputText style="background-color: #e9f79e;font-weight:bold;text-align:right;" readonly>
+                </div>
+                <div class="ui-g-12 ui-md-1">
+                    <br><span class="p-button-label" style="background-color: transparent;color: #D32F2F;border-color: transparent;">PEN</span>
+                </div>
+                <div class="ui-g-12 ui-md-2">
+                    <strong>IGV:</strong>
+                    <input id="float-input-sub-total-1" type="number" formControlName="montoIgv" pInputText style="background-color: #e9f79e;font-weight:bold;text-align:right;" readonly>
+                </div>
+                <div class="ui-g-12 ui-md-1">
+                    <br><span class="p-button-label" style="background-color: transparent;color: #D32F2F;border-color: transparent;">PEN</span>
+                </div>
+                <div class="ui-g-12 ui-md-2">
+                    <strong>Total:</strong>
+                    <input id="float-input-sub-total-1" type="number" formControlName="montoTotal" pInputText style="background-color: #e9f79e;font-weight:bold;text-align:right;" readonly>
+                </div>
+                <div class="ui-g-12 ui-md-1">
+                    <br><span class="p-button-label" style="background-color: transparent;color: #D32F2F;border-color: transparent;">PEN</span>
+                </div>
+                <div class="ui-g-12 ui-md-3">
+                    <br>
+                    <p-checkbox binary="true" label="Gratuito" formControlName="gratuito" [disabled]="isDisableGratuito"></p-checkbox>
+                </div>
+            </div>
+            <div class="ui-g ui-fluid">
+                <div class="ui-g-12 ui-md-2">
+                    <strong>Monto Soles:</strong>
+                    <input id="float-input-sub-total-1" type="number" formControlName="montoSoles" pInputText style="background-color: #e9f79e;font-weight:bold;text-align:right;" readonly>
+                </div>
+                <div class="ui-g-12 ui-md-1">
+                    <br><span class="p-button-label" style="background-color: transparent;color: #D32F2F;border-color: transparent;">PEN</span>
+                </div>
+                <div class="ui-g-12 ui-md-2">
+                    <strong>Dolores:</strong>
+                    <input id="float-input-sub-total-1" type="number" formControlName="montoDolares" pInputText style="background-color: #e9f79e;font-weight:bold;text-align:right;" readonly>
+                </div>
+                <div class="ui-g-12 ui-md-1">
+                    <br><span class="p-button-label" style="background-color: transparent;color: #D32F2F;border-color: transparent;">PEN</span>
+                </div>
+                <div class="ui-g-12 ui-md-2">
+                    <strong>Vuelto:</strong>
+                    <input id="float-input-sub-total-1" type="number" formControlName="vuelto" pInputText style="background-color: #e9f79e;font-weight:bold;text-align:right;" readonly>
+                </div>
+                <div class="ui-g-12 ui-md-1">
+                    <br><span class="p-button-label" style="background-color: transparent;color: #D32F2F;border-color: transparent;">PEN</span>
+                </div>
+                <div class="ui-g-12 ui-md-3">
+                    <br>
+                    <p-checkbox binary="true" label="Dolar" formControlName="checkDolar"></p-checkbox>
+                </div>
+            </div>
+        </form>
+    </div>
+</p-card>
+
+<p-dialog header="Grabar" [(visible)]="isDisplaySave" [closable]="false" [modal]="true" [style]="{width: '50vw'}" [baseZIndex]="10000" [draggable]="false" [resizable]="false">
+    Guardando Informacion...!!!
+    <div class="ui-g ui-fluid">
+        <div class="ui-g-12">
+            <p-progressBar mode="indeterminate" [style]="{'height': '6px'}"></p-progressBar>
+        </div>
+    </div>
+</p-dialog>
+
+<p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000"></p-confirmDialog>
+<app-modal-busqueda-cliente (eventoAceptar)="goClienteExternoSeleccionado($event)" [isHabilitaControl]="isActivateBusquedaCliente" (eventoCancelar)="cancelarModalCliente()"></app-modal-busqueda-cliente>
+<app-modal-busqueda-doc-identidad (eventoAceptar)="goTipoDocumentoIdentidadSeleccionado($event)" [isHabilitaControl]="isActivateBusquedaTDIdentidad" (eventoCancelar)="cancelarModalTDIdentidad()"></app-modal-busqueda-doc-identidad>
+<app-modal-busqueda-tipo-pago (eventoAceptar)="goTipoPagoSeleccionado($event)" [isHabilitaControl]="isActivateBusquedaTPago" (cancel)="cancelarModalTPago()"></app-modal-busqueda-tipo-pago>
+<app-modal-busqueda-entidad (eventoAceptar)="goBancosSeleccionado($event)" [isHabilitaControl]="isActivateBusquedaBancos" (cancel)="cancelarModalBancos()"></app-modal-busqueda-entidad>
+<app-modal-busqueda-tarjeta-credito (eventoAceptar)="goTCreditoSeleccionado($event)" [isHabilitaControl]="isActivateBusquedaTCredito" (cancel)="cancelarModalTCredito()"></app-modal-busqueda-tarjeta-credito>
+<app-modal-busqueda-terminal (eventoAceptar)="goTerminalSeleccionado($event)" [isHabilitaControl]="isActivateBusquedaTerminal" (cancel)="cancelarModalTerminal()"></app-modal-busqueda-terminal>
+
+<p-dialog *ngIf="isAutenticar" header="Ingresar Credenciales" [(visible)]="isAutenticar" [modal]="true" [closable]="false" [autoZIndex] [draggable]="false" [resizable]="false">
+    <app-modal-autenticacion [isAnular]="false" (eventoAceptar)="goAceptarGrabar($event)" (eventoCancelar)="goCancelarGrabar()"></app-modal-autenticacion>
+</p-dialog>
+
+<p-dialog header="Buscar Venta" [(visible)]="isActivateBusquedadVenta" [style]="{width: '20vw'}">
+    <div class="ui-g ui-fluid">
+        <form [formGroup]="formularioBusqueda">
+            <p>{{isTitleBusquedadVenta}}</p>
+            <input id="float-input-sub-total-1" type="text" formControlName="numVentaBuscar" pInputText>
+        </form>
+    </div>
+    <br>
+    <footer>
+        <button pButton icon="pi pi-check" label="{{globalConstants.cAceptar}}" (click)="onBuscarVenta()" class="ui-button-success"></button>
+        <button pButton label="{{globalConstants.cCancelar}}" (click)="isActivateBusquedadVenta=false" class="ui-button-secondary"></button>
+    </footer>
+</p-dialog>
+
+<p-dialog *ngIf="isDisplayVisualizar" header="Visualizar" [(visible)]="isDisplayVisualizar" [closable]="false" [modal]="true" [style]="{width: '50vw'}" [autoZIndex] [draggable]="false" [resizable]="false">
+
+    Generando visor del registro seleccionado...!!!
+    <div class="ui-g ui-fluid">
+        <div class="ui-g-12">
+            <p-progressBar mode="indeterminate" [style]="{'height': '6px'}"></p-progressBar>
+        </div>
+    </div>
+
+</p-dialog>
+
+<p-dialog *ngIf="isDisplayVisualizarDocumento" [(visible)]="isDisplayVisualizarDocumento" [modal]="true" [style]="{width: '80vw'}" [autoZIndex] [maximizable]="true">
+    <div class="ui-g ui-fluid">
+        <div class="ui-g-12">
+            <app-modal-visor-pdf [isFile]="isDataBlob"></app-modal-visor-pdf>
+        </div>
+    </div>
+</p-dialog>
+

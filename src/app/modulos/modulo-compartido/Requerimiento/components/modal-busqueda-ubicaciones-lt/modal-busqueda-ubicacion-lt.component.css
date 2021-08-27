@@ -1,0 +1,7 @@
+.customDialog {
+    color : blue;
+}
+
+.customDialog .ui-dialog-titlebar.ui-widget-header {
+    background: white !important;
+}

@@ -1,0 +1,21 @@
+{
+    "data": [{
+            "receta": "4420293",
+            "atencion": "H0179089",
+            "fecha": "30/01/2021 12:11:09 AM",
+            "paciente": "TELLO DE PINA VICTORIA GIANNINA",
+            "telefono": "932123123",
+            "nombreMedico": "SUMMERS GARCIA PERSY",
+            "tipoConsumo": "CONSULTA MEDICA VIRTUAL"
+        },
+        {
+            "receta": "4240293",
+            "atencion": "H0179091",
+            "fecha": "30/01/2021 14:11:09 AM",
+            "paciente": "PORRAS CORDOVA JOSE LUIS",
+            "telefono": "932123123",
+            "nombreMedico": "SUMMERS GARCIA PERSY",
+            "tipoConsumo": "CONSULTA MEDICA VIRTUAL"
+        }
+    ]
+}

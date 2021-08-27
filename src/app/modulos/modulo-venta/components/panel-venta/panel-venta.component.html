@@ -1,0 +1,130 @@
+<div class="card card-w-title">
+    <h1><strong>{{titulo}}</strong></h1>
+
+    <!-- Filtros -->
+    <p-panel header="Opción de busqueda de {{titulo}}" [toggleable]="true" [style]="{'margin-bottom':'20px'}">
+        <form [formGroup]="formularioBusqueda">
+            <div class="ui-g ui-fluid">
+                <div class="ui-g-12 ui-md-2">
+                    <label class="label-custom" for="float-input-fecha-ini">Fecha Inicio: </label>
+                    <p-calendar id="float-input-fecha-ini" placeholder="Seleccionar Fecha" [showButtonBar]="true" [locale]="lenguageService.es" dateFormat="dd/mm/yy" [showIcon]="true" formControlName="fechaIni"></p-calendar>
+                </div>
+                <div class="ui-g-12 ui-md-2">
+                    <label class="label-custom" for="float-input-fecha-fin">Fecha Fin: </label>
+                    <p-calendar id="float-input-fecha-fin" placeholder="Seleccionar Fecha" [showButtonBar]="true" [locale]="lenguageService.es" dateFormat="dd/mm/yy" [showIcon]="true" formControlName="fechaFin"></p-calendar>
+                </div>
+                <div class="ui-g-12 ui-md-2">
+                    <label class="label-custom" for="float-input-nro-venta">Cod. Venta: </label>
+                    <input id="float-input-nro-venta" type="text" pInputText placeholder="Nro Venta" formControlName="codventa">
+                </div>
+                <div class="ui-g-12 ui-md-2">
+                    <label class="label-custom" for="float-input-nro-comprobante">Comprobante: </label>
+                    <input id="float-input-nro-comprobante" type="text" pInputText placeholder="Nro Comprobante" formControlName="codcomprobante">
+                </div>
+                <!-- <div class="ui-g-12 ui-md-1"></div> -->
+                <div class="ui-g-12 ui-md-2">
+                    <button pButton type="button" label="{{globalConstants.cBuscar}}" icon="{{globalConstants.icoBuscar}}" class="sba-button btn btn-block" (click)="goListar()"></button>
+                </div>
+                <div class="ui-g-12 ui-md-2">
+                    <app-btn-salir [isMargenTop]="true"></app-btn-salir>
+                </div>
+            </div>
+        </form>
+
+    </p-panel>
+
+    <!-- Grilla de Datos     -->
+    <p-panel header="Lista de {{titulo}}">
+
+        <p-table [value]="listModelo" [columns]="columnas" [paginator]="true" [rows]="globalConstants.sizePage" dataKey="codventa" autoLayout="true" [responsive]="true">
+            <ng-template pTemplate="header" let-columns>
+                <tr>
+                    <th colspan="1">Acciones</th>
+                    <th *ngFor="let col of columns">
+                        {{col.header}}
+                    </th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-rowData let-columns="columns">
+                <tr>
+                    <td class="custom-td-splitButton">
+                        <p-splitButton class="ui-splitbutton-button" label="Detalle" icon="fa fa-list-ol " (onDropdownClick)="onItemElegido(rowData)" (onClick)="onDetalle(rowData)" [model]="items" appendTo="body"></p-splitButton>
+                    </td>
+                    <td class="custom-td-1">
+                        {{rowData.codventa}}
+                    </td>
+                    <td class="custom-td-1">
+                        {{rowData.tipomovimiento}}
+                    </td>
+                    <td class="custom-td-1">
+                        {{rowData.nombretipocliente}}
+                    </td>
+                    <td class="custom-td-1">
+                        {{rowData.codatencion}}
+                    </td>
+                    <td class="custom-td-1">
+                        {{rowData.codcomprobante}}
+                    </td>
+                    <td class="custom-td-1">
+                        <app-label-estado [isEstado]="rowData.nombreestado"></app-label-estado>
+                    </td>
+                    <td>
+                        {{rowData.nombre}}
+                    </td>
+                    <td class="custom-td-number-1">
+                        {{rowData.montopaciente}}
+                    </td>
+                    <td class="custom-td-number-1">
+                        {{rowData.montoaseguradora}}
+                    </td>
+                    <td class="custom-td-1">
+                        <p-checkbox disabled [(ngModel)]="rowData.flg_gratuito" binary="true"></p-checkbox>
+                    </td>
+                    <td class="custom-td-fecha">
+                        {{rowData.fechagenera | date: 'dd/MM/yyyy HH:mm'}}
+                    </td>
+                    <td class="custom-td-fecha">
+                        {{rowData.fechaemision | date: 'dd/MM/yyyy HH:mm'}}
+                    </td>
+                    <td class="custom-td-1">
+                        {{rowData.codpedido}}
+                    </td>
+                    <td class="custom-td-1">
+                        {{rowData.codcliente}}
+                    </td>
+                    <td class="custom-td-1">
+                        {{rowData.codpaciente}}
+                    </td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </p-panel>
+</div>
+
+<p-toast class="ui-toast-bottom-right" position="bottom-right"></p-toast>
+
+<p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000"></p-confirmDialog>
+
+<p-dialog *ngIf="isVerModalDetalle" header="NRO. VENTA - {{modeloItem.codventa}}" [(visible)]="isVerModalDetalle" [modal]="true" [closable]="false">
+    <app-venta-ver [isVisibleAnular]="isAnular" [modeloItem]="modeloItem" (eventoCerrar)="goCerrarDetalle()">
+    </app-venta-ver>
+</p-dialog>
+
+<p-dialog *ngIf="isDisplayVisualizar" header="Visualizar" [(visible)]="isDisplayVisualizar" [closable]="false" [modal]="true" [style]="{width: '50vw'}" [autoZIndex] [draggable]="false" [resizable]="false">
+
+    Generando visor del registro seleccionado...!!!
+    <div class="ui-g ui-fluid">
+        <div class="ui-g-12">
+            <p-progressBar mode="indeterminate" [style]="{'height': '6px'}"></p-progressBar>
+        </div>
+    </div>
+
+</p-dialog>
+
+<p-dialog *ngIf="isDisplayVisualizarDocumento" [header]="itemSeleccionadoGrilla.codventa" [(visible)]="isDisplayVisualizarDocumento" [modal]="true" [style]="{width: '80vw'}" [autoZIndex] [maximizable]="true">
+    <div class="ui-g ui-fluid">
+        <div class="ui-g-12">
+            <app-modal-visor-pdf [isFile]="isDataBlob"></app-modal-visor-pdf>
+        </div>
+    </div>
+</p-dialog>

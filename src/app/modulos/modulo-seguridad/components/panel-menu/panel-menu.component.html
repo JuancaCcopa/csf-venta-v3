@@ -1,0 +1,67 @@
+<p-panel header="Registro de Menu">
+    <div class="ui-g ui-fluid">
+        <div class="ui-g-12 ui-lg-4">
+            <div class="card no-margin">
+                <p-tree [value]="items" selectionMode="single" (onNodeSelect)="nodeSelect($event.node)"></p-tree>
+            </div>
+        </div>
+
+        <div class="ui-g-12 ui-lg-8">
+            <div class="card no-margin">
+                <form [formGroup]="modeloForm">
+                    <div class="ui-g form-group">
+                        <div class="ui-g-12 ui-md-2">
+                            <label for="id-menu">Id Menu</label>
+                            <input id="id-menu" type="text" placeholder="Id Menu" formControlName="idMenu" pInputText>
+                        </div>
+                        <div class="ui-g-12 ui-md-6">
+                            <label for="titulo">Título o Descripción</label>
+                            <input id="titulo" type="text" placeholder="Titulo" formControlName="descripcionTitulo" pInputText>
+                        </div>
+                        <div class="ui-g-12 ui-md-4">
+                            <label for="icono">Icono</label>
+                            <input id="icono" type="text" placeholder="Icono" formControlName="icono" pInputText>
+                        </div>
+                        <div class="ui-g-12 ui-md-2">
+                            <p-checkbox name="cg" value="Ultima" label="Estado" formControlName="flgActivo" [binary]="true"></p-checkbox>
+                        </div>
+                        <div class="ui-g-12 ui-md-6">
+                            <label for="url">Url</label>
+                            <input id="url" type="text" pInputText placeholder="Url" formControlName="url">
+                        </div>
+                        <div class="ui-g-12 ui-md-2">
+                            <label for="id-padre">Id Padre</label>
+                            <input id="id-padre" type="text" placeholder="Id Padre" pInputText formControlName="idMenuPadre">
+                        </div>
+                        <div class="ui-g-12 ui-md-2">
+                            <label for="nivel">Nivel</label>
+                            <input id="nivel" type="text" placeholder="Nivel" pInputText formControlName="nroNivel">
+                        </div>
+                        <div class="ui-g-12">
+                            <label for="formulario">Nombre Formulario</label>
+                            <input id="formulario" type="text" placeholder="Nombre Formulario" pInputText formControlName="nombreFormulario">
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <p-messages [(value)]="mensajePrimeNgService.msgs"></p-messages>
+
+    <p-footer>
+
+        <div class="ui-grid ui-fluid">
+            <div class="ui-g-12 ui-md-6">
+                <button [disabled]="buttonAcces.btnMenuPadre" pButton type="button" label="Menu Padre" icon="{{globalConstants.icoNuevo}}" (click)="goNewPadre()"></button>
+            </div>
+            <div class="ui-g-12 ui-md-6">
+                <button [disabled]="buttonAcces.btnMenuHijo" pButton type="button" label="Menu Hijo" icon="{{globalConstants.icoNuevo}}" (click)="goNewChildren()"></button>
+            </div>
+            <div class="ui-g-12">
+                <button pButton type="submit" [disabled]="buttonAcces.btnGrabar" *ngIf="modeloForm.valid" label="{{globalConstants.cGrabar}}" icon="{{globalConstants.icoGrabar}}" (click)="onClickSave()"></button>
+            </div>
+        </div>
+    </p-footer>
+
+</p-panel>

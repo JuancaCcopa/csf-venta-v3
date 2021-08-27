@@ -1,0 +1,103 @@
+<div class="card card-w-title">
+    <h1><strong>{{titulo}}</strong></h1>
+
+    <!-- Filtros -->
+    <p-panel header="{{titulo}}" [toggleable]="true" [style]="{'margin-bottom':'20px'}">
+        <form [formGroup]="formularioBusqueda">
+            <div class="ui-g ui-fluid">
+                <div class="ui-g-12 ui-md-1">
+                    <input type="text" formControlName="idUbicacion" pInputText placeholder="Id" />
+                </div>
+                <div class="ui-g-12 ui-md-4">
+                    <input type="text" formControlName="desUbicacion" pInputText placeholder="Descripción" />
+                </div>
+                <div class="ui-g-12 ui-md-1">
+                    <button pButton type="button" icon="{{globalConstants.icoBuscar}}" (click)="activarModalUbicacion()" class="btn btn-block"></button>
+                </div>
+                <div class="ui-g-12 ui-md-2">
+                </div>
+                <div class="ui-g-12 ui-md-2">
+                    <button pButton type="button" label="{{globalConstants.cBuscar}}" icon="{{globalConstants.icoBuscar}}" (click)="onToBuscar()" class="btn btn-block"></button>
+                </div>
+                <div class="ui-g-12 ui-md-2">
+                    <button pButton type="button" label="{{globalConstants.cNuevo}}" icon="{{globalConstants.icoNuevo}}" (click)="onToCreate()"></button>
+                </div>
+            </div>
+        </form>
+    </p-panel>
+
+    <p-messages [(value)]="mensajePrimeNgService.msgs"></p-messages>
+
+    <!-- Grilla de Datos     -->
+    <p-panel header="Lista de {{titulo}}">
+        <p-table [value]="listModelo" [columns]="columnas" [paginator]="true" [rows]="globalConstants.sizePage" dataKey="idUbicacionPorStock" editMode="row" autoLayout="true" [responsive]="true">
+            <!-- Header -->
+            <ng-template pTemplate="header" let-columns>
+                <tr>
+                    <th *ngFor="let col of columns">
+                        {{col.header}}
+                    </th>
+                    <th colspan="2">Acciones</th>
+                </tr>
+            </ng-template>
+            <!-- body -->
+            <ng-template pTemplate="body" let-modelo let-editing="editing" let-ri="rowIndex">
+                <tr [pEditableRow]="modelo">
+                    <td class="action-td">
+                        <span class="ui-column-title">Codigo</span> {{modelo.idUbicacionPorStock}}
+                    </td>
+                    <td class="ui-fluid">
+                        <span class="ui-column-title">Ubicación</span> {{modelo.desUbicacion}}
+                    </td>
+                    <td class="ui-fluid">
+                        <span class="ui-column-title">Centro Costo</span> {{modelo.desCentroCosto}}
+                    </td>
+                    <td class="ui-fluid">
+                        <span class="ui-column-title">Tipo Producto</span> {{modelo.desTipoProducto}}
+                    </td>
+                    <td class="action-td">
+                        <span class="ui-column-title">Producto</span> {{modelo.codArticulo}}
+                    </td>
+                    <td class="ui-fluid">
+                        <span class="ui-column-title">Producto</span> {{modelo.desArticulo}}
+                    </td>
+                    <td class="action-td">
+                        <span class="ui-column-title">Stk. Maximo</span>
+                        <p-cellEditor>
+                            <ng-template pTemplate="input">
+                                <span class="p-float-label">
+                                    <input type="number" pInputText [(ngModel)]="modelo.stockMaximo">
+                                </span>
+                            </ng-template>
+                            <ng-template pTemplate="output">
+                                <span class="ui-column-title">Producto</span> {{modelo.stockMaximo}}
+                            </ng-template>
+                        </p-cellEditor>
+                    </td>
+                    <td class="action-td-action">
+                        <button *ngIf="!editing" pButton type="button" pInitEditableRow icon="{{globalConstants.icoEditar}}" (click)="onRowEditInit(modelo)"></button>
+                        <button *ngIf="editing" pButton type="button" pSaveEditableRow icon="{{globalConstants.icoGrabar}}" class="ui-button-success" (click)="onRowEditSave(modelo)"></button>
+                        <button *ngIf="editing" pButton type="button" pCancelEditableRow icon="{{globalConstants.icoCancelar}}" class="ui-button-danger" style="margin-left: .5em" (click)="onRowEditCancel(modelo, ri)"></button>
+                    </td>
+                    <td class="action-td">
+                        <button pButton icon="{{globalConstants.icoEliminar}}" class="ui-button-danger" (click)="onToRowSelectDelete(modelo)"></button>
+                    </td>
+                </tr>
+            </ng-template>
+
+        </p-table>
+        <p-footer>
+            <div class="ui-grid ui-fluid">
+                <div class="ui-g-12 ui-md-2">
+                    <button pButton type="button" label="{{globalConstants.cNuevo}}" icon="{{globalConstants.icoNuevo}}" (click)="onToCreate()"></button>
+                </div>
+            </div>
+        </p-footer>
+    </p-panel>
+</div>
+
+<!-- Para Eliminar -->
+<p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000"></p-confirmDialog>
+
+<app-modal-busqueda-ubicacion [isDisplayBusquedaUbicacion]="isActivateBusquedaUbicacion" (UbicacionSeleccionado)="ubicacionSeleccionado($event)" (cancel)="activarModalUbicacion()">
+</app-modal-busqueda-ubicacion>

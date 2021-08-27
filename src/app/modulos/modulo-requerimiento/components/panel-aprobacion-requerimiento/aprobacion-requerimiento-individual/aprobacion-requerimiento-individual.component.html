@@ -1,0 +1,21 @@
+<p-dialog header="{{ tituloVista }}" [(visible)]="isDisplayAprobacion" [transitionOptions]="timeAnimationModal" [modal]="true" (onHide)="cerrarDialog()">
+    <app-ver-detalle-requerimiento *ngIf="isDisplayAprobacion" [requerimiento]="requerimiento">
+    </app-ver-detalle-requerimiento>
+
+    <p-footer>
+        <div class="ui-grid ui-fluid">
+            <div class="ui-g-12 ui-md-6">
+                <button type="button" pButton icon="pi pi-check" label="Aprobar" (click)="clickModalAprobarSolicitudIndividual()"></button>
+            </div>
+            <div class="ui-g-12 ui-md-6">
+                <button type="button" pButton icon="pi pi-times" label="Desaprobar" (click)="clickModalDesaprobarSolicitudIndividual()"></button>
+            </div>
+        </div>
+    </p-footer>
+</p-dialog>
+
+<app-modal-aprobacion-individual *ngIf="isModalAprobar" [titulo]="tituloAccion" [requerimiento]="requerimiento" [isModalAprobar]="isModalAprobar" (guardarAprobacionIndividual)="guardarAprobacion($event)" (cerrarModal)="cerrarModalAprobacion()">
+</app-modal-aprobacion-individual>
+
+<app-modal-aprobacion-individual *ngIf="isModalDesaprobar" [titulo]="tituloAccion" [requerimiento]="requerimiento" [isModalDesaprobar]="isModalDesaprobar" (guardarAprobacionIndividual)="guardarAprobacion($event)" (cerrarModal)="cerrarModalAprobacion()">
+</app-modal-aprobacion-individual>

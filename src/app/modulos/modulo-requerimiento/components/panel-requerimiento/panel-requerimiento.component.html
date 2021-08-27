@@ -1,0 +1,80 @@
+<div class="card card-w-title">
+    <h1><strong>{{titulo}}</strong></h1>
+    <!-- Filtros -->
+    <p-panel header="Opción de busqueda de {{titulo}}" [toggleable]="true" [style]="{'margin-bottom':'20px'}">
+        <form [formGroup]="formularioBusqueda">
+            <div class="ui-g ui-fluid">
+                <div class="ui-g-12 ui-md-2">
+                    <label>Fecha Inicio: </label>
+                    <p-calendar dateFormat="dd/mm/yy" appendTo="body" appendTo="body" [locale]="lenguageService.es" formControlName="fechaInicio"></p-calendar>
+                </div>
+                <div class="ui-g-12 ui-md-2">
+                    <label>Fecha Fin: </label>
+                    <p-calendar dateFormat="dd/mm/yy" appendTo="body" appendTo="body" [locale]="lenguageService.es" formControlName="fechaFin"></p-calendar>
+                </div>
+                <div class="ui-g-12 ui-md-4">
+                </div>
+                <div class="ui-g-12 ui-md-2">
+                    <label>.</label>
+                    <button pButton type="button" label="{{globalConstants.cBuscar}}" icon="{{globalConstants.icoBuscar}}" (click)="clickBusqueda()" class="btn btn-block"></button>
+                </div>
+                <div class="ui-g-12 ui-md-2">
+                    <label>.</label>
+                    <button pButton type="button" label="{{globalConstants.cNuevo}}" icon="{{globalConstants.icoNuevo}}" (click)="clickNuevo()"></button>
+                </div>
+            </div>
+        </form>
+    </p-panel>
+    <p-messages [(value)]="mensajePrimeNgService.msgs"></p-messages>
+    <!-- Grilla de Datos     -->
+    <p-panel header="Lista de {{titulo}}">
+        <p-table [value]="rowBusquedaRequerimiento" [autoLayout]="true" [columns]="cabeceraTablaVisible" [responsive]="true" [resizableColumns]="true" styleClass="p-datatable-responsive-demo" [paginator]="true" [rows]="10" #tableBusqueda>
+            <ng-template pTemplate="caption">
+                <div class="ui-table-globalfilter-container" style="text-align: right;">
+                    <input pInputText type="text" (input)="tableBusqueda.filterGlobal($event.target.value, 'contains')" placeholder="Filtro general" />
+                </div>
+            </ng-template>
+            <ng-template pTemplate="header" let-columns>
+                <tr>
+                    <th>Opciones</th>
+                    <th *ngFor="let col of columns">{{ col.header }}</th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-rowData let-columns="columns">
+                <tr #opt class="row-hover" [ngClass]="rowData.idRequerimiento === idEditadoResaltar? 'resaltarFila': null">
+                    <td>
+                        <p-splitButton icon="pi pi-cog" (onDropdownClick)="itemElegido(rowData)" [model]="opciones" appendTo="body">
+                        </p-splitButton>
+                    </td>
+                    <td *ngFor="let col of columns" [ngSwitch]="col.field">
+                        <span class="p-column-title">{{col.header}}</span>
+                        <span *ngSwitchCase="'fecRequerimiento'">{{ rowData[col.field] | date: 'dd/MM/yy' }}</span>
+                        <span class="label" *ngSwitchCase="'desRequerimientoEstado'" [ngClass]="{anulado: rowData[col.field] === 'ANULADO',
+                                    aprobado: rowData[col.field] === 'APROBADO',
+                                    desaprobado: rowData[col.field] === 'DESAPROBADO',
+                                    pendiente: rowData[col.field] === 'PENDIENTE',
+                                    procesadoSap: rowData[col.field] === 'PROCESADO SAP',
+                                    listoAprobar: rowData[col.field] === 'LISTO APROBACIÓN'}">{{ rowData[col.field] }}</span>
+                        <span *ngSwitchDefault>{{ rowData[col.field] }}</span>
+                    </td>
+                </tr>
+            </ng-template>
+        </p-table>
+        <p-footer>
+            <div class="ui-grid ui-fluid">
+                <div class="ui-g-12 ui-md-2">
+                    <button pButton type="button" label="{{globalConstants.cNuevo}}" icon="{{globalConstants.icoNuevo}}" (click)="clickNuevo()"></button>
+                </div>
+            </div>
+        </p-footer>
+    </p-panel>
+</div>
+
+<app-modal-busqueda-usuario *ngIf="isActivateBusquedaUsuario" [isDisplayBusquedaUsuario]="isActivateBusquedaUsuario" (usuarioSeleccionado)="usuarioBuscado($event)" (cancel)="clickActivateBuscarUsuario()"></app-modal-busqueda-usuario>
+
+<p-dialog *ngIf="isVerModalDetalle" [header]="tituloDetalle" [(visible)]="isVerModalDetalle" [transitionOptions]="timeAnimationModal" [modal]="true" [style]="{width: '80vw'}" [autoZIndex]>
+    <app-ver-detalle-requerimiento [requerimiento]="this.itemSeleccionado">
+    </app-ver-detalle-requerimiento>
+</p-dialog>
+
+<p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000"></p-confirmDialog>

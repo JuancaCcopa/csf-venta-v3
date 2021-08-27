@@ -1,0 +1,51 @@
+<div class="card card-w-title">
+    <div class="box">
+        <div class="titulo">
+            <h1>{{titulo}} | Actualizar</h1>
+        </div>
+    </div>
+    <p-panel>
+        <div class="ui-grid ui-fluid">
+            <div class="ui-g-12">
+                <form [formGroup]="formularioModificar">
+                    <div class="p-grid form-group">
+                        <div class="ui-g-12">
+                            <label class="label-custom">Nro Aprobador: </label>
+                        </div>
+                        <div class="ui-g-12 ui-md-1">
+                            <input formControlName="idAprobador" type="text" pInputText />
+                        </div>
+                        <div class="ui-g-12">
+                            <label class="label-custom">Usuario: </label>
+                        </div>
+                        <div class="ui-g-12 ui-md-4">
+                            <input type="text" pInputText formControlName="usuario" />
+                        </div>
+                        <div class="ui-g-12">
+                            <label>Centro costo: </label>
+                        </div>
+                        <div class="ui-g-12 ui-md-1">
+                            <input formControlName="codCentroCosto" size="30" type="text" pInputText />
+                        </div>
+                        <div class="ui-g-12 ui-md-3">
+                            <input formControlName="centroCosto" size="30" type="text" pInputText />
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <p-footer>
+            <p-messages [(value)]="mensajePrimeNgService.msgs"></p-messages>
+            <div class="ui-grid ui-fluid">
+                <div class="ui-g-12 ui-md-6">
+                    <button *ngIf="this.bodyParams.idAprobadorEstado !== 3" pButton type="submit" [disabled]="!formularioModificar.valid" label="{{globalConstants.cGrabar}}" icon="{{globalConstants.icoGrabar}}" (click)="clickGuardar()"></button>
+                </div>
+                <div class="ui-g-12 ui-md-6">
+                    <button pButton type="button" label="{{globalConstants.cRegresar}}" icon="{{globalConstants.icoRegresar}}" class="{{globalConstants.cStyleButtonSecundario}}" (click)="onClickRegresar()"></button>
+                </div>
+            </div>
+        </p-footer>
+    </p-panel>
+</div>
+
+<app-modal-busqueda-usuario *ngIf="isActivateBusquedaUsuario" [isDisplayBusquedaUsuario]="isActivateBusquedaUsuario" (usuarioSeleccionado)="usuarioBuscado($event)" (cancel)="clickBuscarUsuario()"></app-modal-busqueda-usuario>

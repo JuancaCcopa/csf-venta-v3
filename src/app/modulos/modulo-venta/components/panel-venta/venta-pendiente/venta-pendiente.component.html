@@ -1,0 +1,57 @@
+<div class="card card-w-title">
+    <h1><strong>{{titulo}}</strong></h1>
+    <!-- Filtros -->
+    <p-panel header="Opción de busqueda de {{titulo}}" [toggleable]="true" [style]="{'margin-bottom':'20px'}">
+        <form [formGroup]="formularioBusqueda">
+            <div class="ui-g ui-fluid">
+                <div class="ui-g-12 ui-md-2">
+                    <label class="label-custom" for="float-input-fecha">Fecha Venta: </label>
+                    <p-calendar id="float-input-fecha" placeholder="Seleccionar Fecha" [showButtonBar]="true" [locale]="lenguageService.es" dateFormat="dd/mm/yy" [showIcon]="true" formControlName="fecha"></p-calendar>
+                </div>
+                <div class="ui-g-12 ui-md-6">
+
+                </div>
+                <div class="ui-g-12 ui-md-2">
+                    <button pButton type="button" label="{{globalConstants.cBuscar}}" icon="{{globalConstants.icoBuscar}}" (click)="goListar()" class="sba-button btn btn-block"></button>
+                </div>
+                <div class="ui-g-12 ui-md-2">
+                    <app-btn-salir [isMargenTop]="true"></app-btn-salir>
+                </div>
+            </div>
+        </form>
+    </p-panel>
+
+    <!-- Grilla de Datos     -->
+    <p-table [value]="listModelo" [columns]="columnas" [paginator]="true" [rows]="globalConstants.sizePage" dataKey="idRegistroEquipo" editMode="row" autoLayout="true" [responsive]="true" [loading]="loading">
+        <ng-template pTemplate="header" let-columns>
+            <tr>
+                <th colspan="1">Acciones</th>
+                <th *ngFor="let col of columns">
+                    {{col.header}}
+                </th>
+
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-rowData let-columns="columns">
+            <tr>
+                <td class="custom-td-splitButton">
+                    <p-splitButton label="Detalle" icon="fa fa-list-ol " (onDropdownClick)="onItemElegido(rowData)" (onClick)="onDetalle(rowData)" [model]="items" appendTo="body"></p-splitButton>
+                </td>
+                <td *ngFor="let col of columns" [ngClass]="col.field === 'montopaciente' || col.field === 'montoaseguradora' 
+                                                            ? 'custom-td-number-1': col.field === 'fechagenera' || col.field === 'fechaemision' 
+                                                            ? 'custom-td-fecha':col.field !== 'nombre' 
+                                                            ? 'custom-td-1':null" [ngSwitch]="col.field">
+                    <span *ngSwitchCase="'nombreestado'"><app-label-estado [isEstado]="rowData['nombreestado']"></app-label-estado></span>
+                    <span *ngSwitchCase="'fechagenera'">{{ rowData[col.field]  | date: 'dd/MM/yyyy HH:mm'}}</span>
+                    <span *ngSwitchCase="'fechaemision'">{{ rowData[col.field]  | date: 'dd/MM/yyyy HH:mm'}}</span>
+                    <span *ngSwitchDefault>{{ rowData[col.field] }}</span>
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>
+
+<p-dialog *ngIf="isVerModalDetalle" header="NRO. VENTA - {{modeloItem.codventa}}" [(visible)]="isVerModalDetalle" [modal]="true" [modal]="true" [closable]="false">
+    <app-venta-ver [isVisibleAnular]="isAnular" [modeloItem]="modeloItem" (eventoCerrar)="goCerrarDetalle()">
+    </app-venta-ver>
+</p-dialog>

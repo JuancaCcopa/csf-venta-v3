@@ -1,0 +1,22 @@
+<form [formGroup]="formularioAutenticacion">
+    <div class="ui-g ui-fluid">
+        <div class="ui-g-12 ui-md-6">
+            <label class="label-custom">Usuario: </label>
+            <input type="text" pInputText placeholder="Usuario" autocomplete="off" formControlName="usuario">
+        </div>
+        <div class="ui-g-12 ui-md-6">
+            <label class="label-custom">Clave: </label>
+            <input type="password" pInputText placeholder="Contraseña" autocomplete="off" formControlName="contrasena">
+        </div>
+        <div *ngIf="isAnular" class="ui-g-12 ui-md-12">
+            <label class="label-custom">Motivo de Anulación: </label>
+            <textarea rows="5" cols="30" pInputTextarea autoResize="autoResize" formControlName="motivo"></textarea>
+        </div>
+        <div class="ui-g-12 ui-md-6">
+            <button pButton type="submit" [disabled]="!formularioAutenticacion.valid" label="{{globalConstants.cAceptar}}" icon="{{globalConstants.icoAceptar}}" (click)="goAutenticar()"></button>
+        </div>
+        <div class="ui-g-12 ui-md-6">
+            <button pButton type="button" label="{{globalConstants.cCancelar}}" icon="{{globalConstants.icoCancelar}}" class="ui-button-danger" (click)="goCancelar()"></button>
+        </div>
+    </div>
+</form>

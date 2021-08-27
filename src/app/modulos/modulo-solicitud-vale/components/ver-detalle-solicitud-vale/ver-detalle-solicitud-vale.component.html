@@ -1,0 +1,89 @@
+<p-panel header="Datos Principal" [toggleable]="true" [style]="{'margin-bottom':'20px'}">
+    <div class="ui-g ui-fluid">
+        <div class="ui-g-12 ui-md-3">
+            <span><strong>Id Trabajador:</strong></span>{{ detalleDelItemSeleccionado.idUsuario }}
+        </div>
+        <div class="ui-g-12 ui-md-3">
+            <span><strong>Trabajador:</strong></span>{{ detalleDelItemSeleccionado.usuario }}
+        </div>
+        <div class="ui-g-12 ui-md-3">
+            <span><strong>COD C.C:</strong></span>{{ detalleDelItemSeleccionado.codCentroCosto }}
+        </div>
+        <div class="ui-g-12 ui-md-3">
+            <span><strong>C.C:</strong></span> {{ detalleDelItemSeleccionado.desCentroCosto }}
+        </div>
+        <div class="ui-g-12 ui-md-3">
+            <span><strong>Fecha Solicitud Vale:</strong></span> {{ detalleDelItemSeleccionado.fecSolicitudVale | date: 'dd/MM/yy' }}
+        </div>
+        <div class="ui-g-12 ui-md-3">
+            <span><strong>Fecha Salida Real Sap:</strong></span> {{ detalleDelItemSeleccionado.fecSalidaRealSAP | date: 'dd/MM/yy' }}
+        </div>
+        <div class="ui-g-12 ui-md-3">
+            <span><strong>Fecha Draft SAP:</strong></span> {{ detalleDelItemSeleccionado.fecSalidaDraftSAP | date: 'dd/MM/yy' }}
+        </div>
+        <div class="ui-g-12 ui-md-3">
+            <span><strong>Nro Entrega:</strong></span>{{ detalleDelItemSeleccionado.nroEntrega }}
+        </div>
+    </div>
+    <div class="estado labelEstado_solicitud" [ngClass]="estadoSolicitud(detalleDelItemSeleccionado.desSolicitudValeEstado)">
+        {{ detalleDelItemSeleccionado.desSolicitudValeEstado }}
+    </div>
+</p-panel>
+
+<p-panel header="Lista de Articulos" [toggleable]="true" [style]="{'margin-bottom':'20px'}">
+    <p-table [value]="detalleDelItemSeleccionado.lineasSolicitudValeItem" [columns]="cols" [responsive]="true" [autoLayout]="true" [resizableColumns]="true" styleClass="p-datatable-responsive-demo">
+        <ng-template pTemplate="header" let-columns>
+            <tr>
+                <th *ngFor="let col of columns">{{ col.header }}</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-rowData let-columns="columns">
+            <tr>
+                <td *ngFor="let col of columns">
+                    <span class="p-column-title">{{ rowData[col.field] }}</span>
+                    <span>
+        {{ rowData[col.field] }}
+      </span>
+                </td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="emptymessage" let-columns>
+            <tr>
+                <td [attr.colspan]="columns.length">
+                    Sin información.
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+</p-panel>
+<div class="box-descarga" *ngIf="rowLineaSolicitudValeAnexo.length > 0">
+    <h3 style="margin-bottom: 5px;">Anexo</h3>
+    <div class="item" *ngFor="let item of rowLineaSolicitudValeAnexo; let i = index">
+        <a [href]="item.rutaAnexoLectura" target="blank">- {{ item.rutaAnexo | nameFileRutaSolicitudVale }}</a
+>
+    </div>
+</div>
+<p-panel header="Lista de Aprobadores" [toggleable]="true" [style]="{'margin-bottom':'20px'}">
+    <p-table [columns]="cabeceraTablaListAprobacion" [value]="rowLineaSolicitudValeAprobadores" [responsive]="true" [autoLayout]="true">
+        <ng-template pTemplate="header" let-columns>
+            <tr>
+                <th *ngFor="let col of columns">
+                    {{ col.header }}
+                </th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-item let-columns="columns">
+            <tr>
+                <td *ngFor="let col of columns" [ngSwitch]="col.field">
+                    <span class="label" *ngSwitchCase="'desSolicitudValeEstado'" [ngClass]="claseEstado(item[col.field])">
+        {{ item[col.field] }}
+      </span>
+
+                    <span *ngSwitchDefault>
+        {{ item[col.field] }}
+      </span>
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+</p-panel>

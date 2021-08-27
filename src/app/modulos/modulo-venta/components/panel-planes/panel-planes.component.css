@@ -1,0 +1,15 @@
+.action-td {
+    text-align: center;
+    width: 4em;
+}
+
+.action-td-action {
+    text-align: center;
+    width: 8em;
+}
+
+@media screen and (max-width: 40em) {
+     :host ::ng-deep .ui-dialog {
+        width: 75vw !important;
+    }
+}

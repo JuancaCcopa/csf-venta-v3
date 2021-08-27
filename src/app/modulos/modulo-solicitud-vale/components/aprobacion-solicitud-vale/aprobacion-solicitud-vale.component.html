@@ -1,0 +1,15 @@
+<p-dialog header="Solicitud Vale" [(visible)]="isDisplayAprobacion" [transitionOptions]="timeAnimationModal" [modal]="true" (onHide)="cerrarDialog()">
+    <app-ver-detalle-solicitud-vale *ngIf="isDisplayAprobacion" [idSolicitudVale]="idSolicitudVale">
+    </app-ver-detalle-solicitud-vale>
+
+    <p-footer>
+        <button type="button" pButton icon="pi pi-check" label="Aprobar" (click)="clickModalAprobarSolicitudIndividual()"></button>
+        <button type="button" pButton icon="pi pi-times" label="Desaprobar" (click)="clickModalDesaprobarSolicitudIndividual()"></button>
+    </p-footer>
+</p-dialog>
+
+<app-modal-aprobacion-individual *ngIf="isModalAprobar" [titulo]="titulo" [idSolicitudVale]="idSolicitudVale" [isModalAprobar]="isModalAprobar" (guardarAprobacionIndividual)="guardarAprobacion($event)">
+</app-modal-aprobacion-individual>
+
+<app-modal-aprobacion-individual *ngIf="isModalDesaprobar" [titulo]="titulo" [idSolicitudVale]="idSolicitudVale" [isModalDesaprobar]="isModalDesaprobar" (guardarAprobacionIndividual)="guardarAprobacion($event)">
+</app-modal-aprobacion-individual>

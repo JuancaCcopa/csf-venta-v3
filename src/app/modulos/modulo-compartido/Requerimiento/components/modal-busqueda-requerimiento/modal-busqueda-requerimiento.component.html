@@ -1,0 +1,62 @@
+<p-dialog header="Buscar Requerimiento" [(visible)]="isDisplayBusquedaArticulo" [modal]="true" [transitionOptions]="timeAnimationModal">
+     <!-- Filtros -->
+     <p-panel>
+        <form [formGroup]="formularioBusquedaRq">
+            <div class="ui-g ui-fluid">
+                
+                <div class="ui-g-12 ui-md-2">
+                    <label class="label-custom" for="float-input-fecha-ini">Fecha Inicio: </label>
+                    <p-calendar id="float-input-fecha-ini" formControlName="fechaInicio" placeholder="Fecha Inicio" [showButtonBar]="true" [locale]="lenguageService.es" dateFormat="dd/mm/yy" [showIcon]="true"></p-calendar>
+                </div>
+                <div class="ui-g-12 ui-md-2">
+                    <label class="label-custom" for="float-input-fecha-fin">Fecha Fin: </label>
+                    <p-calendar id="float-input-fecha-fin" formControlName="fechaFin" placeholder="Fecha Fin" [showButtonBar]="true" [locale]="lenguageService.es" dateFormat="dd/mm/yy" [showIcon]="true"></p-calendar>
+                </div>
+                <div class="ui-g-12 ui-md-2">
+                    <label class="label-custom" for="float-input-fecha-fin">Nro. Requerimiento: </label>
+                    <input type="text" formControlName="numRq" pInputText pInputTextsize="100"> 
+                </div>
+                <div class="ui-g-12 ui-md-2">
+                    <button style="top: 1.2em;" pButton type="button" label="{{globalConstants.cBuscar}}" icon="{{globalConstants.icoBuscar}}" (click)="onToBuscar()" class="btn btn-block"></button>
+                </div>
+            </div>
+        </form>
+    </p-panel>
+    <br>
+    <p-panel header="Listado de Requerimientos de Economatos">
+    <p-table [value]="rowListaRequerimiento" [columns]="cols" [paginator]="true" [rows]="10" [autoLayout]="true" [loading]="loading"  [(selection)]="seleccionArticulo" selectionMode="{{selectionMode}}" [responsive]="true" [resizableColumns]="true"
+        styleClass="p-datatable-responsive-demo">
+        <ng-template pTemplate="header" let-columns>
+            <tr>
+                <th style="width: 2.25em">
+                    <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                </th>
+                <th *ngFor="let col of columns">
+                    {{ col.header }}
+                </th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-rowData let-columns="columns">
+            <tr [pSelectableRow]="rowData">
+                <td>
+                    <p-tableCheckbox [value]="rowData">
+                    </p-tableCheckbox>        
+              </td>
+                <td *ngFor="let col of columns">
+                    <span class="p-column-title">{{col.header}}</span> {{ rowData[col.field] }}
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+    <p-footer>
+        <div class="ui-grid ui-fluid">
+            <div class="ui-g-12 ui-md-6">
+                <button pButton type="button" [disabled]="!seleccionArticulo" label="{{globalConstants.cAceptar}}" icon="{{globalConstants.icoAceptar}}" (click)="clickAceptar()"></button>
+            </div>
+            <div class="ui-g-12 ui-md-6">
+                <button pButton type="button" label="{{globalConstants.cCancelar}}" icon="{{globalConstants.icoCancelar}}" (click)="clickCancelar()"></button>
+            </div>
+        </div>
+    </p-footer>
+    </p-panel>
+</p-dialog>

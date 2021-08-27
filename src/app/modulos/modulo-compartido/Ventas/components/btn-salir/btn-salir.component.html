@@ -1,0 +1,3 @@
+<button *ngIf="!isMargenTop" pButton type="button" label="{{globalConstants.cSalir}}" icon="{{globalConstants.icoSalir}}" class="btn btn-block ui-button-danger" (click)="goSalir()"></button>
+
+<button *ngIf="isMargenTop" pButton type="button" label="{{globalConstants.cSalir}}" icon="{{globalConstants.icoSalir}}" class="sba-button btn btn-block ui-button-danger" (click)="goSalir()"></button>

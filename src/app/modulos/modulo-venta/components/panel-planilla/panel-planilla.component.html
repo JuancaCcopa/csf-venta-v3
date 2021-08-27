@@ -1,0 +1,102 @@
+<div class="card card-w-title">
+    <h1><strong>{{titulo}}</strong></h1>
+    <p-panel header="Elegir de que Centro de Costo va a procesar {{titulo}}" [toggleable]="true" [style]="{'margin-bottom':'20px'}">
+        <div class="ui-g ui-fluid">
+            <form [formGroup]="formularioSuperior">
+                <div class="ui-g-12 ui-md-4">
+                    <label>Planilla de: </label>
+                    <p-dropdown placeholder="Seleccionar" formControlName="cbplanillaserie" [options]="rowSerie" [(ngModel)]="rowSerieSelect" filter="true" optionLabel="label" (onChange)="changeSerie($event.value)"></p-dropdown>
+                </div>
+                <div class="ui-g-12 ui-md-2">
+                    <label class="label-custom" for="float-input-nro-comprobante">Fecha Inicio: </label>
+                    <p-calendar id="float-input-fecha" placeholder="Seleccionar Fecha" [showButtonBar]="true" [locale]="lenguageService.es" dateFormat="dd/mm/yy" [showIcon]="true" formControlName="fechaInicio"></p-calendar>
+                </div>
+                <div class="ui-g-12 ui-md-2">
+                    <label class="label-custom" for="float-input-nro-comprobante">Fecha Fin: </label>
+                    <p-calendar id="float-input-fecha" placeholder="Seleccionar Fecha" [showButtonBar]="true" [locale]="lenguageService.es" dateFormat="dd/mm/yy" [showIcon]="true" formControlName="fechaFin"></p-calendar>
+                </div>
+                <div class="ui-g-12 ui-md-2">
+                    <label class="label-custom" for="float-input-nro-venta"># Planilla: </label>
+                    <input id="float-input-nro-venta" type="text" formControlName="numeroPlanilla" pInputText placeholder="Nro Venta">
+                </div>
+
+                <div class="ui-g-12 ui-md-4">
+                    <button pButton type="button" label="{{globalConstants.cBuscar}}" icon="{{globalConstants.icoBuscar}}" (click)="ObtenerPlanilla()" class="btn btn-block"></button>
+                </div>
+
+                <div class="ui-g-12 ui-md-4">
+                    <button pButton type="button" label="{{globalConstants.cNuevo}}" icon="{{globalConstants.icoProcesar}}" (click)="activarPlanillaCrear()" class="btn btn-block"></button>
+                </div>
+
+                <div class="ui-g-12 ui-md-4">
+                    <p-splitButton label="Imprimir Planilla" icon="fa fa-list-ol " [model]="itemsImprimir"></p-splitButton>
+                </div>
+            </form>
+        </div>
+    </p-panel>
+
+    <p-messages [(value)]="mensajePrimeNgService.msgs"></p-messages>
+
+    <!-- Grilla de Datos     -->
+    <p-panel header="Lista de {{titulo}}">
+
+        <p-table [value]="listModelo" [columns]="columnas" [paginator]="true" [rows]="10" dataKey="documento" autoLayout="true" [responsive]="true" [loading]="loading">
+            <ng-template pTemplate="header" let-columns>
+                <tr>
+                    <th colspan="1">Acciones</th>
+                    <th *ngFor="let col of columns">
+                        {{col.header}}
+                    </th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-modelo let-ri="rowIndex">
+                <tr #opt class="row-hover" [ngClass]="modelo.numeroplanilla === idResaltar? 'resaltarFila': null">
+                    <td class="action-td">
+                        <p-splitButton label="Modificar Tipo Pago" icon="fa fa-list-ol " (onDropdownClick)="itemElegido(ri)" [model]="items" appendTo="body"></p-splitButton>
+                    </td>
+                    <td class="action-td" style="text-align: center">
+                        <span class="ui-column-title"></span> {{modelo.numeroplanilla}}
+                    </td>
+                    <td class="action-td" style="text-align: center">
+                        <span class="ui-column-title"></span> {{modelo.numerogrupo}}
+                    </td>
+                    <td class="action-td" style="text-align: center">
+                        <span class="ui-column-title"></span> {{modelo.coduser}}
+                    </td>
+                    <td class="action-td" style="text-align: center">
+                        <span class="ui-column-title"></span> {{modelo.nombreusuario}}
+                    </td>
+                    <td class="action-td" style="text-align: right">
+                        <span class="ui-column-title"></span> {{modelo.monto}}
+                    </td>
+                    <td class="action-td" style="text-align: center">
+                        <span class="ui-column-title"></span> {{modelo.strFecha}}
+                    </td>
+                    <td class="action-td" style="text-align: center">
+                        <span class="ui-column-title"></span> {{modelo.estado}}
+                    </td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </p-panel>
+</div>
+<!-- ,height: '20vw' -->
+<p-dialog header="Cambio de fecha" [(visible)]="isActivateBusquedadFecha" [style]="{width: '20vw'}">
+    <div class="ui-g ui-fluid">
+        <form [formGroup]="formularioCambioFecha">
+            <p>Ingrese la nueva fecha para la planilla: <strong> {{tituloNumeroPlanilla}}</strong></p>
+            <input id="float-input" type="text" formControlName="fechaCambio" pInputText>
+            <br>
+        </form>
+    </div>
+    <br>
+    <footer>
+        <button pButton icon="pi pi-check" label="{{globalConstants.cAceptar}}" (click)="actualizarCambioFecha()" class="ui-button-success"></button>
+        <button pButton label="{{globalConstants.cCancelar}}" (click)="isActivateBusquedadFecha=!isActivateBusquedadFecha" class="ui-button-secondary"></button>
+    </footer>
+</p-dialog>
+
+<p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000"></p-confirmDialog>
+<p-dialog *ngIf="isActivatePlanillaCrear" [header]="tituloModalPlanilla" [(visible)]="isActivatePlanillaCrear" [transitionOptions]="timeAnimationModal" [modal]="true" [style]="{width: '80vw'}">
+    <app-planilla-crear (cancel)="activarPlanillaCrear()"></app-planilla-crear>
+</p-dialog>

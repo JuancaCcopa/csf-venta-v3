@@ -1,0 +1,55 @@
+<p-panel header="Registro de {{titulo}}">
+    <div class="ui-grid ui-fluid">
+        <div class="ui-g-12">
+            <form [formGroup]="maestroForm">
+                <div class="ui-g-12 ui-md-3">
+                    <label class="label-custom">Nombre de PC: </label>
+                    <input type="text" size="20" pInputText formControlName="nombremaquina">
+                    <div *ngIf="maestroForm.controls['nombremaquina'].errors && maestroForm.controls['nombremaquina'].dirty">
+                        <p-message severity="error" text="Nombre de PC es requerido" *ngIf="maestroForm.controls['nombremaquina'].errors['required']"></p-message>
+                        <p-message severity="error" text="Nombre de PC debe tener un maximo de 20 y un minimo de 3 caractares." *ngIf="maestroForm.controls['nombremaquina'].errors['maxlength'] || maestroForm.controls['nombremaquina'].errors['minlength']"></p-message>
+                    </div>
+                </div>
+                <div class="ui-g-12 ui-md-3">
+                    <label class="label-custom">Serie Factura: </label>
+                    <p-dropdown class="ui dropdown-item-text" [options]="listSerieFactura" formControlName="seriefactura" placeholder="Seleccionar Serie Factura" optionLabel="label" [showClear]="true" [style]="{'width':'100%'}"></p-dropdown>
+                </div>
+                <div class="ui-g-12 ui-md-3">
+                    <label class="label-custom">Serie Boleta: </label>
+                    <p-dropdown class="ui dropdown-item-text" [options]="listserieboleta" formControlName="serieboleta" placeholder="Seleccionar Serie Boleta" optionLabel="label" [showClear]="true" [style]="{'width':'100%'}"></p-dropdown>
+                </div>
+                <div class="ui-g-12 ui-md-3">
+                    <label class="label-custom">Serie Nota Crédito: </label>
+                    <p-dropdown class="ui dropdown-item-text" [options]="listserienotacredito" formControlName="serienotacredito" placeholder="Seleccionar Serie Nota Crédito" optionLabel="label" [showClear]="true" [style]="{'width':'100%'}"></p-dropdown>
+                </div>
+                <div class="ui-g-12 ui-md-3">
+                    <label class="label-custom">Serie Nota Débito: </label>
+                    <p-dropdown class="ui dropdown-item-text" [options]="listserienotadebito" formControlName="serienotadebito" placeholder="Seleccionar Serie Nota Débito" optionLabel="label" [showClear]="true" [style]="{'width':'100%'}"></p-dropdown>
+                </div>
+                <div class="ui-g-12 ui-md-3">
+                    <label class="label-custom">Guía: </label>
+                    <p-dropdown class="ui dropdown-item-text" [options]="listserieguia" formControlName="serieguia" placeholder="Seleccionar Guía" optionLabel="label" [showClear]="true" [style]="{'width':'100%'}"></p-dropdown>
+                </div>
+                <div class="ui-g-12 ui-md-3">
+                    <label class="label-custom">Centro Costo:</label>
+                    <app-modal-busqueda-centro-costo (eventoAceptar)="goCentroCostoSeleccionado($event)"></app-modal-busqueda-centro-costo>
+                </div>
+                <div class="ui-g-12 ui-md-3">
+                    <label class="label-custom">Almacén x Default: </label>
+                    <app-modal-busqueda-almacen (eventoResgistroSeleccionado)="goAlmacenSeleccionado($event)" [isVenta]="false"></app-modal-busqueda-almacen>
+                </div>
+            </form>
+        </div>
+    </div>
+    <p-footer>
+        <p-messages [(value)]="mensajePrimeNgService.msgs"></p-messages>
+        <div class="ui-grid ui-fluid">
+            <div class="ui-g-12 ui-md-6">
+                <button pButton type="submit" [disabled]="!maestroForm.valid" label="{{globalConstants.cGrabar}}" icon="{{globalConstants.icoGrabar}}" (click)="onClickSave()"></button>
+            </div>
+            <div class="ui-g-12 ui-md-6">
+                <button pButton type="button" label="{{globalConstants.cRegresar}}" icon="{{globalConstants.icoRegresar}}" (click)="back()"></button>
+            </div>
+        </div>
+    </p-footer>
+</p-panel>

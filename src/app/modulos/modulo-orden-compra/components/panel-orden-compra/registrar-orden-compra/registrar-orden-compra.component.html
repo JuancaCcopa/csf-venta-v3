@@ -1,0 +1,221 @@
+<div class="card card-w-title">
+    <div class="box">
+        <div class="titulo">
+            <h1>Orden Compra | Nuevo</h1>
+        </div>
+    </div>
+    <p-panel>
+        <div class="ui-grid ui-fluid">
+            <div class="ui-g-12">
+                <form [formGroup]="formularioSuperior">
+                    <div class="p-grid form-group">
+                        <div class="ui-g-12 ui-md-2">
+                            <label>Proveedor: </label>
+                            <input type="text" pInputText formControlName="codSocioNegocio" required />
+                        </div>
+                        <div class="ui-g-12 ui-md-3">
+                            <label>Nombre: </label>
+                            <input type="text" formControlName="desSocioNegocio" pInputText />
+                        </div>
+                        <div class="ui-g-12 ui-md-1">
+                            <button style="top: 1.2em;" pButton type="button" icon="{{globalConstants.icoBuscar}}" (click)="activarModalSocioNegocio()" class="btn btn-block"></button>
+                        </div>
+                        <div class="ui-g-12 ui-md-2">
+                            <label>Fecha Generado: </label>
+                            <p-calendar class="calendar" dateFormat="dd/mm/yy" [locale]="lenguageService.es" [showIcon]="true" formControlName="fechaGenerado" required></p-calendar>
+                        </div>
+                        <div class="ui-g-12 ui-md-2">
+                            <label>Fecha Vigencia: </label>
+                            <p-calendar class="calendar" dateFormat="dd/mm/yy" [locale]="lenguageService.es" [showIcon]="true" formControlName="fechaVigencia" required></p-calendar>
+                        </div>
+                        <div class="ui-g-12 ui-md-2">
+                            <label>Fecha Entrega: </label>
+                            <p-calendar class="calendar" dateFormat="dd/mm/yy" [locale]="lenguageService.es" [showIcon]="true" formControlName="fechaEntrega" required></p-calendar>
+                        </div>
+                        <div class="ui-g-12 ui-md-2">
+                            <label>Tipo Pago: </label>
+                            <p-dropdown placeholder="Seleccionar" formControlName="tipoPago" [options]="listItemTipoPago" filter="true" optionLabel="label" required></p-dropdown>
+                        </div>
+                        <div class="ui-g-12 ui-md-2">
+                            <label>Tipo : </label>
+                            <p-dropdown placeholder="Seleccionar" formControlName="tipo" [options]="listItemTipoOrden" filter="true" optionLabel="label" required></p-dropdown>
+                        </div>
+                        <div class="ui-g-12 ui-md-2">
+                            <label>Moneda : </label>
+                            <p-dropdown placeholder="Seleccionar" formControlName="moneda" [options]="listItemMoneda" filter="true" optionLabel="label" required></p-dropdown>
+                        </div>
+
+                        <div class="ui-g-12 ui-md-2">
+                            <label>Nro SAP: </label>
+                            <input type="text" formControlName="nroSAP" pInputText />
+                        </div>
+                        <div class="ui-g-12 ui-md-2">
+                            <label>Conform: </label>
+                            <input type="text" formControlName="conform" pInputText />
+                        </div>
+
+                        <div class="ui-g-12 ui-md-1">
+                            <label>Tipo Cambio: </label>
+                            <input type="text" formControlName="tipoCambio" pInputText />
+                        </div>
+                        <div class="ui-g-12 ui-md-1">
+                            <p-checkbox [binary]="true" formControlName="flgIgv" label="IGV:"></p-checkbox>
+                        </div>
+                        <div class="ui-g-12">
+                            <label>Observación: </label>
+                            <textarea pInputTextarea autoResize="autoResize" formControlName="observacion"></textarea>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </p-panel>
+    <br>
+    <p-toolbar>
+        <button pButton type="button" label="Agregar artículo" icon="pi pi-plus" (click)="clickActivateBuscarArticulo()"></button>
+    </p-toolbar>
+    <br>
+    <p-messages [(value)]="mensajePrimeNgService.msgs"></p-messages>
+
+    <!-- Grilla de Datos     -->
+    <p-panel header="Lista de Articulos">
+        <p-table [value]="listArticulosDetalle" [paginator]="true" [rows]="globalConstants.sizePage" editMode="row" autoLayout="true" [responsive]="true" #tablaGrilla>
+            <!-- Header -->
+            <ng-template pTemplate="header" let-columns>
+                <tr>
+                    <th>Opciones</th>
+                    <th>Num Linea</th>
+                    <th>Cod Articulo</th>
+                    <th>Des Articulo</th>
+                    <th>Unidad Medida</th>
+                    <th>Almacen</th>
+                    <th>Cantidad</th>
+                    <th>Precio</th>
+                    <th>Descuento</th>
+                    <th>IGV</th>
+                    <th>Total</th>
+                    <th>Comentario</th>
+                </tr>
+            </ng-template>
+            <!-- body -->
+            <ng-template pTemplate="body" let-modelo let-ri="rowIndex">
+                <tr>
+                    <td>
+                        <p-splitButton icon="pi pi-cog" appendTo="body">
+                        </p-splitButton>
+                    </td>
+                    <td>
+                        <span class="p-column-title">Num Linea</span> {{ ri + 1 }}
+                    </td>
+                    <td>
+                        <span class="p-column-title">Cod Articulo:</span> {{ modelo.codArticulo }}
+                    </td>
+
+                    <td>
+                        <span class="p-column-title">Des Articulo:</span> {{ modelo.desArticulo }}
+                    </td>
+
+                    <td>
+                        <span class="p-column-title">Cod Unidad Medida:</span> {{ modelo.unidadMedida }}
+                    </td>
+                    <td pEditableColumn>
+                        <span class="p-column-title">Almacen:</span>
+                        <p-cellEditor>
+                            <ng-template pTemplate="input">
+                                <button pButton type="button" label="Agregar Almacen" icon="pi pi-plus"></button>
+                            </ng-template>
+                            <ng-template pTemplate="output">
+                                {{ modelo.codAlmacen }}
+                            </ng-template>
+                        </p-cellEditor>
+                    </td>
+                    <td pEditableColumn>
+                        <span class="p-column-title">Cantidad:</span>
+                        <p-cellEditor>
+                            <ng-template pTemplate="input">
+                                <input pInputText type="number" [(ngModel)]="modelo.cantidad" />
+                            </ng-template>
+                            <ng-template pTemplate="output">
+                                {{ modelo.cantidad }}
+                            </ng-template>
+                        </p-cellEditor>
+                    </td>
+                    <td pEditableColumn>
+                        <span class="p-column-title">Precio:</span>
+                        <p-cellEditor>
+                            <ng-template pTemplate="input">
+                                <input pInputText type="number" [(ngModel)]="modelo.precio" />
+                            </ng-template>
+                            <ng-template pTemplate="output">
+                                {{ modelo.precio }}
+                            </ng-template>
+                        </p-cellEditor>
+                    </td>
+                    <td pEditableColumn>
+                        <span class="p-column-title">Descuento:</span>
+                        <p-cellEditor>
+                            <ng-template pTemplate="input">
+                                <input pInputText type="number" [(ngModel)]="modelo.descuento" />
+                            </ng-template>
+                            <ng-template pTemplate="output">
+                                {{ modelo.descuento }}
+                            </ng-template>
+                        </p-cellEditor>
+                    </td>
+                    <td>
+                        <span class="p-column-title">IGV:</span> {{ modelo.igv }}
+                    </td>
+                    <td>
+                        <span class="p-column-title">Total:</span> {{ modelo.total }}
+                    </td>
+                    <td pEditableColumn>
+                        <span class="p-column-title">Comentario:</span>
+                        <p-cellEditor>
+                            <ng-template pTemplate="input">
+                                <input pInputText type="text" [(ngModel)]="modelo.obsItem" />
+                            </ng-template>
+                            <ng-template pTemplate="output">
+                                {{ modelo.obsItem }}
+                            </ng-template>
+                        </p-cellEditor>
+                    </td>
+                </tr>
+            </ng-template>
+
+        </p-table>
+
+        <footer>
+            <form [formGroup]="formularioInferior">
+                <div class="ui-grid ui-fluid">
+                    <div class="ui-g-12 ui-md-4">
+                        <label>Lugar de Entrega: </label>
+                        <input type="text" size="28" pInputText formControlName="lugarEntrega" required />
+                    </div>
+                    <div class="ui-g-12 ui-md-4">
+                        <label>Persona de Contacto: </label>
+                        <input type="text" size="28" pInputText formControlName="personaContacto" required />
+                    </div>
+                    <div class="ui-g-12 ui-md-4">
+                        <label>Solicitante: </label>
+                        <input type="text" size="28" pInputText formControlName="solicitante" required />
+                    </div>
+                </div>
+            </form>
+            <div class="ui-grid ui-fluid">
+                <div class="ui-g-12 ui-md-6">
+                    <button pButton type="button" class="ui-button-success" label="Grabar" (click)="clickGuardarGrilla(tablaGrilla._value)" icon="pi pi-save"></button>
+                </div>
+                <div class="ui-g-12 ui-md-6">
+                    <button pButton type="button" class="ui-button-secondary" label="Cancelar" (click)="onClickRegresar()" icon="pi pi-times"></button>
+                </div>
+            </div>
+        </footer>
+
+    </p-panel>
+</div>
+
+<app-modal-busqueda-articulo *ngIf="isActivateBusquedaArticulo" [isDisplayBusquedaArticulo]="isActivateBusquedaArticulo" (articuloSeleccionado)="articuloBuscado($event)" (cancel)="clickActivateBuscarArticulo()">
+</app-modal-busqueda-articulo>
+
+<app-modal-busqueda-socio-negocio [isDisplayBusqueda]="isActivateBusquedaSocioNegocio" (eventoRegistroSeleccionado)="socioNegocioSeleccionado($event)" (cancel)="activarModalSocioNegocio()">
+</app-modal-busqueda-socio-negocio>
