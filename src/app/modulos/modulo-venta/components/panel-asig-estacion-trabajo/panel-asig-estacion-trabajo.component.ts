@@ -64,7 +64,7 @@ export class PanelAsigEstacionTrabajoComponent implements OnInit {
 
   onClickSave() {
     
-    
+    debugger
     this.subscription$ = new Subscription();
 
     let observable = new Observable<any>();

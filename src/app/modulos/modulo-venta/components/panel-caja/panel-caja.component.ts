@@ -54,12 +54,6 @@ export class PanelCajaComponent implements OnInit {
   isDisplaySave: boolean;
   isDisplayVisualizarDocumento: boolean;
 
-
-  //variables electronicos
-  //'I-variables e-Fact
-  //wFlg_electronico: Boolean=false;// 'S=si es electronico, N=no es electronico
-
-
   // Grilla Pagos
   listModeloPago: any[];
   selectPago: any;
@@ -152,6 +146,10 @@ export class PanelCajaComponent implements OnInit {
 
   //Modal Autenticar
   isAutenticar: boolean = false;
+
+  //Modal Pago Bot
+  isActivateGenerarPagoBot: boolean = false;
+  tituloGenerarPagoBot: string = "pago Bot";
 
   constructor(private breadcrumbService: BreadcrumbService,
     public lenguageService: LanguageService,
@@ -317,17 +315,23 @@ export class PanelCajaComponent implements OnInit {
       },
       { separator: true },
       {
+        label: "Prevista", icon: this.globalConstants.icoGenerico,
+        command: () => {
+          this.onPreVistaValida();
+        }
+      },
+      {
         label: "PDF Electronica", icon: this.globalConstants.icoGenerico,
         command: () => {
-          //this.vistaPrevia();
-          this.onImprimirVenta();
+          this.onComprobanteElectronicoValida();
         }
       },
       { separator: true },
       {
         label: "Generar Pago Bot", icon: this.globalConstants.icoCaja,
         command: () => {
-
+          debugger
+          this.activarGenerarPagoBot();
         }
       },
       {
@@ -517,7 +521,7 @@ export class PanelCajaComponent implements OnInit {
 
     //Venta
     if (this.isTipoBusquedadVenta == "V") {
-
+      debugger
       this.goGetVentaCabeceraPorCodVenta(this.selectCodVenta);
       this.goGetVentaDetallePorCodVenta(this.selectCodVenta);
 
@@ -536,6 +540,7 @@ export class PanelCajaComponent implements OnInit {
         (resp: any) => {
 
           console.log("obj.data", resp);
+          const montototal = Number((resp.montototal + resp.montoigv).toFixed(2));
 
           this.formularioCabecera.patchValue({
             codVenta: resp.codventa,
@@ -559,16 +564,16 @@ export class PanelCajaComponent implements OnInit {
             coaSeguro: resp.porcentajecoaseguro,
             subTotal: resp.montototal,
             montoIgv: resp.montoigv,
-            montoTotal: resp.montototal + resp.montoigv,
-            totalVenta: resp.montototal + resp.montoigv,
+            montoTotal: montototal,//resp.montototal + resp.montoigv,
+            totalVenta: montototal,//resp.montototal + resp.montoigv,
             cardCode: resp.cardcode,
             checkElectronico: resp.flgElectronico
           });
-
+          //Number(numb.toFixed(2))
           this.formularioTotales.patchValue({
             subTotal: resp.montototal,
             montoIgv: resp.montoigv,
-            montoTotal: resp.montototal + resp.montoigv,
+            montoTotal: montototal,//resp.montototal + resp.montoigv,
             vuelto: 0,
             gratuito: resp.flg_gratuito
           });
@@ -593,7 +598,7 @@ export class PanelCajaComponent implements OnInit {
   }
 
   goGetVentaCabeceraPorCodVenta(codventa: string) {
-
+    debugger
     this.ventasCajaService.getVentaCabeceraPorCodVenta(codventa)
       .pipe(
         map((resp: any) => {
@@ -601,7 +606,7 @@ export class PanelCajaComponent implements OnInit {
           var {
             checkDolar
           } = this.formularioTotales.value;
-
+          debugger
           this.wCodAtencion = resp.codatencion;
           this.wCodAseguradora = resp.codaseguradora;
 
@@ -1376,9 +1381,7 @@ export class PanelCajaComponent implements OnInit {
       .subscribe(
         (resp: any) => {
 
-          debugger
-          console.log("procesando validarPagoOrdenBot");
-          console.log(resp);
+
           if (resp.cod_venta == null) {
             flgSeguiPago = false;
 
@@ -1395,7 +1398,6 @@ export class PanelCajaComponent implements OnInit {
               acceptLabel: 'Si',
               rejectLabel: 'No',
               accept: () => {
-                debugger
                 result = true;
               },
               reject: () => {
@@ -1578,7 +1580,7 @@ export class PanelCajaComponent implements OnInit {
             this.rowTipoComprobante.push({ value: item.code, label: item.u_SYP_TDDD });
           });
 
-          var aa = this.rowTipoComprobante.find(x => x.value == "03");
+          //var aa = this.rowTipoComprobante.find(x => x.value == "03");
           this.selectTipoComprobante = this.rowTipoComprobante.find(x => x.value == "03");
           this.getSerieComprobante(this.selectTipoComprobante.value);
         },
@@ -1607,38 +1609,6 @@ export class PanelCajaComponent implements OnInit {
         }
       );
   }
-
-  // getValidarDocumento() {
-
-  //   const {
-  //         codDocumentoIdentidad,
-  //         documentoIdentidad,
-  //         numdocumentoIdentidad
-  //         }=this.formularioCabecera.value;
-
-  //     this.ventasCajaService
-  //       .getTablaLogisticaPorFiltros("TIPOIDENTIDAD", codDocumentoIdentidad, 50, 1, -1)
-  //       .subscribe(
-  //         (resp:any) => {
-
-  //           console.log("getValidarDocumento");
-  //           console.log(resp.codigo);
-  //           var codigo= resp.codigo==null? '':resp.codigo;
-
-  //           if(codigo=!'' && numdocumentoIdentidad==''){
-  //             this.messageService.add({key: 'toasVentaCaja', severity:'error', summary: 'Mensaje', detail: `El campo Número de Doc. de Identidad es un dato requerido`});  
-  //           }
-  //           if(codigo='' && numdocumentoIdentidad!=''){
-  //             this.messageService.add({key: 'toasVentaCaja', severity:'error', summary: 'Mensaje', detail: `El campo Tipo Doc. de Identidad es un dato requerido`});  
-  //           }
-
-  //         },
-  //         (error) => {
-  //           console.log(error);
-  //           this.messageService.add({key: 'toasVentaCaja', severity:'error', summary: 'Mensaje', detail: ` ERROR: AL TRAER TIPOIDENTIDAD PARA LA VALIDACIÓN`});
-  //         }
-  //       );   
-  //   }
 
   getCorreoComprobanteCsf() {
     this.ventasCajaService
@@ -1699,62 +1669,124 @@ export class PanelCajaComponent implements OnInit {
       );
   }
 
+  IsInputComprobanteValida(): boolean {
+    var valida = false;
+    const { comprobante } = this.formularioCabecera.value;
+    if (comprobante === undefined || comprobante === "") {
+      swal.fire(this.globalConstants.msgErrorSummary, "DEBES PRIMERO BUSCAR EL COMPROBNATE", 'warning');
+      valida = true;
+    }
+    return valida;
+  }
 
-  onImprimirVenta() {
-    
-    debugger
+  IsInputMaquinaValida(): boolean {
+    var valida = false;
+    if (this.isNombreMaquina == '') {
+      swal.fire(this.globalConstants.msgErrorSummary, "DEBES ASIGNAR UNA MAQUINA", 'error');
+      valida = true;
+    }
+    return valida;
+  }
 
-    //this.isNombreMaquina
+  onPreVistaValida() {
 
+    if (this.IsInputMaquinaValida()) return;
+    if (this.IsInputComprobanteValida()) return;
 
-    this.isDisplayVisualizar =! this.isDisplayVisualizar;
-    //var codcomprobante = "05563376";
-    var codcomprobante = "B4100000025";
-
-    
+    const { comprobante } = this.formularioCabecera.value;
     this.subscription$ = new Subscription();
-    this.subscription$  = this.ventasCajaService.getGenerarValeVentaPrint( codcomprobante,this.isNombreMaquina,"1","0")
-    .subscribe((resp: any) =>  {
-
-      switch (resp.type) {
-        case HttpEventType.DownloadProgress:
-          break;
-        case HttpEventType.Response:
-          this.isDataBlob = new Blob([resp.body], {type: resp.body.type});
-          this.isDisplayVisualizar =! this.isDisplayVisualizar;
-
-          this.isDisplayVisualizarDocumento = !this.isDisplayVisualizarDocumento;
-          break;
-      }
-    },
-      (error) => {
-        //this.isDisplayVisualizar =! this.isDisplayVisualizar;
-        swal.fire(this.globalConstants.msgErrorSummary,error.error.resultadoDescripcion, 'error');
-    });
-
-  }
-
-  vistaPrevia() {
-    debugger
-    var codcomprobante = "B0100000025";
-    this.ventasCajaService
-      .getVistaPrevia(codcomprobante)
-      .subscribe(
-        (resp: any) => {
-          debugger
-
-          console.log("vistaPrevia");
-          console.log(resp);
-
-        },
+    this.subscription$ = this.ventasCajaService.getPreVistaValida(comprobante)
+      .subscribe(() => {
+        debugger
+        this.onPreVista(comprobante);
+      },
         (error) => {
-          console.log(error);
-        }
-      );
-
+          debugger
+          var error = error.error.resultadoDescripcion ? error : error.error.resultadoDescripcion;
+          swal.fire(this.globalConstants.msgErrorSummary, error, 'error');
+        });
 
   }
 
-  //#endregion FIN LOAD CARGA DEFAULT
+  onPreVista(comprobante) {
+
+    debugger
+
+    this.isDisplayVisualizar = !this.isDisplayVisualizar;
+
+    //var codcomprobante = "05563376";
+    //comprobante = "B4100000025";
+    // const { comprobante } = this.formularioCabecera.value;
+
+    this.subscription$ = new Subscription();
+    this.subscription$ = this.ventasCajaService.getGenerarPreVistaPrint(comprobante, this.isNombreMaquina, "1", "0")
+      .subscribe((resp: any) => {
+
+        switch (resp.type) {
+          case HttpEventType.DownloadProgress:
+            break;
+          case HttpEventType.Response:
+            this.isDataBlob = new Blob([resp.body], { type: resp.body.type });
+            this.isDisplayVisualizar = !this.isDisplayVisualizar;
+
+            this.isDisplayVisualizarDocumento = !this.isDisplayVisualizarDocumento;
+            break;
+        }
+      },
+        (error) => {
+          this.isDisplayVisualizar = !this.isDisplayVisualizar;
+          swal.fire(this.globalConstants.msgErrorSummary, error.error.resultadoDescripcion, 'error');
+        });
+
+  }
+
+  onComprobanteElectronicoValida() {
+
+    if (this.IsInputMaquinaValida()) return;
+    if (this.IsInputComprobanteValida()) return;
+
+    //const { comprobante } = this.formularioCabecera.value;
+    //B4100000025
+    var comprobante = "B4100046208";
+    this.subscription$ = new Subscription();
+    this.subscription$ = this.ventasCajaService.getComprobanteElectrValida(comprobante)
+      .subscribe(() => {
+        this.onPDfComprobanteElectronico(comprobante);
+      },
+        (error) => {
+          swal.fire(this.globalConstants.msgErrorSummary, error.error, 'error');
+        });
+
+  }
+
+  onPDfComprobanteElectronico(codcomprobante) {
+
+    this.isDisplayVisualizar = !this.isDisplayVisualizar;
+
+    this.subscription$ = new Subscription();
+    this.subscription$ = this.ventasCajaService.getComprobanteElectronicoPrint(codcomprobante)
+      .subscribe((resp: any) => {
+
+        switch (resp.type) {
+          case HttpEventType.DownloadProgress:
+            break;
+          case HttpEventType.Response:
+            this.isDataBlob = new Blob([resp.body], { type: resp.body.type });
+            this.isDisplayVisualizar = !this.isDisplayVisualizar;
+
+            this.isDisplayVisualizarDocumento = !this.isDisplayVisualizarDocumento;
+            break;
+        }
+      },
+        (error) => {
+          this.isDisplayVisualizar = !this.isDisplayVisualizar;
+          swal.fire(this.globalConstants.msgErrorSummary, error.error.resultadoDescripcion, 'error');
+        });
+
+  }
+
+  activarGenerarPagoBot() {
+    this.isActivateGenerarPagoBot = !this.isActivateGenerarPagoBot;
+  }
 
 }

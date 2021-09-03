@@ -39,6 +39,7 @@ import { PlanillaUsuarioComponent } from './components/panel-planilla/planilla-u
 import { PlanillaTipoPagoComponent } from './components/panel-planilla/planilla-tipopago/planilla-tipopago.component';
 import { PanelCajaComponent } from './components/panel-caja/panel-caja.component';
 import { PanelPlanillaComponent } from './components/panel-planilla/panel-planilla.component';
+import { GenerarPagoBotComponent } from './components/panel-caja/generar-pagobot/generar-pagobot.component';
 
 @NgModule({
     declarations: [PanelVentaComponent,
@@ -74,7 +75,8 @@ import { PanelPlanillaComponent } from './components/panel-planilla/panel-planil
         PanelValeDeliveryComponent,
         PlanillaCrearComponent,
         PlanillaUsuarioComponent,
-        PlanillaTipoPagoComponent
+        PlanillaTipoPagoComponent,
+        GenerarPagoBotComponent
         ],
     imports: [ CommonModule,
         VentaPrimeNgModule,

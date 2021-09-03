@@ -166,7 +166,7 @@ export class VentasCajaService {
       (`${environment.url_api_venta}Serie/GetListConfigDocumentoPorNombreMaquina/`, { params: parametros });
   }
 
-  getGenerarValeVentaPrint(codventa: string,maquina: string,idusuario: string, orden: string) {
+  getGenerarPreVistaPrint(codventa: string,maquina: string,idusuario: string, orden: string) {
     let parametros = new HttpParams();
     parametros = parametros.append('codventa', codventa);
     parametros = parametros.append('maquina', maquina);
@@ -174,7 +174,32 @@ export class VentasCajaService {
     parametros = parametros.append('orden', orden);
 
     return this.http.get
-    (`${environment.url_api_venta}VentaCaja/GenerarValeVentaPrint/`,
+    (`${environment.url_api_venta}VentaCaja/GenerarPreVistaPrint/`,
+    {params: parametros,responseType: 'blob',  observe: 'response', reportProgress: true });
+  }
+
+  getPreVistaValida(codcomprobante: string) {
+    let parametros = new HttpParams();
+    parametros = parametros.append('codComprobante', codcomprobante);
+    return this.http.get
+    (`${environment.url_api_venta}VentaCaja/PreVistaValida/`,
+    {params: parametros });
+  }
+
+  getComprobanteElectrValida(codcomprobante: string) {
+    let parametros = new HttpParams();
+    parametros = parametros.append('codComprobante', codcomprobante);
+    return this.http.get
+    (`${environment.url_api_venta}VentaCaja/ComprobanteElectrValida/`,
+    {params: parametros });
+  }
+
+  getComprobanteElectronicoPrint(codcomprobante: string) {
+    let parametros = new HttpParams();
+    parametros = parametros.append('codComprobante', codcomprobante);
+
+    return this.http.get
+    (`${environment.url_api_venta}VentaCaja/ComprobanteElectronicoPrint/`,
     {params: parametros,responseType: 'blob',  observe: 'response', reportProgress: true });
   }
 

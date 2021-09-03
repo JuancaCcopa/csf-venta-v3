@@ -29,10 +29,6 @@
             <div class="ui-g-12 ui-md-1">
                 <p-splitButton label="Opcion" icon="{{globalConstants.icoImprimir}}" [model]="items" styleClass="sba-button"></p-splitButton>
             </div>
-            <div class="ui-g-12 ui-md-1">
-                <button pButton type="button" label="Salir" icon="{{globalConstants.icoCerrado}}" class="sba-button btn btn-block" (click)="vistaPrevia"></button>
-            </div>
-
         </div>
 
         <div class="ui-g ui-fluid">
@@ -372,5 +368,9 @@
             <app-modal-visor-pdf [isFile]="isDataBlob"></app-modal-visor-pdf>
         </div>
     </div>
+</p-dialog>
+<!-- [transitionOptions]="timeAnimationModal" -->
+<p-dialog *ngIf="isActivateGenerarPagoBot" [header]="tituloGenerarPagoBot" [(visible)]="isActivateGenerarPagoBot"  [modal]="false" [style]="{width: '35vw'}">
+    <app-generar-pagobot (cancel)="activarGenerarPagoBot()"></app-generar-pagobot>
 </p-dialog>
 
